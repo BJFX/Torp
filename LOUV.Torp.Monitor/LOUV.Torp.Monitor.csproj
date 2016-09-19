@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>c5f26f28</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,8 +35,112 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="De.TorstenMandelkow.MetroChart">
+      <HintPath>..\..\DeckUnit\Tools\De.TorstenMandelkow.MetroChart.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Charts.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Data.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Office.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.PivotGrid.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Printing.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.RichEdit.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Sparkline.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Charts.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Charts.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Core.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Docking.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Docking.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Gauges.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Gauges.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Grid.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Grid.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v13.1.Extensions">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Grid.v13.1.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Layout.v13.1.Core">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Layout.v13.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.LayoutControl.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.LayoutControl.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Mvvm.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Mvvm.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Printing.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Ribbon.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Ribbon.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Themes.MetropolisDark.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.Xpf.Themes.MetropolisDark.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.XtraCharts.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.XtraPrinting.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v13.1">
+      <HintPath>..\..\DeckUnit\Tools\DevExpress\DevExpress.XtraReports.v13.1.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf">
+      <HintPath>..\..\DeckUnit\Tools\HelixToolkit.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf.Input">
+      <HintPath>..\..\DeckUnit\Tools\HelixToolkit.Wpf.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DeckUnit\Tools\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\DeckUnit\Tools\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -43,6 +148,18 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TinyMetroWpfLibrary">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMetroWpfLibrary.Controls">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMetroWpfLibrary.LogUtil">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.LogUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMetroWpfLibrary.Utility">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.Utility.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -53,6 +170,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Splasher.cs" />
+    <Compile Include="SplashWindow.xaml.cs" />
+    <Compile Include="ViewModel\GlobalSettingViewModel.cs" />
+    <Compile Include="ViewModel\MainFrameViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\GlobalSettingView.xaml.cs" />
+    <Compile Include="Views\HomePageView.xaml.cs" />
+    <Compile Include="Views\MainFrame.xaml.cs" />
+    <Page Include="Controls\TitleBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TreadTile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -61,12 +194,75 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AttachedProperty\AppBarButtonPropertys.cs" />
+    <Compile Include="AttachedProperty\BrushPropertys.cs" />
+    <Compile Include="AttachedProperty\ListBoxSelectBringIntoView.cs" />
+    <Compile Include="AttachedProperty\ScreenModelPropertys.cs" />
+    <Compile Include="Controls\TitleBarControl.xaml.cs" />
+    <Compile Include="Controls\TreadTile.xaml.cs" />
+    <Compile Include="Converters\3DChartFrontAngleMovConverter.cs" />
+    <Compile Include="Converters\3DChartFrontAngleShipConverter.cs" />
+    <Compile Include="Converters\AbsConverter.cs" />
+    <Compile Include="Converters\BoolReverseConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BpDistanceConverter.cs" />
+    <Compile Include="Converters\BpMarkLengthConverter.cs" />
+    <Compile Include="Converters\DoubleMultiConverter.cs" />
+    <Compile Include="Converters\DoubleSumConverter.cs" />
+    <Compile Include="Converters\FtimeToShortTimeConverter.cs" />
+    <Compile Include="Converters\HideZeroConverter.cs" />
+    <Compile Include="Converters\HomePageMarginLeftConverter.cs" />
+    <Compile Include="Converters\VisibilityBoolConverter.cs" />
+    <Compile Include="Converters\VisibilityBoolToggleConverter.cs" />
+    <Compile Include="Converters\WorkAreaHeightConverter.cs" />
+    <Compile Include="Converters\WorkAreaWidthConverter.cs" />
+    <Compile Include="Converters\ZeroToVisibleConverter.cs" />
+    <Compile Include="Core\Controllers\UnitMessageController.cs" />
+    <Compile Include="Core\Controllers\UnitNavigationController.cs" />
+    <Compile Include="Core\DataObserver.TorpMonitor.cs" />
+    <Compile Include="Core\UnitCore.cs" />
+    <Compile Include="Core\UnitKernal.cs" />
+    <Compile Include="Events\GoSettingNavigation.cs" />
+    <Compile Include="Events\LogEvent.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\ResourcesHelper.cs" />
+    <Compile Include="Helpers\TreeHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\ControlStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Image.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\SkinStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GlobalSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HomePageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\SystemInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,13 +280,115 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <Resource Include="Font\seguisym.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appbar.download.png" />
+    <Resource Include="Assets\appbar.refresh.png" />
+    <Resource Include="Assets\feed_loader1.gif" />
+    <Resource Include="Assets\Finder.png" />
+    <Resource Include="Assets\IACAS.bmp" />
+    <Resource Include="Assets\iacas.jpg" />
+    <Resource Include="Assets\ico_about_n.png" />
+    <Resource Include="Assets\ico_about_o.png" />
+    <Resource Include="Assets\ico_about_p.png" />
+    <Resource Include="Assets\ico_audio_80.png" />
+    <Resource Include="Assets\ico_calibrate_n.png" />
+    <Resource Include="Assets\ico_calibrate_o.png" />
+    <Resource Include="Assets\ico_calibrate_p.png" />
+    <Resource Include="Assets\ico_capture_n.png" />
+    <Resource Include="Assets\ico_capture_o.png" />
+    <Resource Include="Assets\ico_capture_p.png" />
+    <Resource Include="Assets\ico_chutil.png" />
+    <Resource Include="Assets\ico_client.png" />
+    <Resource Include="Assets\ico_coordinate.png" />
+    <Resource Include="Assets\ico_coordinate_n.png" />
+    <Resource Include="Assets\ico_coordinate_o.png" />
+    <Resource Include="Assets\ico_coordinate_p.png" />
+    <Resource Include="Assets\ico_detach_n.png" />
+    <Resource Include="Assets\ico_detach_o.png" />
+    <Resource Include="Assets\ico_detach_p.png" />
+    <Resource Include="Assets\ico_discovery_80.png" />
+    <Resource Include="Assets\ico_edit_n.png" />
+    <Resource Include="Assets\ico_edit_o.png" />
+    <Resource Include="Assets\ico_edit_p.png" />
+    <Resource Include="Assets\ico_floorplan_disable.png" />
+    <Resource Include="Assets\ico_floorplan_n.png" />
+    <Resource Include="Assets\ico_floorplan_o.png" />
+    <Resource Include="Assets\ico_floorplan_p.png" />
+    <Resource Include="Assets\ico_help_normal.png" />
+    <Resource Include="Assets\ico_help_over.png" />
+    <Resource Include="Assets\ico_help_press.png" />
+    <Resource Include="Assets\ico_hidden_n.png" />
+    <Resource Include="Assets\ico_hidden_o.png" />
+    <Resource Include="Assets\ico_hidden_p.png" />
+    <Resource Include="Assets\ico_info_n.png" />
+    <Resource Include="Assets\ico_info_o.png" />
+    <Resource Include="Assets\ico_info_p.png" />
+    <Resource Include="Assets\ico_lastseen.png" />
+    <Resource Include="Assets\ico_lock.png" />
+    <Resource Include="Assets\ico_moreoption_n.png" />
+    <Resource Include="Assets\ico_moreoption_o.png" />
+    <Resource Include="Assets\ico_moreoption_p.png" />
+    <Resource Include="Assets\ico_network.png" />
+    <Resource Include="Assets\ico_networkSSID.png" />
+    <Resource Include="Assets\ico_projects.png" />
+    <Resource Include="Assets\ico_quit_normal.png" />
+    <Resource Include="Assets\ico_quit_over.png" />
+    <Resource Include="Assets\ico_quit_press.png" />
+    <Resource Include="Assets\ico_report_n.png" />
+    <Resource Include="Assets\ico_report_o.png" />
+    <Resource Include="Assets\ico_report_p.png" />
+    <Resource Include="Assets\ico_restart_n.png" />
+    <Resource Include="Assets\ico_restart_o.png" />
+    <Resource Include="Assets\ico_restart_p.png" />
+    <Resource Include="Assets\ico_select_n.png" />
+    <Resource Include="Assets\ico_select_o.png" />
+    <Resource Include="Assets\ico_select_p.png" />
+    <Resource Include="Assets\ico_setting2_n.png" />
+    <Resource Include="Assets\ico_setting2_o.png" />
+    <Resource Include="Assets\ico_setting2_p.png" />
+    <Resource Include="Assets\ico_setting_normal.png" />
+    <Resource Include="Assets\ico_setting_over.png" />
+    <Resource Include="Assets\ico_setting_press.png" />
+    <Resource Include="Assets\ico_share_nromal.png" />
+    <Resource Include="Assets\ico_share_over.png" />
+    <Resource Include="Assets\ico_share_press.png" />
+    <Resource Include="Assets\ico_task.png" />
+    <Resource Include="Assets\ico_throughput.png" />
+    <Resource Include="Assets\ico_undo_n.png" />
+    <Resource Include="Assets\ico_undo_o.png" />
+    <Resource Include="Assets\ico_undo_p.png" />
+    <Resource Include="Assets\ico_zoomin_n.png" />
+    <Resource Include="Assets\ico_zoomin_o.png" />
+    <Resource Include="Assets\ico_zoomin_p.png" />
+    <Resource Include="Assets\ico_zoomout_n.png" />
+    <Resource Include="Assets\ico_zoomout_o.png" />
+    <Resource Include="Assets\ico_zoomout_p.png" />
+    <Resource Include="Assets\Logo.jpg" />
+    <Resource Include="Assets\Logo_nbg.png" />
+    <Resource Include="Assets\return.png" />
+    <Resource Include="Assets\shipsnapshot.png" />
+    <Resource Include="Assets\UWA.png" />
+    <Resource Include="Assets\UWV_Right.png" />
+    <Resource Include="Assets\Work.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
