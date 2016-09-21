@@ -35,8 +35,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DeckService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LOUV.Torp.MonTrace\LOUV.Torp.MonTrace.csproj">
+      <Project>{1eeb4b59-38ba-4e0a-ac94-ecd9f0d8e535}</Project>
+      <Name>LOUV.Torp.MonTrace</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
