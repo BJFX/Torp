@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BoonieBear.DeckUnit.CommLib.Properties;
+using LOUV.Torp.CommLib.Properties;
 using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.Monitor.Helpers;
 namespace LOUV.Torp.Monitor.Models

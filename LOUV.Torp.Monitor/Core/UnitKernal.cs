@@ -1,7 +1,7 @@
 ﻿using LOUV.Torp.Monitor.Core.Controllers;
 using TinyMetroWpfLibrary.Controller;
 using TinyMetroWpfLibrary.EventAggregation;
-using BoonieBear.DeckUnit.ICore;
+using LOUV.Torp.ICore;
 namespace LOUV.Torp.Monitor.Core
 {
     internal class UnitKernal : IUnitKernel

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace BoonieBear.DeckUnit.BaseType
+namespace LOUV.Torp.BaseType
 {
     /// <summary>
     /// 数据库实体类

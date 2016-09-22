@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using TinyMetroWpfLibrary.Utility;
 using LOUV.Torp.BaseType;
-using BoonieBear.DeckUnit.ACMP;
-namespace BoonieBear.DeckUnit.Mov4500Conf
+using LOUV.Torp.ACMP;
+namespace LOUV.Torp.Mov4500Conf
 {
     public class MovConf
     {

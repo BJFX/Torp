@@ -39,9 +39,9 @@
     <Compile Include="DeckService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LOUV.Torp.MonTrace\LOUV.Torp.MonTrace.csproj">
-      <Project>{1eeb4b59-38ba-4e0a-ac94-ecd9f0d8e535}</Project>
-      <Name>LOUV.Torp.MonTrace</Name>
+    <ProjectReference Include="..\LOUV.Torp.TraceService\LOUV.Torp.TraceService.csproj">
+      <Project>{865ef4a3-3f86-4c17-94cf-dbe875c099d8}</Project>
+      <Name>LOUV.Torp.TraceService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

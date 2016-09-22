@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO.Ports;
 
-namespace BoonieBear.DeckUnit.CommLib
+namespace LOUV.Torp.CommLib
 {
     public class CustomEventArgs:EventArgs
     {

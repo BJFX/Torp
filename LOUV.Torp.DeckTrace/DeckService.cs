@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using LOUV.Torp.TraceService;
-using BoonieBear.DeckUnit.DAL;
+//using LOUV.Torp.DAL;
 using LOUV.Torp.BaseType;
 namespace LOUV.Torp.DeckTraceService
 {
-    public class UnitTraceService
+    public class DeckTraceService
     {
-        private DALTrace _dalTrace;//dal
+//        private DALTrace _dalTrace;//dal
         private ADFile _adFile;//trace cmd file
         private ADFile Ch1adFile;//ad file
         private ADFile Ch2adFile;//ad file

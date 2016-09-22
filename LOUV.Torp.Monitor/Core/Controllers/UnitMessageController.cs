@@ -3,7 +3,7 @@ using MahApps.Metro.Controls.Dialogs;
 using TinyMetroWpfLibrary.Controller;
 using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.Monitor.Events;
-using BoonieBear.DeckUnit.ICore;
+using LOUV.Torp.ICore;
 using LOUV.Torp.Monitor.Helpers;
 using LOUV.Torp.Monitor.ViewModel;
 using System.Windows.Threading;
