@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
-using BoonieBear.DeckUnit.ACMP;
-using BoonieBear.DeckUnit.CommLib;
+using LOUV.Torp.MonProtocol;
+using LOUV.Torp.CommLib;
 using LOUV.Torp.Monitor.Events;
 using LOUV.Torp.Monitor.Helpers;
 using DevExpress.Xpf.Core;
 using Microsoft.Win32;
-using ImageProc;
-using BoonieBear.DeckUnit.Device.USBL;
 using System.Threading;
 namespace LOUV.Torp.Monitor.Core
 {
-    public class Mov4500DataObserver:Observer<CustomEventArgs>
+    public class MonitorDataObserver:Observer<CustomEventArgs>
     {
         USBLParser usblParser = new USBLParser();
         public void Handle(object sender, CustomEventArgs e)

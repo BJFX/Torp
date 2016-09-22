@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using TinyMetroWpfLibrary.Utility;
-using BoonieBear.DeckUnit.BaseType;
+using LOUV.Torp.BaseType;
 using BoonieBear.DeckUnit.ACMP;
 namespace BoonieBear.DeckUnit.Mov4500Conf
 {
@@ -360,23 +360,23 @@ namespace BoonieBear.DeckUnit.Mov4500Conf
                 port = 4000;
             return port;
         }
-        public MovConfInfo GetMovConfInfo()
+        public MonConfInfo GetMonConfInfo()
         {
-            var Movinfo = new MovConfInfo();
+            var Moninfo = new MonConfInfo();
             try
             {
-                Movinfo.GPSPort = GetGPSPort();
-                Movinfo.Mode = (int)GetMode();
-                Movinfo.USBLPort = GetUSBLPort();
-                Movinfo.SailPort = GetSailPort();
-                Movinfo.BroadCastPort = GetMovPort();
+                Moninfo.GPSPort = GetGPSPort();
+                Moninfo.Mode = (int)GetMode();
+                Moninfo.USBLPort = GetUSBLPort();
+                Moninfo.SailPort = GetSailPort();
+                Moninfo.BroadCastPort = GetMovPort();
             }
             catch (Exception)
             {
 
                 return null;
             }
-            return Movinfo;
+            return Moninfo;
         }
     }
 }
