@@ -11,25 +11,17 @@ namespace LOUV.Torp.MonTrace
     public class MonTraceService
     {
         private TraceFile _traceFile = TraceFile.GetInstance();
-        private MonitorMode _mode = MonitorMode.SHIP;
+        
         private bool IsCreate = false;
         public string Error
         {
             get { return _traceFile.Errormsg; }
         }
 
-        public bool SetMode(MonitorMode mode )
+        
+        public MonTraceService()
         {
-            if (_mode != mode)
-                TearDownService();
-            _mode = mode;
 
-            return CreateService();
-
-        }
-        public MovTraceService(MonitorMode mode)
-        {
-            SetMode(mode);
         }
 
 
@@ -39,6 +31,7 @@ namespace LOUV.Torp.MonTrace
         /// <returns>生成结果</returns>
         public bool CreateService()
         {
+            /*
             if (IsCreate)
                 return true;
             if (_mode==MonitorMode.SHIP)
@@ -193,7 +186,7 @@ namespace LOUV.Torp.MonTrace
             else//不可能
             {
                 return false;
-            }
+            }*/
             IsCreate = true;
             return true;
         }

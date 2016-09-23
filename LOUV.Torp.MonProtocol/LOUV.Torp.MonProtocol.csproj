@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LOUV.Torp.MonProtocol</RootNamespace>
     <AssemblyName>LOUV.Torp.MonProtocol</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,10 +34,23 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TinyMetroWpfLibrary.Utility">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.Utility.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="MonBuilder.cs" />
+    <Compile Include="MonType.cs" />
+    <Compile Include="MonProtocol.cs" />
+    <Compile Include="Mov4500DataType.cs" />
+    <Compile Include="MSPHexBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LOUV.Torp.BaseType\LOUV.Torp.BaseType.csproj">
+      <Project>{405f8ce4-6f62-40fb-8dca-7c6e44c8a1d2}</Project>
+      <Name>LOUV.Torp.BaseType</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

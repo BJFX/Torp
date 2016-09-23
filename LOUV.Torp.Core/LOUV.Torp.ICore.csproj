@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0CFDD71D-3343-491F-8EED-15D84DD5252C}</ProjectGuid>
+    <ProjectGuid>{6654EF4C-BE68-4BBB-83FF-5D10E3B55F81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LOUV.Torp.MonConf</RootNamespace>
-    <AssemblyName>LOUV.Torp.MonConf</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>LOUV.Torp.Core</RootNamespace>
+    <AssemblyName>LOUV.Torp.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,13 +34,25 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TinyMetroWpfLibrary.Utility">
-      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.Utility.dll</HintPath>
+    <Reference Include="TinyMetroWpfLibrary">
+      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MonitorConf.cs" />
+    <Compile Include="IMessageController.cs" />
+    <Compile Include="IUnitCore.cs" />
+    <Compile Include="IUnitKernel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LOUV.Torp.BaseType\LOUV.Torp.BaseType.csproj">
+      <Project>{405f8ce4-6f62-40fb-8dca-7c6e44c8a1d2}</Project>
+      <Name>LOUV.Torp.BaseType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.CommLib\LOUV.Torp.CommLib.csproj">
+      <Project>{155b529d-0941-40b0-8bd3-6a6bed764a9f}</Project>
+      <Name>LOUV.Torp.CommLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

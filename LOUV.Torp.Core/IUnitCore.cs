@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using LOUV.Torp.CommLib;
-using LOUV.Torp.DAL;
+//using LOUV.Torp.DAL;
 using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.BaseType;
 using System.Threading;

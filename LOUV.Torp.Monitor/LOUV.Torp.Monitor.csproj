@@ -141,6 +141,7 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -170,6 +171,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Events\DspFeedbackComEvent.cs" />
+    <Compile Include="Events\DSPReqEvent.cs" />
+    <Compile Include="Events\GoDetailStatsNavigationRequest.cs" />
+    <Compile Include="Events\GoHistoryDataPageBaseNavigationRequest.cs" />
+    <Compile Include="Events\GoHomePageNavigationRequest.cs" />
+    <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
+    <Compile Include="Events\MovDataEvent.cs" />
+    <Compile Include="Events\RefreshLog.cs" />
+    <Compile Include="Events\SailEvent.cs" />
+    <Compile Include="Events\USBLEvent.cs" />
     <Compile Include="Splasher.cs" />
     <Compile Include="SplashWindow.xaml.cs" />
     <Compile Include="ViewModel\GlobalSettingViewModel.cs" />
@@ -389,17 +400,17 @@
       <Project>{155b529d-0941-40b0-8bd3-6a6bed764a9f}</Project>
       <Name>LOUV.Torp.CommLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LOUV.Torp.Core\LOUV.Torp.Core.csproj">
+    <ProjectReference Include="..\LOUV.Torp.Core\LOUV.Torp.ICore.csproj">
       <Project>{6654ef4c-be68-4bbb-83ff-5d10e3b55f81}</Project>
-      <Name>LOUV.Torp.Core</Name>
+      <Name>LOUV.Torp.ICore</Name>
     </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.LiveService\LOUV.Torp.LiveService.csproj">
       <Project>{22ef9b9e-3fc3-4e0c-9159-4d60b696f7e6}</Project>
       <Name>LOUV.Torp.LiveService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LOUV.Torp.MonConf\LOUV.Torp.MonConf.csproj">
+    <ProjectReference Include="..\LOUV.Torp.MonConf\LOUV.Torp.MonitorConf.csproj">
       <Project>{0cfdd71d-3343-491f-8eed-15d84dd5252c}</Project>
-      <Name>LOUV.Torp.MonConf</Name>
+      <Name>LOUV.Torp.MonitorConf</Name>
     </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.MonProtocol\LOUV.Torp.MonProtocol.csproj">
       <Project>{27ecaaa8-d328-4d20-9377-1132e182a2be}</Project>
@@ -408,6 +419,10 @@
     <ProjectReference Include="..\LOUV.Torp.MonTrace\LOUV.Torp.MonTrace.csproj">
       <Project>{1eeb4b59-38ba-4e0a-ac94-ecd9f0d8e535}</Project>
       <Name>LOUV.Torp.MonTrace</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.TraceService\LOUV.Torp.TraceService.csproj">
+      <Project>{865ef4a3-3f86-4c17-94cf-dbe875c099d8}</Project>
+      <Name>LOUV.Torp.TraceService</Name>
     </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.Utility\LOUV.Torp.Utility.csproj">
       <Project>{762a1a94-d438-43d8-8a9f-26e769ae7237}</Project>

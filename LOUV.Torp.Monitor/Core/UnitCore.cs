@@ -6,15 +6,15 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Controls;
-using LOUV.Torp.ACMP;
+using LOUV.Torp.MonP;
 using LOUV.Torp.CommLib.Properties;
 using LOUV.Torp.CommLib.UDP;
 using LOUV.Torp.LiveService;
-using LOUV.Torp.TraceFileService;
+using LOUV.Torp.TraceService;
 using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.CommLib;
-using LOUV.Torp.Mov4500Conf;
-using LOUV.Torp.Mov4500TraceService;
+using LOUV.Torp.MonitorConf;
+using LOUV.Torp.MonTrace;
 using LOUV.Torp.ICore;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Events;
@@ -23,6 +23,7 @@ using System.Windows.Media.Media3D;
 using System.Threading.Tasks;
 using LOUV.Torp.WaveBox;
 using System.Net.NetworkInformation;
+using LOUV.Torp.MonitorConf;
 namespace LOUV.Torp.Monitor.Core
 {
     /// <summary>
@@ -46,7 +47,7 @@ namespace LOUV.Torp.Monitor.Core
         private IFileCore _iFileCore;
         private MovTraceService _movTraceService;
         //基础配置信息
-        private MovConf _mov4500Conf;//系统设置类
+        private MonConf _mov4500Conf;//系统设置类
         private MovConfInfo _movConfInfo;//除通信以外其他设置类
         private CommConfInfo _commConf;//通信设置
         private Observer<CustomEventArgs> _observer; 
@@ -110,12 +111,12 @@ namespace LOUV.Torp.Monitor.Core
             {
                 if (_mov4500Conf==null)
                 {
-                    _mov4500Conf = MovConf.GetInstance();
+                    _mov4500Conf = MonConf.GetInstance();
                     _mov4500Conf.SetGMode((MonitorGMode)Enum.Parse(typeof(MonitorGMode), "1"));//首次打开需要将增益模式设置为自动模式
                 }
                 else
                 {
-					_mov4500Conf = MovConf.GetInstance();
+					_mov4500Conf = MonConf.GetInstance();
                 }
                 _commConf = _mov4500Conf.GetCommConfInfo();
                 _movConfInfo = _mov4500Conf.GetMovConfInfo();
@@ -149,7 +150,7 @@ namespace LOUV.Torp.Monitor.Core
 
         private bool LoadMorse()
         {
-            string soundpath = MovConf.GetInstance().MyExecPath + "\\" + "morse";
+            string soundpath = MonConf.GetInstance().MyExecPath + "\\" + "morse";
             if (Directory.Exists(soundpath))
             {
                 try
@@ -251,7 +252,7 @@ namespace LOUV.Torp.Monitor.Core
         }
         
 
-        public MovConf MovConfigueService
+        public MonConf MovConfigueService
         {
             get { return _mov4500Conf; }
         }

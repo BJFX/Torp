@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
-using LOUV.Torp.MonProtocol;
+using LOUV.Torp.MonP;
 using LOUV.Torp.CommLib;
 using LOUV.Torp.Monitor.Events;
 using LOUV.Torp.Monitor.Helpers;

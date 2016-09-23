@@ -45,6 +45,15 @@
     <Compile Include="define.cs" />
     <Compile Include="IDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serial\CCheck.cs" />
+    <Compile Include="Serial\CCheckBP.cs" />
+    <Compile Include="Serial\CCycleMem.cs" />
+    <Compile Include="Serial\CheckADCP.cs" />
+    <Compile Include="Serial\InterfaceSerial.cs" />
+    <Compile Include="Serial\SerialBaseComm.cs" />
+    <Compile Include="Serial\SerialCommand.cs" />
+    <Compile Include="Serial\SerialFactory.cs" />
+    <Compile Include="Serial\SerialService.cs" />
     <Compile Include="TCP\InterfaceTCP.cs" />
     <Compile Include="TCP\TCPBaseComm.cs" />
     <Compile Include="TCP\TCPCommand.ACM.cs" />
@@ -57,7 +66,16 @@
     <Compile Include="UDP\UDPFactory.cs" />
     <Compile Include="UDP\UDPService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LOUV.Torp.JsonUtils\LOUV.Torp.JsonUtils.csproj">
+      <Project>{0bcc2a70-f2dc-4d29-9c4a-81926de75e27}</Project>
+      <Name>LOUV.Torp.JsonUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.MonProtocol\LOUV.Torp.MonProtocol.csproj">
+      <Project>{27ecaaa8-d328-4d20-9377-1132e182a2be}</Project>
+      <Name>LOUV.Torp.MonProtocol</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
