@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Controls;
 using LOUV.Torp.MonP;
-using LOUV.Torp.CommLib.Properties;
+//using LOUV.Torp.CommLib.Properties;
 using LOUV.Torp.CommLib.UDP;
 using LOUV.Torp.LiveService;
 using LOUV.Torp.TraceService;
@@ -21,9 +21,10 @@ using LOUV.Torp.Monitor.Events;
 using HelixToolkit.Wpf;
 using System.Windows.Media.Media3D;
 using System.Threading.Tasks;
-using LOUV.Torp.WaveBox;
+//using LOUV.Torp.WaveBox;
 using System.Net.NetworkInformation;
 using LOUV.Torp.MonitorConf;
+using LOUV.Torp.LiveService;
 namespace LOUV.Torp.Monitor.Core
 {
     /// <summary>
@@ -45,10 +46,10 @@ namespace LOUV.Torp.Monitor.Core
         private ICommCore _iCommCore;
         //文件服务接口
         private IFileCore _iFileCore;
-        private MovTraceService _movTraceService;
+        private MonTraceService _MonTraceService;
         //基础配置信息
         private MonConf _mov4500Conf;//系统设置类
-        private MovConfInfo _movConfInfo;//除通信以外其他设置类
+        private MonConfInfo _MonConfInfo;//除通信以外其他设置类
         private CommConfInfo _commConf;//通信设置
         private Observer<CustomEventArgs> _observer; 
         private bool _serviceStarted = false;
@@ -64,7 +65,7 @@ namespace LOUV.Torp.Monitor.Core
         public byte[] RiseOrUrgent = null;
         public byte[] Disg = null;
         public byte[] RelBuoy = null;
-        public WaveControl Wave = null;
+        //public WaveControl Wave = null;
         public delegate void UpdateLiveViewHandle(ModuleType type, string msg, Image img);
         public UpdateLiveViewHandle LiveHandle;
 
@@ -81,9 +82,9 @@ namespace LOUV.Torp.Monitor.Core
         //MFSK文字还可输入字符数
         private int _MFSK_LeftSize = 20;
 
-        public MovTraceService MovTraceService
+        public MonTraceService MonTraceService
         {
-            get { return _movTraceService ?? (_movTraceService = new MovTraceService(WorkMode)); }
+            get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
         }
 
 
@@ -119,9 +120,9 @@ namespace LOUV.Torp.Monitor.Core
 					_mov4500Conf = MonConf.GetInstance();
                 }
                 _commConf = _mov4500Conf.GetCommConfInfo();
-                _movConfInfo = _mov4500Conf.GetMovConfInfo();
-                WorkMode = (MonitorMode)Enum.Parse(typeof(MonitorMode),_movConfInfo.Mode.ToString());
-                NetLiveService_ACM.RenewNetLiveService_ACM(_commConf, _movConfInfo);
+                _MonConfInfo = _mov4500Conf.GetMonConfInfo();
+                WorkMode = (MonitorMode)Enum.Parse(typeof(MonitorMode),_MonConfInfo.Mode.ToString());
+                NetLiveService_ACM.RenewNetLiveService_ACM(_commConf, _MonConfInfo);
             }
             catch (Exception ex)
             {
@@ -137,17 +138,17 @@ namespace LOUV.Torp.Monitor.Core
             get { return _eventAggregator ?? (_eventAggregator = UnitKernal.Instance.EventAggregator); }
         }
 
-
+        
 
         public IMovNetCore NetCore
         {
-            get { return _iNetCore ?? (_iNetCore = NetLiveService_ACM.GetInstance(_commConf, _movConfInfo, Observer)); }
+            get { return _iNetCore ?? (_iNetCore = NetLiveService_ACM.GetInstance(_commConf, _MonConfInfo, Observer)); }
         }
         public ICommCore CommCore
         {
             get { return _iCommCore ?? (_iCommCore = CommService_BPADCP.GetInstance(_commConf, Observer)); }
         }
-
+        
         private bool LoadMorse()
         {
             string soundpath = MonConf.GetInstance().MyExecPath + "\\" + "morse";
@@ -192,7 +193,7 @@ namespace LOUV.Torp.Monitor.Core
                     CommCore.Initialize();
                     CommCore.Start();
                 }                
-                if(!MovTraceService.CreateService()) throw new Exception("数据保存服务启动失败");
+                if(!MonTraceService.CreateService()) throw new Exception("数据保存服务启动失败");
                 _serviceStarted = true;
                 Error = NetCore.Error;
                 return _serviceStarted;
@@ -235,8 +236,8 @@ namespace LOUV.Torp.Monitor.Core
                 NetCore.StopUDPService();
             /*if (CommCore.IsWorking)
                 CommCore.Stop();*/
-            if (MovTraceService!=null)
-                MovTraceService.TearDownService();
+            if (MonTraceService!=null)
+                MonTraceService.TearDownService();
             _serviceStarted = false;
             
         }
@@ -259,7 +260,7 @@ namespace LOUV.Torp.Monitor.Core
 
         public Observer<CustomEventArgs> Observer
         {
-            get { return _observer ?? (_observer = new Mov4500DataObserver()); }
+            get { return _observer ?? (_observer = new MonitorDataObserver()); }
 
         }
 

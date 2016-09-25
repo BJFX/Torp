@@ -8,6 +8,7 @@ using LOUV.Torp.Monitor.Helpers;
 using DevExpress.Xpf.Core;
 using Microsoft.Win32;
 using System.Threading;
+using LOUV.Torp.Device;
 namespace LOUV.Torp.Monitor.Core
 {
     public class MonitorDataObserver:Observer<CustomEventArgs>
@@ -142,14 +143,14 @@ namespace LOUV.Torp.Monitor.Core
                                         var data = ACM4500Protocol.PackData(ModuleType.MPSK);
                                         LogHelper.WriteLog("发送MPSK");
                                         UnitCore.Instance.NetCore.Send((int) ModuleType.MPSK, data);
-                                        UnitCore.Instance.MovTraceService.Save("XMTPSK", data);
+                                        UnitCore.Instance.MonTraceService.Save("XMTPSK", data);
                                         return;
                                     }
                                 }
                                 var fskdata = ACM4500Protocol.PackData(ModuleType.MFSK);
                                 LogHelper.WriteLog("发送MFSK");
                                 UnitCore.Instance.NetCore.Send((int) ModuleType.MFSK, fskdata);
-                                UnitCore.Instance.MovTraceService.Save("XMTFSK", fskdata);
+                                UnitCore.Instance.MonTraceService.Save("XMTFSK", fskdata);
                                 UnitCore.Instance.EventAggregator.PublishMessage(new DSPReqEvent());//发送完MFSK通知界面                                
                                 return;
                             case (int)ModuleType.FeedBack:
@@ -163,7 +164,7 @@ namespace LOUV.Torp.Monitor.Core
                     }
                     //保持数据
                     if (id == (int)ModuleType.FH)
-                        UnitCore.Instance.MovTraceService.Save(datatype, Encoding.Default.GetString(buffer)); //FH
+                        UnitCore.Instance.MonTraceService.Save(datatype, Encoding.Default.GetString(buffer)); //FH
                     else
                     {
                         if (id == (int) ModuleType.SSBNULL)
@@ -172,7 +173,7 @@ namespace LOUV.Torp.Monitor.Core
                             buffer = new byte[length*2];
                             Array.Clear(buffer,0,length*2);
                         }
-                        UnitCore.Instance.MovTraceService.Save(datatype, buffer); //保存上面除FH全部数据类型
+                        UnitCore.Instance.MonTraceService.Save(datatype, buffer); //保存上面除FH全部数据类型
                     }
                     //开始处理
                     if (e.Mode == CallMode.DataMode)
@@ -180,14 +181,14 @@ namespace LOUV.Torp.Monitor.Core
                         if (id == (int)ModuleType.SSBNULL)
                             return;
                         if (id == (int) ModuleType.SSB)
-                        {
+                        {/*
                             if (UnitCore.Instance.Wave != null)
                             {
                                 UnitCore.Instance.Wave.Dispatcher.Invoke(new Action(() =>
                                 {
                                     UnitCore.Instance.Wave.Display(buffer);
                                 }));
-                            }
+                            }*/
                             return;
                         }
                         if (id == (int) ModuleType.FH)
@@ -215,7 +216,7 @@ namespace LOUV.Torp.Monitor.Core
                                     {
                                         case (int)ModuleType.MFSK:
                                             LogHelper.WriteLog("收到MFSK数据");
-                                            UnitCore.Instance.MovTraceService.Save("FSKSRC", ret);
+                                            UnitCore.Instance.MonTraceService.Save("FSKSRC", ret);
                                             if (ACM4500Protocol.ParseFSK(ret))
                                             {
                                                 UnitCore.Instance.EventAggregator.PublishMessage(new MovDataEvent(
@@ -224,11 +225,12 @@ namespace LOUV.Torp.Monitor.Core
                                             break;
                                         case (int)ModuleType.MPSK:
                                             LogHelper.WriteLog("收到MPSK数据");
-                                            UnitCore.Instance.MovTraceService.Save("PSKSRC", ret);
+                                            UnitCore.Instance.MonTraceService.Save("PSKSRC", ret);
                                             var jpcdata = ACM4500Protocol.ParsePSK(ret);
                                             if (jpcdata != null) //全部接收
                                             {
-                                                UnitCore.Instance.MovTraceService.Save("PSKJPC", jpcdata);
+                                                UnitCore.Instance.MonTraceService.Save("PSKJPC", jpcdata);
+                                                /*
                                                 if (Jp2KConverter.LoadJp2k(jpcdata))
                                                 {
                                                     var imgbuf =
@@ -236,12 +238,12 @@ namespace LOUV.Torp.Monitor.Core
                                                                               "\\" + "decode.jpg");
                                                     if (imgbuf != null)
                                                     {
-                                                        UnitCore.Instance.MovTraceService.Save("IMG", imgbuf);
+                                                        UnitCore.Instance.MonTraceService.Save("IMG", imgbuf);
                                                         ACM4500Protocol.Results.Add(MovDataType.IMAGE, imgbuf);
                                                     }
                                                     UnitCore.Instance.EventAggregator.PublishMessage(new MovDataEvent(
                                                         ModuleType.MPSK, ACM4500Protocol.Results));
-                                                }
+                                                }*/
                                             }
                                             break;
                                     }

@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{27ECAAA8-D328-4D20-9377-1132E182A2BE}</ProjectGuid>
+    <ProjectGuid>{7BFE37B0-5DC8-468B-95BC-74A338FE3F9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LOUV.Torp.MonProtocol</RootNamespace>
-    <AssemblyName>LOUV.Torp.MonProtocol</AssemblyName>
+    <RootNamespace>LOUV.Torp.Device</RootNamespace>
+    <AssemblyName>LOUV.Torp.Device</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,28 +31,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TinyMetroWpfLibrary.Utility">
-      <HintPath>..\..\DeckUnit\Tools\TinyMetroWpfLibrary.Utility.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACM4500Protocol.cs" />
-    <Compile Include="MonBuilder.cs" />
-    <Compile Include="MonType.cs" />
-    <Compile Include="MonProtocol.cs" />
-    <Compile Include="Mov4500DataType.cs" />
-    <Compile Include="MSPHexBuilder.cs" />
+    <Compile Include="USBLParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShipGatherData.cs" />
-    <Compile Include="UWVGatherData.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LOUV.Torp.BaseType\LOUV.Torp.BaseType.csproj">
-      <Project>{405f8ce4-6f62-40fb-8dca-7c6e44c8a1d2}</Project>
-      <Name>LOUV.Torp.BaseType</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -328,14 +328,14 @@ namespace LOUV.Torp.Monitor.ViewModel
                     EventAggregator.PublishMessage(new LogEvent("保存运行模式出错！", LogType.Both));
                     return;
                 }
-                ret =
-                    UnitCore.Instance.MovTraceService.SetMode(
+                /*ret =
+                    UnitCore.Instance.MonTraceService.SetMode(
                         (MonitorMode) Enum.Parse(typeof (MonitorMode), SelectMode.ToString()));
                 if (ret == false)
                 {
                     EventAggregator.PublishMessage(new LogEvent("数据保存服务设置出错！", LogType.Both));
                     return;
-                }
+                }*/
                 ACM4500Protocol.Init(UnitCore.Instance.MovConfigueService.GetOASID(), (MonitorMode)Enum.Parse(typeof(MonitorMode), SelectMode.ToString()));
             }
             IPAddress ip;

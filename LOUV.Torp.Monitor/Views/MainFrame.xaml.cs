@@ -13,7 +13,7 @@ using DevExpress.Charts.Native;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using DevExpress.XtraPrinting.Native;
-using ImageProc;
+//using ImageProc;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using TinyMetroWpfLibrary.Controller;
@@ -168,9 +168,9 @@ namespace LOUV.Torp.Monitor.Views
                 var offset = Section.TranslatePoint(new System.Windows.Point(0, 0), imgBox);
                 if (offset.X < 0 || offset.X + 256 > imgBox.ActualWidth || offset.Y < 0 || offset.Y + 256 > imgBox.ActualHeight)
                     return;
-                cropimgBox.Source =
+                /*cropimgBox.Source =
                     BitmapToImageSource(IMGTool.CutImage(img, (int)(offset.X / imgBox.ActualWidth * img.Width),
-                        (int)(offset.Y / imgBox.ActualHeight * img.Height), (int)(256 / factor), (int)(256 / factor)));
+                        (int)(offset.Y / imgBox.ActualHeight * img.Height), (int)(256 / factor), (int)(256 / factor)));*/
             }
         }
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
@@ -208,14 +208,14 @@ namespace LOUV.Torp.Monitor.Views
             {
                 img.Source = cropimgBox.Source;
                 UnitCore.Instance.AddImgHandle(img);
-                bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)cropimgBox.Source));
+                //bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)cropimgBox.Source));
             }
             else
             {
                 img.Source = imgBox.Source;
                 UnitCore.Instance.AddImgHandle(img);
-                bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)imgBox.Source));
-            }
+                //bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)imgBox.Source));
+            }/*
             if (bload)
             {
                 var buf = Jp2KConverter.SaveJp2K(UnitCore.Instance.MovConfigueService.MyExecPath +
@@ -233,7 +233,7 @@ namespace LOUV.Torp.Monitor.Views
                     await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "发送失败",
                         "未成功创建压缩图像数据", MessageDialogStyle.Affirmative, md);
                 }
-            }
+            }*/
         }
 
         private async void CloseImg(object sender, RoutedEventArgs e)
@@ -280,9 +280,9 @@ namespace LOUV.Torp.Monitor.Views
                 if (offset.X < 0 || offset.X + 256 > imgBox.ActualWidth || offset.Y < 0 || offset.Y + 256 > imgBox.ActualHeight)
                     return;
                 //offset don`t have been scaled so start point do not need to moved 
-                cropimgBox.Source =
+                /*cropimgBox.Source =
                     BitmapToImageSource(IMGTool.CutImage(img, (int) (offset.X/imgBox.ActualWidth*img.Width),
-                        (int) (offset.Y/imgBox.ActualHeight*img.Height), (int) (256/factor), (int) (256/factor)));
+                        (int) (offset.Y/imgBox.ActualHeight*img.Height), (int) (256/factor), (int) (256/factor)));*/
             }
         }
         private void vb1_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -336,9 +336,9 @@ namespace LOUV.Torp.Monitor.Views
             var offset = Section.TranslatePoint(new System.Windows.Point(0, 0), imgBox);
             if (offset.X < 0 || offset.X + 256 > imgBox.ActualWidth || offset.Y < 0 || offset.Y + 256 > imgBox.ActualHeight)
                 return;
-            cropimgBox.Source =
+            /*cropimgBox.Source =
                     BitmapToImageSource(IMGTool.CutImage(img, (int)(offset.X / imgBox.ActualWidth * img.Width),
-                        (int)(offset.Y / imgBox.ActualHeight * img.Height), (int)(256 / factor), (int)(256 / factor)));
+                        (int)(offset.Y / imgBox.ActualHeight * img.Height), (int)(256 / factor), (int)(256 / factor)));*/
         }
         private System.Windows.Point GetPosition(Visual item,Visual parent)
         {

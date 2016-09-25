@@ -131,6 +131,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
     </Reference>
@@ -141,6 +142,7 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -290,6 +292,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <Resource Include="Font\seguisym.ttf" />
@@ -403,6 +406,10 @@
     <ProjectReference Include="..\LOUV.Torp.Core\LOUV.Torp.ICore.csproj">
       <Project>{6654ef4c-be68-4bbb-83ff-5d10e3b55f81}</Project>
       <Name>LOUV.Torp.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.Device\LOUV.Torp.Device.csproj">
+      <Project>{7bfe37b0-5dc8-468b-95bc-74a338fe3f9d}</Project>
+      <Name>LOUV.Torp.Device</Name>
     </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.LiveService\LOUV.Torp.LiveService.csproj">
       <Project>{22ef9b9e-3fc3-4e0c-9159-4d60b696f7e6}</Project>
