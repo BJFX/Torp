@@ -13,7 +13,7 @@ namespace LOUV.Torp.Monitor.Core
 {
     public class MonitorDataObserver:Observer<CustomEventArgs>
     {
-        USBLParser usblParser = new USBLParser();
+  
         public void Handle(object sender, CustomEventArgs e)
         {
             string datatype = "";
@@ -275,30 +275,7 @@ namespace LOUV.Torp.Monitor.Core
                         UnitCore.Instance.EventAggregator.PublishMessage(new SailEvent(
                                                 (ExchageType)id, pro));
                     }
-                    else if (e.Mode == CallMode.USBL)
-                    {
-                        var pos = new Sysposition();
-                        if (usblParser.Parse(Encoding.ASCII.GetString(buffer)))
-                        {
-                            pos._ltime = usblParser.Time;
-                            pos._relateX = usblParser.X;
-                            pos._relateY = usblParser.Y;
-                            pos._relateZ = usblParser.Z;
-                            pos._shipLat = usblParser.ShipLat;
-                            pos._shipLong = usblParser.ShipLng;
-                            pos._shipheading = usblParser.Heading;
-                            pos._shippitch = usblParser.Pitch;
-                            pos._shiproll = usblParser.Roll;
-                            pos._shipvel = usblParser.ShipVelocity;
-                            pos._subLat = usblParser.MovLat;
-                            pos._subLong = usblParser.MovLng;
-                            pos._subdepth = usblParser.MovDepth;
-
-                        }
-                        ACM4500Protocol.ShipdataPool.Add(pos.Pack(), MovDataType.ALLPOST);
-                        UnitCore.Instance.EventAggregator.PublishMessage(new USBLEvent(pos));
-
-                    }
+                    
                 }
                 catch (Exception ex)
                 {             

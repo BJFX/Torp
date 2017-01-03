@@ -220,7 +220,7 @@ namespace LOUV.Torp.Monitor.Core
 
                 App.Current.Dispatcher.Invoke(new Action(()=>
                 {
-                    EventAggregator.PublishMessage(new LogEvent("网络出错，请检查网络！", LogType.Both));
+                    EventAggregator.PublishMessage(new LogEvent("网络连接出错，请检查网络再连接节点！", LogType.Both));
                 }));
 
             }
@@ -241,18 +241,6 @@ namespace LOUV.Torp.Monitor.Core
             _serviceStarted = false;
             
         }
-        public bool IsWorking
-        {
-            get { return _serviceStarted; }
-        }
-
-        public int MFSK_LeftSize
-        {
-            get { return _MFSK_LeftSize; }
-            set { _MFSK_LeftSize = value; }
-        }
-        
-
         public MonConf MovConfigueService
         {
             get { return _mov4500Conf; }

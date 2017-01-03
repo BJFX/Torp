@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LOUV.Torp.Device
 {
-    public class USBLParser
+    public class Parser
     {
         char[] m_sFullData ;//完整的一帧数据
         private int m_nDataLen = 1;

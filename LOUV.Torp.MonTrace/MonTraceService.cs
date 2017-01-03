@@ -226,34 +226,6 @@ namespace LOUV.Torp.MonTrace
             return ret;
            
         }
-        /// <summary>
-        /// 关闭一个已经多次写入的single文件
-        /// </summary>
-        /// <param name="sType"></param>
-        /// <returns></returns>
-        public bool EndSave(string sType)
-        {
-            bool ret = false;
-            try
-            {
-                if (_traceFile.CloseFile(sType))
-                {
-                    //录音数据
-                    if (_traceFile.CreateFile("XMTVOICE", TraceType.Binary, "XmtVoice", "xwav", @"\XmtVoice"))
-                    {
-                        ret = true;
-                    }
-                }
 
-            }
-            catch (Exception ex)
-            {
-                ret = false;
-            }
-
-            return ret;
-        }
-
-        public string EncodingbTraceBytes { get; set; }
     }
 }
