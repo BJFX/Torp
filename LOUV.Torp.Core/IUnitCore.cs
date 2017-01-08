@@ -40,7 +40,6 @@ namespace LOUV.Torp.ICore
 
         Task <bool> SendCMD(byte[] buf);
         Task<bool> DownloadFile(Stream file,DownLoadFileType type);
-        Task<bool> ResetMechan();//重启机芯
         Task<bool> BroadCast(byte[] buf);
         int SendBytes { get;}
         /// <summary>
@@ -58,8 +57,6 @@ namespace LOUV.Torp.ICore
         void StopUDPService();
         void StopTCpService();
         bool Send(int id, byte[] buf);
-        bool SendSSBNon();
-        bool SendSSBEND(); 
         bool IsUDPWorking { get; }//
         bool IsTCPWorking { get; }
     }

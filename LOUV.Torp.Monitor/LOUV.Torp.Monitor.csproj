@@ -173,16 +173,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Events\DspFeedbackComEvent.cs" />
-    <Compile Include="Events\DSPReqEvent.cs" />
-    <Compile Include="Events\GoDetailStatsNavigationRequest.cs" />
-    <Compile Include="Events\GoHistoryDataPageBaseNavigationRequest.cs" />
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
-    <Compile Include="Events\MovDataEvent.cs" />
     <Compile Include="Events\RefreshLog.cs" />
-    <Compile Include="Events\SailEvent.cs" />
-    <Compile Include="Events\USBLEvent.cs" />
     <Compile Include="Splasher.cs" />
     <Compile Include="SplashWindow.xaml.cs" />
     <Compile Include="ViewModel\GlobalSettingViewModel.cs" />

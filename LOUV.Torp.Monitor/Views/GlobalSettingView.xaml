@@ -129,7 +129,7 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ButtonReset_Click">
+                            <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <StackPanel Orientation="Horizontal">

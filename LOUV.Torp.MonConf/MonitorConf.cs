@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using TinyMetroWpfLibrary.Utility;
 using LOUV.Torp.BaseType;
-using LOUV.Torp.MonP;
+
 namespace LOUV.Torp.MonitorConf
 {
     public class MonConf
     {
-        private readonly static object SyncObject = new object();
+        private static readonly object SyncObject = new object();
         private static MonConf _movConf;
 
         //配置文件
-        private string xmldoc = "BasicConf.xml";//const
+        private string xmldoc = "BasicConf.xml"; //const
+
         public static MonConf GetInstance()
         {
             lock (SyncObject)
@@ -24,6 +25,7 @@ namespace LOUV.Torp.MonitorConf
         }
 
         public string MyExecPath;
+
         protected MonConf()
         {
             MyExecPath = System.IO.Path.GetDirectoryName(
@@ -31,352 +33,87 @@ namespace LOUV.Torp.MonitorConf
             xmldoc = MyExecPath + "\\" + xmldoc;
 
         }
+
         protected string GetValue(string[] str)
         {
             return XmlHelper.GetConfigValue(xmldoc, str);
         }
-        protected bool SetValue(string[] str,string value)
+
+        protected bool SetValue(string[] str, string value)
         {
             return XmlHelper.SetConfigValue(xmldoc, str, value);
         }
-        public MonitorMode GetMode()
+
+        protected string GetGPSComm()
         {
-            string[] str = { "Setup", "Mode" };
-            return (MonitorMode)Enum.Parse(typeof(MonitorMode), GetValue(str));
-        }
-        public bool SetMode(MonitorMode mode)
-        {
-            string value = ((int)mode).ToString();
-            string[] str = { "Setup", "Mode" };
-            return SetValue(str,value);
+            string[] str = { "GPS", "ComPort" };
+            return GetValue(str);
         }
 
-        public int GetNormAmp()
+        protected int GetGPSDataRate()
         {
-            string[] str = { "Setup", "NormAmp" };
-            return int.Parse( GetValue(str));
+            string[] str = { "GPS", "DataRate" };
+            return int.Parse(GetValue(str));
         }
 
-        public MonitorGMode GetGMode()
+        protected int GetGPSPort()
         {
-            string[] str = { "Setup", "GMode" };
-            return (MonitorGMode)Enum.Parse(typeof(MonitorGMode), GetValue(str));
+            string[] str = { "GPS", "GPSPort" };
+            return int.Parse(GetValue(str));
         }
-        public bool SetGMode(MonitorGMode mode)
-        {
-            string value = ((int)mode).ToString();
-            string[] str = { "Setup", "GMode" };
-            return SetValue(str, value);
-        }
-        public string GetShipIP()
-        {
-            string[] str = { "Net", "ShipIP" };
-            return GetValue(str);
-        }
-        public bool SetShipIP(string ip)
-        {
-            string[] str = { "Net", "ShipIP" };
-            return SetValue(str,ip);
-        }
-        
-        public string GetUWVIP()
-        {
-            string[] str = { "Net", "UWVIP" };
 
-            return GetValue(str);
-        }
-        public bool SetUWVIP(string ip)
-        {
-            string[] str = { "Net", "UWVIP" };
-            return SetValue(str,ip);
-        }
-        public string GetXmtChannel()
-        {
-            string[] str = { "Setup", "XMTChannel" };
-            return GetValue(str);
-        }
-        public string GetXmtAmp()
-        {
-            string[] str = { "Setup", "XMTAMP" };
-            return GetValue(str);
-        }
-        public string GetGain()
-        {
-            string[] str = { "Setup", "Gain" };
-            return GetValue(str);
-        }
-        public bool SetXmtChannel(int i)
-        {
-            string[] str = { "Setup", "XMTChannel" };
-            return SetValue(str,i.ToString());
-        }
-        public bool SetXmtAmp(float amp)
-        {
-            string[] str = { "Setup", "XMTAMP" };
-            return SetValue(str,amp.ToString("F3"));
-        }
-        public bool SetGain(int gain)
-        {
-            string[] str = { "Setup", "Gain" };
-            return SetValue(str,gain.ToString());
-        }
-        public string GetComPort()
-        {
-            string[] str = {"Net", "ComPort" };
-            return GetValue(str);
-        }
-        public string GetDataPort()
+        protected int GetNetDataPort()
         {
             string[] str = { "Net", "DataPort" };
-            return GetValue(str);
-        }
-        public string GetBroadCastPort()
-        {
-            string[] str = { "Net", "Broadcast" };
-            return GetValue(str);
-        }
-        public ModemConfigure GetModemConfigure()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public CommType GetBPComm()
-        {
-            string[] str = { "COM", "BPComm" };
-            string sComm = GetValue(str);
-            if (sComm == null)
-                sComm = "COM10,19200,8,0,1";
-            string[] string_Comm = sComm.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            CommType ComPara = new CommType();
-            ComPara.Comm = string_Comm[0];
-            ComPara.Baud = int.Parse(string_Comm[1]);
-            ComPara.DataBits = int.Parse(string_Comm[2]);
-            ComPara.Parity = int.Parse(string_Comm[3]);
-            ComPara.StopBits = int.Parse(string_Comm[4]);
-            return ComPara;
-        }
-
-        public CommType GetADCPComm()
-        {
-            string[] str = { "COM", "ADCPComm" };
-            string sComm = GetValue(str);
-            if (sComm == null)
-                sComm = "COM3,9600,8,0,1";
-            string[] string_Comm = sComm.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            CommType ComPara = new CommType();
-            ComPara.Comm = string_Comm[0];
-            ComPara.Baud = int.Parse(string_Comm[1]);
-            ComPara.DataBits = int.Parse(string_Comm[2]);
-            ComPara.Parity = int.Parse(string_Comm[3]);
-            ComPara.StopBits = int.Parse(string_Comm[4]);
-            return ComPara;
-        }
-
-        public OASSEND[] GetOASID()
-        {
-            string[] str = { "Setup", "OASID" };
-            string sOASID = GetValue(str);
-            string[] string_OASID = sOASID.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            OASSEND[] OASID = new OASSEND[string_OASID.Length];
-            for (int i = 0; i < string_OASID.Length; i++)
-            {
-                OASID[i].direction = i;
-                OASID[i].id = int.Parse(string_OASID[i]);
-            }
-            return OASID;
-
-        }
-
-        public int[] GetCycID()
-        {
-            string[] str = { "Setup", "CycID" };
-            string sCycID = GetValue(str);
-            string[] string_CycID = sCycID.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            int[] CycID = new int[string_CycID.Length];
-            for (int i = 0; i < string_CycID.Length; i++)
-            {
-                CycID[i] = int.Parse(string_CycID[i]);
-            }
-            return CycID;
-        }
-
-        public int GetPulseWidth()
-        {
-            string[] str = { "Setup", "PulseWidth" };
             return int.Parse(GetValue(str));
         }
-
-        public int GetDistLimit()
+        protected int GetNetCmdPort()
         {
-            string[] str = { "Setup", "DistLimit" };
+            string[] str = { "Net", "CmdPort" };
             return int.Parse(GetValue(str));
         }
-
-        public int GetGainDownLimit()
+        protected int GetNetBroadPort()
         {
-            string[] str = { "Setup", "GainDownLimit" };
+            string[] str = { "Net", "BroadPort" };
             return int.Parse(GetValue(str));
         }
-
-        public int GetGainStart()
+        protected int GetNetRecvPort()
         {
-            string[] str = { "Setup", "GainStart" };
+            string[] str = { "Net", "RecvPort" };
             return int.Parse(GetValue(str));
         }
-
-        public int GetGainUPLimit()
+        public CommGPS GetGPS()
         {
-            string[] str = { "Setup", "GainUPLimit" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetShootModel()
-        {
-            string[] str = { "Setup", "ShootModel" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetTVCModel()
-        {
-            string[] str = { "Setup", "TVCModel" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetTVCValue()
-        {
-            string[] str = { "Setup", "DistLimit" };
-            return int.Parse(GetValue(str));
-        }
-
-        public float GetBlindRegion()
-        {
-            string[] str = { "Setup", "BlindRegion" };
-            return float.Parse(GetValue(str));
-        }
-
-        public int GetGateTh()
-        {
-            string[] str = { "Setup", "GateTh" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetSoundSpeed()
-        {
-            string[] str = { "Setup", "SoundSpeed" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetSERVERMODE()
-        {
-            string[] str = { "Setup", "SERVERMODE" };
-            return int.Parse(GetValue(str));
-        }
-
-        public int GetCELLNUM()
-        {
-            string[] str = { "Setup", "CELLNUM" };
-            return int.Parse(GetValue(str));
-        }
-
-
-        public CommConfInfo GetCommConfInfo()
-        {
-            var cominfo = new CommConfInfo();
+            var gpscomm = new CommGPS();
             try
             {
-                if (GetMode()==MonitorMode.SHIP)
-                {
-                    cominfo.LinkIP = GetShipIP();
-                }                    
-                else
-                {
-                    cominfo.LinkIP = GetUWVIP();
-                }
-                cominfo.NetPort1 = int.Parse(GetComPort());
-                cominfo.NetPort2 = int.Parse(GetDataPort());
-                cominfo.TraceUDPPort = int.Parse(GetBroadCastPort());
-                cominfo.BPComm = GetBPComm();
-                cominfo.ADCPComm = GetADCPComm();
-                
+                gpscomm.Comm = GetGPSComm();
+                gpscomm.DataRate = GetGPSDataRate();
+                gpscomm.GPSPort = GetGPSPort();
+                return gpscomm;
             }
             catch (Exception)
             {
-                
                 return null;
             }
-            return cominfo;
+
         }
 
-        /// <summary>
-        /// 获取航控广播端口
-        /// </summary>
-        /// <returns></returns>
-        public int GetSailPort()
+        public CommNet GetNet()
         {
-            string[] str = { "UDP", "Sail" };
-            int port = 3000;
-            int.TryParse(GetValue(str),out port);
-            if (port == 0)
-                port = 3000;
-            return port;
-        }
-        /// <summary>
-        /// 获取GPS广播端口
-        /// </summary>
-        /// <returns></returns>
-        public int GetGPSPort()
-        {
-            string[] str = { "UDP", "GPS" };
-            int port = 5000;
-            int.TryParse(GetValue(str),out port);
-            if (port == 0)
-                port = 5000;
-            return port;
-        }
-        // <summary>
-        /// 获取USBL广播端口
-        /// </summary>
-        /// <returns></returns>
-        public int GetUSBLPort()
-        {
-            string[] str = { "UDP", "USBL" };
-            int port = 2000;
-            int.TryParse(GetValue(str),out port);
-            if (port == 0)
-                port = 2000;
-            return port;
-        }
-        // <summary>
-        /// 获取mov广播端口
-        /// </summary>
-        /// <returns></returns>
-        public int GetMovPort()
-        {
-            string[] str = { "UDP", "Mov" };
-            int port = 4000;
-            int.TryParse(GetValue(str),out port);
-            if (port == 0)
-                port = 4000;
-            return port;
-        }
-        public MonConfInfo GetMonConfInfo()
-        {
-            var Moninfo = new MonConfInfo();
+            var netcomm = new CommNet();
             try
             {
-                Moninfo.GPSPort = GetGPSPort();
-                Moninfo.Mode = (int)GetMode();
-                Moninfo.USBLPort = GetUSBLPort();
-                Moninfo.SailPort = GetSailPort();
-                Moninfo.BroadCastPort = GetMovPort();
+                netcomm.CmdPort = GetNetCmdPort();
+                netcomm.DataPort = GetNetDataPort();
+                netcomm.BroadPort = GetNetBroadPort();
+                netcomm.RecvPort = GetNetRecvPort();
+                return netcomm;
             }
             catch (Exception)
             {
-
                 return null;
             }
-            return Moninfo;
         }
     }
 }

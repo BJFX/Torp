@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
-using LOUV.Torp.MonP;
+
 namespace LOUV.Torp.CommLib.Serial
 {
 	public class BPSerialHexCommand : SerialBaseComm

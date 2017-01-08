@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Controls;
-using LOUV.Torp.MonP;
+
 //using LOUV.Torp.CommLib.Properties;
 using LOUV.Torp.CommLib.UDP;
 using LOUV.Torp.LiveService;
@@ -41,46 +41,22 @@ namespace LOUV.Torp.Monitor.Core
         //事件绑定接口，用于事件广播
         private IEventAggregator _eventAggregator;
         //网络服务接口
-        private IMovNetCore _iNetCore;
+        private INetCore _iNetCore;
         //串口服务接口，如果有
         private ICommCore _iCommCore;
         //文件服务接口
         private IFileCore _iFileCore;
         private MonTraceService _MonTraceService;
         //基础配置信息
-        private MonConf _mov4500Conf;//系统设置类
-        private MonConfInfo _MonConfInfo;//除通信以外其他设置类
-        private CommConfInfo _commConf;//通信设置
-        private Observer<CustomEventArgs> _observer; 
-        private bool _serviceStarted = false;
-        //通信机版本信息
-        public string Version = "";
+        private MonConf _monConf;//系统设置类
+        private MonitorDataObserver _observer;
+        private bool _serviceStarted;
+        private CommNet _MonConfInfo;
+
         public string Error { get; private set; }
-        public MonitorMode WorkMode{get; set;}
+
         public Mutex ACMMutex { get; set; }//全局解析锁
-        public byte[] Single = null;
-        public byte[] RecvOrOK = null;
-        public byte[] AskOrOK = null;
-        public byte[] AgreeOrReqRise = null;
-        public byte[] RiseOrUrgent = null;
-        public byte[] Disg = null;
-        public byte[] RelBuoy = null;
-        //public WaveControl Wave = null;
-        public delegate void UpdateLiveViewHandle(ModuleType type, string msg, Image img);
-        public UpdateLiveViewHandle LiveHandle;
 
-        public delegate void AddFHLiveViewHandle(string msg);
-        public AddFHLiveViewHandle AddFHHandle;
-
-        public delegate void AddImgLiveViewHandle(Image img);
-        public AddImgLiveViewHandle AddImgHandle;
-
-        public AutoResetEvent PostMsgEvent_BPpara = new AutoResetEvent(false);//同步事件,是否允许发送配置参数消息
-        public AutoResetEvent PostMsgEvent_BP = new AutoResetEvent(true);//同步事件,是否允许发送信号处理消息
-        public AutoResetEvent PostMsgEvent_BPsend = new AutoResetEvent(false);//同步事件,是否允许向串口写数据
-
-        //MFSK文字还可输入字符数
-        private int _MFSK_LeftSize = 20;
 
         public MonTraceService MonTraceService
         {
@@ -110,19 +86,18 @@ namespace LOUV.Torp.Monitor.Core
             bool ret = true;
             try
             {
-                if (_mov4500Conf==null)
+                if (_monConf==null)
                 {
-                    _mov4500Conf = MonConf.GetInstance();
-                    _mov4500Conf.SetGMode((MonitorGMode)Enum.Parse(typeof(MonitorGMode), "1"));//首次打开需要将增益模式设置为自动模式
+                    _monConf = MonConf.GetInstance();
+                    
                 }
                 else
                 {
-					_mov4500Conf = MonConf.GetInstance();
+                    _monConf = MonConf.GetInstance();
                 }
-                _commConf = _mov4500Conf.GetCommConfInfo();
-                _MonConfInfo = _mov4500Conf.GetMonConfInfo();
-                WorkMode = (MonitorMode)Enum.Parse(typeof(MonitorMode),_MonConfInfo.Mode.ToString());
-                NetLiveService_ACM.RenewNetLiveService_ACM(_commConf, _MonConfInfo);
+                _MonConfInfo = _monConf.GetNet();
+ 
+    
             }
             catch (Exception ex)
             {
@@ -138,41 +113,15 @@ namespace LOUV.Torp.Monitor.Core
             get { return _eventAggregator ?? (_eventAggregator = UnitKernal.Instance.EventAggregator); }
         }
 
-        
 
-        public IMovNetCore NetCore
+
+        public INetCore NetCore
         {
-            get { return _iNetCore ?? (_iNetCore = NetLiveService_ACM.GetInstance(_commConf, _MonConfInfo, Observer)); }
+            get { return _iNetCore ?? (_iNetCore = NetLiveService_Torp.GetInstance(_MonConfInfo, Observer)); }
         }
-        public ICommCore CommCore
-        {
-            get { return _iCommCore ?? (_iCommCore = CommService_BPADCP.GetInstance(_commConf, Observer)); }
-        }
+      
         
-        private bool LoadMorse()
-        {
-            string soundpath = MonConf.GetInstance().MyExecPath + "\\" + "morse";
-            if (Directory.Exists(soundpath))
-            {
-                try
-                {
-                    Single = File.ReadAllBytes(soundpath + "\\" + "1.dat");
-                    RecvOrOK = File.ReadAllBytes(soundpath + "\\" + "3.dat");
-                    AskOrOK = File.ReadAllBytes(soundpath + "\\" + "2.dat");
-                    AgreeOrReqRise = File.ReadAllBytes(soundpath + "\\" + "22.dat");
-                    RiseOrUrgent = File.ReadAllBytes(soundpath + "\\" + "5.dat");
-                    Disg = File.ReadAllBytes(soundpath + "\\" + "33.dat");
-                    RelBuoy = File.ReadAllBytes(soundpath + "\\" + "222.dat");
-                    return true;
-                }
-                catch (Exception)
-                {
-                    //do nothing
-                }
-                return false;
-            }
-            return false;
-        }
+        
         public bool Start()
         {
             try
@@ -180,23 +129,17 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkChange.NetworkAvailabilityChanged += new
             NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
-                ACM4500Protocol.Init(_mov4500Conf.GetOASID(), (MonitorMode)1);
-                if (!LoadMorse()) throw new Exception("无法读取Morse数据");
+                //
+                
                 if(NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();
                 NetCore.Start();//只启动udp服务，tcp服务单独启动
-                if (WorkMode == MonitorMode.SUBMARINE)
-                {
-                    if (CommCore.IsInitialize)
-                        CommCore.Stop();
-                    CommCore.Initialize();
-                    CommCore.Start();
-                }                
+                   
                 if(!MonTraceService.CreateService()) throw new Exception("数据保存服务启动失败");
                 _serviceStarted = true;
                 Error = NetCore.Error;
-                return _serviceStarted;
+                return ServiceStarted;
             }
             catch (Exception ex)
             {
@@ -243,7 +186,7 @@ namespace LOUV.Torp.Monitor.Core
         }
         public MonConf MovConfigueService
         {
-            get { return _mov4500Conf; }
+            get { return _monConf; }
         }
 
         public Observer<CustomEventArgs> Observer
@@ -262,7 +205,10 @@ namespace LOUV.Torp.Monitor.Core
         {
             get { return GetInstance(); }
         }
-        
-        
+
+        public bool ServiceStarted
+        {
+            get { return _serviceStarted; }
+        }
     }
 }

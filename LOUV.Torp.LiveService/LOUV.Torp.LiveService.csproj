@@ -65,10 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommService.cs" />
-    <Compile Include="CommService_BPADCP.cs" />
-    <Compile Include="NetLiveService_ACM.cs" />
-    <Compile Include="NetLiveService_ACN.cs" />
+    <Compile Include="NetLiveService_Torp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

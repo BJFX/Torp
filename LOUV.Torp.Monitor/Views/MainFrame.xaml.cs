@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using LOUV.Torp.MonP;
+
 using LOUV.Torp.Monitor.Events;
 using DevExpress.Charts.Native;
 using DevExpress.Xpf.Core;
@@ -71,46 +71,7 @@ namespace LOUV.Torp.Monitor.Views
             }
         }
 
-        private async void SendFH(object sender, RoutedEventArgs e)
-        {
-            var newdialog = (BaseMetroDialog)App.Current.MainWindow.Resources["SendFhDialog"];
-            var textBox = newdialog.FindChild<TextBox>("FHBlock");
-           
-            if (textBox.Text.Length> 0)
-            {
-                UnitCore.Instance.AddFHHandle(textBox.Text);
-                byte[] newBytes = new byte[8];//跳频固定8字节,不足8字节补零
-                Buffer.BlockCopy(Encoding.Default.GetBytes(textBox.Text), 0, newBytes, 0, Encoding.Default.GetBytes(textBox.Text).Length);
-                bool ret = UnitCore.Instance.NetCore.Send((int)ModuleType.FH, newBytes);
-                await
-                    MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame,
-                        newdialog);
-                var md = new MetroDialogSettings();
-                md.AffirmativeButtonText = "确定";
-                if (ret == false)
-                    await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "发送失败",
-                    UnitCore.Instance.NetCore.Error, MessageDialogStyle.Affirmative, md);
-                else
-                {
-                    App.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        if (MainFrameViewModel.pMainFrame != null)
-                        {
-                            if (UnitCore.Instance.WorkMode == MonitorMode.SHIP)
-                            {
-                                MainFrameViewModel.pMainFrame.MsgLog.Add(DateTime.Now.ToLongTimeString() + ":" + "(母船-跳频)" + textBox.Text);
-                            }
-                            else
-                            {
-                                MainFrameViewModel.pMainFrame.MsgLog.Add(DateTime.Now.ToLongTimeString() + ":" + "(潜器-跳频)" + textBox.Text);
-                            }
-                        }
-                            
-                    }));
-                }
-            }
-            
-        }
+        
 
         private async void CloseFh(object sender, RoutedEventArgs e)
         {
@@ -194,47 +155,7 @@ namespace LOUV.Torp.Monitor.Views
             bmp.UnlockBits(data);
             return bmp;
         }
-        private async void SendImg(object sender, RoutedEventArgs e)
-        {
-            var newdialog = (BaseMetroDialog)App.Current.MainWindow.Resources["SendImgDialog"];
-            var imgBox = newdialog.FindChild<System.Windows.Controls.Image>("SelectImageContainer");
-            var checkBox = newdialog.FindChild<System.Windows.Controls.CheckBox>("CropImgChk");
-            var cropimgBox = newdialog.FindChild<System.Windows.Controls.Image>("cropimg");
-            if(imgBox.Source==null)
-                return;
-            var img = new System.Windows.Controls.Image();
-            bool bload = false;
-            if (checkBox.IsChecked == true)
-            {
-                img.Source = cropimgBox.Source;
-                UnitCore.Instance.AddImgHandle(img);
-                //bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)cropimgBox.Source));
-            }
-            else
-            {
-                img.Source = imgBox.Source;
-                UnitCore.Instance.AddImgHandle(img);
-                //bload = Jp2KConverter.LoadImage(WpfImageSourceToBitmap((BitmapSource)imgBox.Source));
-            }/*
-            if (bload)
-            {
-                var buf = Jp2KConverter.SaveJp2K(UnitCore.Instance.MovConfigueService.MyExecPath +
-                                                 "\\" + "encode.jpc");
-                if (buf != null)
-                {
-                    ACM4500Protocol.UwvdataPool.Add(buf, MovDataType.IMAGE);
-                    await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame,
-                    (BaseMetroDialog)App.Current.MainWindow.Resources["SendImgDialog"]);
-                }
-                else
-                {
-                    var md = new MetroDialogSettings();
-                    md.AffirmativeButtonText = "确定";
-                    await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "发送失败",
-                        "未成功创建压缩图像数据", MessageDialogStyle.Affirmative, md);
-                }
-            }*/
-        }
+        
 
         private async void CloseImg(object sender, RoutedEventArgs e)
         {

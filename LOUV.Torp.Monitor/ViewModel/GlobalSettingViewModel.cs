@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using LOUV.Torp.MonP;
+
 using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.Monitor.Events;
 using MahApps.Metro.Controls.Dialogs;
@@ -21,7 +21,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         private bool bInitial = false;
         public override void Initialize()
         {
-            FetchingVersion = RegisterCommand(ExecuteFetchingVersion, CanExecuteFetchingVersion, true);
+            
             LinkCheckCommand = RegisterCommand(ExecuteLinkCheckCommand, CanExecuteLinkCheckCommand, true);
             LinkUnCheckCommand = RegisterCommand(ExecuteLinkUnCheckCommand, CanExecuteLinkUnCheckCommand, true);
             SaveConfig = RegisterCommand(ExecuteSaveConfig, CanExecuteSaveConfig, true);
@@ -39,33 +39,16 @@ namespace LOUV.Torp.Monitor.ViewModel
             bInitial = false;
             if(!UnitCore.Instance.LoadConfiguration())
                 return;
-            var conf = UnitCore.Instance.MovConfigueService.GetCommConfInfo();
-            SelectMode = (int) UnitCore.Instance.WorkMode;
+            var conf = UnitCore.Instance.MovConfigueService.GetNet();
+            
             if (conf != null)
             {
-                ShipIpAddr = UnitCore.Instance.MovConfigueService.GetShipIP();
-                UWVIpAddr = UnitCore.Instance.MovConfigueService.GetUWVIP();
-                XmtIndex = int.Parse(UnitCore.Instance.MovConfigueService.GetXmtChannel()) - 1;
-                XMTValue = float.Parse(UnitCore.Instance.MovConfigueService.GetXmtAmp());
-                SelectGMode = (int)UnitCore.Instance.MovConfigueService.GetGMode();
-                Gain = int.Parse(UnitCore.Instance.MovConfigueService.GetGain());
+                
             }
             if (UnitCore.Instance.NetCore.IsTCPWorking)
             {
                 
                 
-                if (SelectMode==0&&ShipIpAddr == conf.LinkIP)
-                {
-                    ShipConnected = true;
-                    UWVConnected = false;
-                }
-                else if(SelectMode==1&&UWVIpAddr==conf.LinkIP)
-                {
-                    UWVConnected = true;
-                    ShipConnected = false;
-                }
-                TaskEx.Delay(100);
-                ExecuteFetchingVersion(null, null);
             }
             else
             {
@@ -230,40 +213,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             UWVConnected = false;
             ShipConnected = false;
         }
-        public ICommand FetchingVersion
-        {
-            get { return GetPropertyValue(() => FetchingVersion); }
-            set { SetPropertyValue(() => FetchingVersion, value); }
-        }
-
-
-        public void CanExecuteFetchingVersion(object sender, CanExecuteRoutedEventArgs eventArgs)
-        {
-            eventArgs.CanExecute = true;
-        }
-
-
-        public async void ExecuteFetchingVersion(object sender, ExecutedRoutedEventArgs eventArgs)
-        {
-            IsFetching = true;
-            RefreshVisble = Visibility.Collapsed;
-            //fetch data...
-            if (UnitCore.Instance.NetCore.IsTCPWorking)
-            {
-                await UnitCore.Instance.NetCore.SendConsoleCMD("ver");
-                await TaskEx.Delay(800);//等待接收DSP反馈的版本信息
-                Version = UnitCore.Instance.Version;
-
-            }
-            else
-            {
-                IsFetching = false;
-                RefreshVisble = Visibility.Visible;
-            }
-            IsFetching = false;
-            RefreshVisble = Visibility.Visible;
-        }
-
+       
         public ICommand SaveConfig
         {
             get { return GetPropertyValue(() => SaveConfig); }
@@ -280,7 +230,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         public async void ExecuteSaveConfig(object sender, ExecutedRoutedEventArgs eventArgs)
         {
             Save();
-            UnitCore.Instance.WorkMode = (MonitorMode) Enum.Parse(typeof (MonitorMode), SelectMode.ToString());
+            
             UnitCore.Instance.LoadConfiguration();
             var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
             dialog.Title = "设置";
@@ -302,69 +252,10 @@ namespace LOUV.Torp.Monitor.ViewModel
                     EventAggregator.PublishMessage(new LogEvent("读取配置出错！", LogType.Both));
                     return;
                 }
-                if (SelectMode != (int)UnitCore.Instance.MovConfigueService.GetMode())
-                {
-                    EventAggregator.PublishMessage(new LogEvent("修改运行模式前请先停止当前连接！", LogType.Both));
-                    return;
-                }
-                if (ShipConnected && ShipIpAddr != UnitCore.Instance.MovConfigueService.GetShipIP())
-                {
-                    EventAggregator.PublishMessage(new LogEvent("修改母船网络地址前请先停止当前连接！", LogType.Both));
-                    return;
-                }
-                if (UWVConnected && UWVIpAddr != UnitCore.Instance.MovConfigueService.GetUWVIP())
-                {
-                    EventAggregator.PublishMessage(new LogEvent("修改潜器网络地址前请先停止当前连接！", LogType.Both));
-                    return;
-                }
+                
             }
-            if(SelectMode != (int)UnitCore.Instance.MovConfigueService.GetMode())//不同的模式才要重新保存
-            {
-                var ret =
-                    UnitCore.Instance.MovConfigueService.SetMode(
-                        (MonitorMode) Enum.Parse(typeof (MonitorMode), SelectMode.ToString()));
-                if (ret == false)
-                {
-                    EventAggregator.PublishMessage(new LogEvent("保存运行模式出错！", LogType.Both));
-                    return;
-                }
-                /*ret =
-                    UnitCore.Instance.MonTraceService.SetMode(
-                        (MonitorMode) Enum.Parse(typeof (MonitorMode), SelectMode.ToString()));
-                if (ret == false)
-                {
-                    EventAggregator.PublishMessage(new LogEvent("数据保存服务设置出错！", LogType.Both));
-                    return;
-                }*/
-                ACM4500Protocol.Init(UnitCore.Instance.MovConfigueService.GetOASID(), (MonitorMode)Enum.Parse(typeof(MonitorMode), SelectMode.ToString()));
-            }
-            IPAddress ip;
-            if (IPAddress.TryParse(ShipIpAddr, out ip) == false)
-            {
-                EventAggregator.PublishMessage(new LogEvent("母船通信机网络地址非法！", LogType.OnlyInfo));
-                return;
-            }
-            if (IPAddress.TryParse(UWVIpAddr, out ip) == false)
-            {
-                EventAggregator.PublishMessage(new LogEvent("潜器通信机网络地址非法！", LogType.OnlyInfo));
-                return;
-            }
-            bool result = (UnitCore.Instance.MovConfigueService.SetShipIP(ShipIpAddr) &&
-                   UnitCore.Instance.MovConfigueService.SetUWVIP(UWVIpAddr));
-            if (result == false)
-            {
-                EventAggregator.PublishMessage(new LogEvent("保存网络地址出错", LogType.Both));
-                return;
-            }
-            var ans = UnitCore.Instance.MovConfigueService.SetXmtChannel(XmtIndex + 1) &&
-                  UnitCore.Instance.MovConfigueService.SetXmtAmp(XMTValue) &&
-                  UnitCore.Instance.MovConfigueService.SetGMode((MonitorGMode)Enum.Parse(typeof(MonitorGMode), SelectGMode.ToString())) &&
-                  UnitCore.Instance.MovConfigueService.SetGain(Gain);
-            if (ans == false)
-            {
-                EventAggregator.PublishMessage(new LogEvent("保存参数出错", LogType.Both));
-                return;
-            }
+            
+            
         }
 
         private void ReConnectToDSP()

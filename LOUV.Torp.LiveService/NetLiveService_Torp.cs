@@ -14,14 +14,14 @@ using LOUV.Torp.CommLib.TCP;
 using LOUV.Torp.CommLib.UDP;
 namespace LOUV.Torp.LiveService
 {
-    public class NetLiveService_ACN:INetCore
+    public class NetLiveService_Torp:INetCore
     {
         private readonly static object SyncObject = new object();
         private static INetCore _netInstance;
         private ITCPClientService _tcpShellService;
         private ITCPClientService _tcpDataService;
 
-        private TcpClient _shelltcpClient;
+        private TcpClient _cmdtcpClient;
         private TcpClient _datatcpClient;
 
         //udp网络
@@ -29,19 +29,19 @@ namespace LOUV.Torp.LiveService
         private UdpClient _udpDataClient;
         private IUDPService _udpTraceService;
         private IUDPService _udpDataService;
-        private CommConfInfo _commConf;
+        private CommNet _commConf;
         private Observer<CustomEventArgs> _DataObserver;
         public string Error { get; set; }
         public bool IsInitialize { get; set; }
         public bool IsWorking{ get; set; }
         public int SendBytes { get; set; }
 
-        public static INetCore GetInstance(CommConfInfo conf, Observer<CustomEventArgs> observer)
+        public static INetCore GetInstance(CommNet conf, Observer<CustomEventArgs> observer)
         {
             lock (SyncObject)
             {
                 if (conf!=null)
-                    return _netInstance ?? (_netInstance = new NetLiveService_ACN(conf, observer));
+                    return _netInstance ?? (_netInstance = new NetLiveService_Torp(conf, observer));
                 else
                 {
                     return null;
@@ -66,7 +66,7 @@ namespace LOUV.Torp.LiveService
             return false;
         }
 
-        protected NetLiveService_ACN(CommConfInfo conf,Observer<CustomEventArgs> observer)
+        protected NetLiveService_Torp(CommNet conf, Observer<CustomEventArgs> observer)
         {
             _commConf = conf;
             _DataObserver = observer;
@@ -134,17 +134,17 @@ namespace LOUV.Torp.LiveService
             {
                 throw new Exception("服务已初始化");
             }
-            _shelltcpClient = new TcpClient { SendTimeout = 1000 };
+            _cmdtcpClient = new TcpClient { SendTimeout = 1000 };
             _datatcpClient = new TcpClient { SendTimeout = 1000 };
-            if (!TCPShellService.Init(_shelltcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.NetPort1) ||
-                (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.NetPort2)))
-                throw new Exception("通信网络初始化失败,请检查网络连接状态并重启程序");
+            //if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.CmdPort) ||
+            //    (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.DataPort)))
+            //    throw new Exception("通信网络初始化失败,请检查网络连接状态并重启程序");
             //if (_udpTraceClient == null)
-                _udpTraceClient = new UdpClient(_commConf.TraceUDPPort);
-            if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("调试广播网络初始化失败");
+                _udpTraceClient = new UdpClient(_commConf.RecvPort);
+            if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
             //if (_udpDataClient == null)
-                _udpDataClient = new UdpClient(_commConf.DataUDPPort);
-            if (!UDPDataService.Init(_udpDataClient)) throw new Exception("调试数据网络初始化失败");
+                _udpDataClient = new UdpClient(_commConf.BroadPort);
+            if (!UDPDataService.Init(_udpDataClient)) throw new Exception("数据广播网络初始化失败");
             IsInitialize = true;
         }
 
@@ -179,7 +179,7 @@ namespace LOUV.Torp.LiveService
 
         public Task<bool> SendConsoleCMD(string cmd)
         {
-                var shellcmd = new ACNTCPShellCommand(_shelltcpClient, cmd);
+                var shellcmd = new ACNTCPShellCommand(_cmdtcpClient, cmd);
                 return Command.SendTCPAsync(shellcmd);
         }
 
@@ -229,7 +229,7 @@ namespace LOUV.Torp.LiveService
                     break;
 
             }
-            var shellcmd = new ACNTCPShellCommand(_shelltcpClient, "gd" + argu);
+            var shellcmd = new ACNTCPShellCommand(_cmdtcpClient, "gd" + argu);
             var ret = Command.SendTCPAsync(shellcmd);
             if(await ret)
             {
@@ -244,16 +244,6 @@ namespace LOUV.Torp.LiveService
             return false;
         }
 
-        public async Task<bool> ResetMechan()
-        {
-            var shellcmd = new ACNTCPShellCommand(_shelltcpClient, "boot");
-            var ret = Command.SendTCPAsync(shellcmd);
-            if (await ret)
-            {
-                return true;
-            }
-            return false;
-        }
 
         private void reportprogress(int i)
         {

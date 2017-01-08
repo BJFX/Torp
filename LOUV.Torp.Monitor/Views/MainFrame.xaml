@@ -44,7 +44,7 @@
                 <UniformGrid>
                     <Button Style="{DynamicResource SquareButtonStyle}"
 							Margin="5"
-							Content="发送" Click="SendFH"/>
+							Content="发送" />
                     <Button Style="{DynamicResource SquareButtonStyle}"
 							Margin="5"
 							Content="取消" Click="CloseFh"/>
@@ -64,10 +64,10 @@
                 <UniformGrid Columns="3">
                     <Button Style="{DynamicResource SquareButtonStyle}"
 							Margin="5"
-							Content="浏览" Click="SelectImg"/>
+							Content="浏览" />
                     <Button Style="{DynamicResource SquareButtonStyle}"
 							Margin="5"
-							Content="发送" Click="SendImg"/>
+							Content="发送" />
                     <Button Style="{DynamicResource SquareButtonStyle}"
 							Margin="5"
 							Content="取消" Click="CloseImg"/>
