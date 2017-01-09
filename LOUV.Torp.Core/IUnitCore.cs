@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Dynamic;
+using System.IO;
 using LOUV.Torp.CommLib;
 //using LOUV.Torp.DAL;
 using TinyMetroWpfLibrary.EventAggregation;
@@ -32,9 +33,10 @@ namespace LOUV.Torp.ICore
     public interface IMonNetCore : ICore
     {
         //TCP客户端接收数据服务
-        ITCPClientService GetTCPDataService(int id);
-        //TCP客户端shell服务
-        ITCPClientService GetTCPCmdService(int id);
+        ITCPClientService TCPShellService { get; }
+
+    //TCP客户端shell服务
+        ITCPClientService TCPDataService { get; }
 
         Task<bool> SendConsoleCMD(string cmd);
 
@@ -44,6 +46,16 @@ namespace LOUV.Torp.ICore
         Task<bool> Listening();
         int SendBytes { get; }
         Observer<CustomEventArgs> NetDataObserver { get; }
+
+        void StopUDPService();
+
+        void StopTCpService();
+
+        void StartTCPService();
+
+        bool IsUDPWorking { get; set; }
+
+        bool IsTCPWorking { get; set; }
     }
     public interface ICommCore:ICore
     {

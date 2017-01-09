@@ -15,6 +15,7 @@ namespace LOUV.Torp.BaseType
 
     public class CommNet
     {
+        public string IP { get; set; }
         public int CmdPort { get; set; }
         public int DataPort { get; set; }
         public int BroadPort { get; set; }

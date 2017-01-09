@@ -136,9 +136,9 @@ namespace LOUV.Torp.LiveService
             }
             _cmdtcpClient = new TcpClient { SendTimeout = 1000 };
             _datatcpClient = new TcpClient { SendTimeout = 1000 };
-            //if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.CmdPort) ||
-            //    (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.LinkIP), _commConf.DataPort)))
-            //    throw new Exception("通信网络初始化失败,请检查网络连接状态并重启程序");
+            if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.IP), _commConf.CmdPort) ||
+                (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.IP), _commConf.DataPort)))
+                throw new Exception("通信网络初始化失败,请检查网络连接状态并重启程序");
             //if (_udpTraceClient == null)
                 _udpTraceClient = new UdpClient(_commConf.RecvPort);
             if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
@@ -256,6 +256,54 @@ namespace LOUV.Torp.LiveService
         public Task<bool> BroadCast(byte[] buf)
         {
             throw new NotImplementedException();
+        }
+
+
+        public Task<bool> Listening()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        void IMonNetCore.StopUDPService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopTCpService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartTCPService()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool IsUDPWorking
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        public bool IsTCPWorking
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

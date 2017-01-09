@@ -82,6 +82,12 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Net", "RecvPort" };
             return int.Parse(GetValue(str));
         }
+
+        protected string GetNetIP()
+        {
+            string[] str = { "Net", "IP" };
+            return GetValue(str);
+        }
         public CommGPS GetGPS()
         {
             var gpscomm = new CommGPS();
@@ -104,13 +110,14 @@ namespace LOUV.Torp.MonitorConf
             var netcomm = new CommNet();
             try
             {
+                netcomm.IP = GetNetIP();
                 netcomm.CmdPort = GetNetCmdPort();
                 netcomm.DataPort = GetNetDataPort();
                 netcomm.BroadPort = GetNetBroadPort();
                 netcomm.RecvPort = GetNetRecvPort();
                 return netcomm;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }
