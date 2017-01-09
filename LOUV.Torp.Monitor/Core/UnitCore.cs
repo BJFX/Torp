@@ -41,7 +41,7 @@ namespace LOUV.Torp.Monitor.Core
         //事件绑定接口，用于事件广播
         private IEventAggregator _eventAggregator;
         //网络服务接口
-        private INetCore _iNetCore;
+        private IMonNetCore _iNetCore;
         //串口服务接口，如果有
         private ICommCore _iCommCore;
         //文件服务接口
@@ -115,7 +115,7 @@ namespace LOUV.Torp.Monitor.Core
 
 
 
-        public INetCore NetCore
+        public IMonNetCore NetCore
         {
             get { return _iNetCore ?? (_iNetCore = NetLiveService_Torp.GetInstance(_MonConfInfo, Observer)); }
         }

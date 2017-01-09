@@ -14,7 +14,7 @@ namespace LOUV.Torp.Monitor.Models
         {
             get
             {
-                if (UnitCore.Instance.NetCore!=null&&UnitCore.Instance.NetCore.IsTCPWorking)
+                if (UnitCore.Instance.NetCore!=null&&UnitCore.Instance.NetCore.IsWorking)
                     return Properties.Resources.NETWORK_OK;
                 return Properties.Resources.NETWORK_DOWN;
             }

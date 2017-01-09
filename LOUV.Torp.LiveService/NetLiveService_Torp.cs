@@ -14,10 +14,10 @@ using LOUV.Torp.CommLib.TCP;
 using LOUV.Torp.CommLib.UDP;
 namespace LOUV.Torp.LiveService
 {
-    public class NetLiveService_Torp:INetCore
+    public class NetLiveService_Torp : IMonNetCore
     {
         private readonly static object SyncObject = new object();
-        private static INetCore _netInstance;
+        private static IMonNetCore _netInstance;
         private ITCPClientService _tcpShellService;
         private ITCPClientService _tcpDataService;
 
@@ -36,7 +36,7 @@ namespace LOUV.Torp.LiveService
         public bool IsWorking{ get; set; }
         public int SendBytes { get; set; }
 
-        public static INetCore GetInstance(CommNet conf, Observer<CustomEventArgs> observer)
+        public static IMonNetCore GetInstance(CommNet conf, Observer<CustomEventArgs> observer)
         {
             lock (SyncObject)
             {

@@ -28,37 +28,22 @@ namespace LOUV.Torp.ICore
         string Error { get; set; }
     }
 
-    public interface INetCore:ICore
+
+    public interface IMonNetCore : ICore
     {
-        
         //TCP客户端接收数据服务
-        ITCPClientService TCPDataService { get; }
+        ITCPClientService GetTCPDataService(int id);
         //TCP客户端shell服务
-        ITCPClientService TCPShellService { get; }
+        ITCPClientService GetTCPCmdService(int id);
 
         Task<bool> SendConsoleCMD(string cmd);
 
-        Task <bool> SendCMD(byte[] buf);
-        Task<bool> DownloadFile(Stream file,DownLoadFileType type);
+        Task<bool> SendCMD(byte[] buf);
+        Task<bool> DownloadFile(Stream file, DownLoadFileType type);
         Task<bool> BroadCast(byte[] buf);
-        int SendBytes { get;}
-        /// <summary>
-        /// 数据观察类，主要负责数据的解析和保存
-        /// </summary>
+        Task<bool> Listening();
+        int SendBytes { get; }
         Observer<CustomEventArgs> NetDataObserver { get; }
-
-    }
-
-    //add some apis to send specific id data:FH,FSK,PSK,OFDM,SSB and start special service
-    public interface IMovNetCore : INetCore
-    {
-        bool StartUDPService();
-        bool StartTCPService();
-        void StopUDPService();
-        void StopTCpService();
-        bool Send(int id, byte[] buf);
-        bool IsUDPWorking { get; }//
-        bool IsTCPWorking { get; }
     }
     public interface ICommCore:ICore
     {

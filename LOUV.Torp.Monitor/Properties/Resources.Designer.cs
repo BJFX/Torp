@@ -22,14 +22,14 @@ namespace LOUV.Torp.Monitor.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -61,7 +61,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 版本号 2.0 的本地化字符串。
+        ///   查找类似 版本号 1.0 的本地化字符串。
         /// </summary>
         internal static string About_Version {
             get {
@@ -79,7 +79,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 保存 的本地化字符串。
+        ///   查找类似 保存结果 的本地化字符串。
         /// </summary>
         internal static string AppBarButton_SaveResult {
             get {
@@ -115,7 +115,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 4500米载人潜器水声通信机-全局设置 的本地化字符串。
+        ///   查找类似 水声监控平台设置 的本地化字符串。
         /// </summary>
         internal static string GLOBALSETTING_Title_Top {
             get {
@@ -124,7 +124,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 水声通信机 的本地化字符串。
+        ///   查找类似 多点水声监控平台 的本地化字符串。
         /// </summary>
         internal static string Home_Brand {
             get {
@@ -133,7 +133,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 海洋声学技术实验室 的本地化字符串。
+        ///   查找类似 智能声制导实验室 的本地化字符串。
         /// </summary>
         internal static string Home_Brand_LOAT {
             get {
@@ -160,7 +160,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 水声通信 的本地化字符串。
+        ///   查找类似 实时通信 的本地化字符串。
         /// </summary>
         internal static string Home_Tile_Live {
             get {
@@ -178,7 +178,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 4500米载人潜器声学主控程序 的本地化字符串。
+        ///   查找类似 多点浮标水声监控系统 的本地化字符串。
         /// </summary>
         internal static string Home_Title_ApplicationName {
             get {
@@ -187,7 +187,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 4500米载人潜器水声通信机-实时通信 的本地化字符串。
+        ///   查找类似 水声监控平台设置-实时监控 的本地化字符串。
         /// </summary>
         internal static string Live_Title_Top {
             get {
@@ -196,7 +196,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 载人潜器声学主控程序 的本地化字符串。
+        ///   查找类似 水声监控系统程序 的本地化字符串。
         /// </summary>
         internal static string Mov4500_ApplicationName {
             get {
@@ -205,7 +205,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 载人潜器声学主控程序正在运行 的本地化字符串。
+        ///   查找类似 水声监控系统正在运行 的本地化字符串。
         /// </summary>
         internal static string Mov4500_RUNNING {
             get {
@@ -241,7 +241,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 通信机显控程序 的本地化字符串。
+        ///   查找类似 水声监控系统 的本地化字符串。
         /// </summary>
         internal static string SPLASH_BAND {
             get {
@@ -250,7 +250,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 与中国科学院声学研究所水声通信机配套使用 的本地化字符串。
+        ///   查找类似 多浮标水声监控监测系统 的本地化字符串。
         /// </summary>
         internal static string SPLASH_BAND_DESCRIPTION {
             get {
@@ -259,7 +259,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 海洋声学技术实验室 的本地化字符串。
+        ///   查找类似 智能声制导实验室 的本地化字符串。
         /// </summary>
         internal static string SPLASH_COMPANY_NAME {
             get {
@@ -268,7 +268,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似  © 2016 中国科学院声学研究所  的本地化字符串。
+        ///   查找类似  © 2017 中国科学院声学研究所  的本地化字符串。
         /// </summary>
         internal static string SPLASH_COPY_RIGHT {
             get {
@@ -277,7 +277,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 4500米载人潜器声学显控 的本地化字符串。
+        ///   查找类似 水声监控平台 的本地化字符串。
         /// </summary>
         internal static string SPLASH_PRODUCT_NAME {
             get {
@@ -295,7 +295,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Version 2.0 的本地化字符串。
+        ///   查找类似 Version 1.0 的本地化字符串。
         /// </summary>
         internal static string SPLASH_VERSION {
             get {
@@ -304,7 +304,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 2.0 的本地化字符串。
+        ///   查找类似 1.0 的本地化字符串。
         /// </summary>
         internal static string Version_Number {
             get {
