@@ -26,15 +26,16 @@ namespace LOUV.Torp.LiveService
 
         //udp网络
         private UdpClient _udpTraceClient;
-        private UdpClient _udpDataClient;
+        private UdpClient _udpBroadClient;
         private IUDPService _udpTraceService;
-        private IUDPService _udpDataService;
+        private UDPBaseComm _udpBroadCaster;
         private CommNet _commConf;
         private Observer<CustomEventArgs> _DataObserver;
         public string Error { get; set; }
         public bool IsInitialize { get; set; }
         public bool IsWorking{ get; set; }
         public int SendBytes { get; set; }
+        public UdpClient UDPBroadCaster { get; set; }
 
         public static IMonNetCore GetInstance(CommNet conf, Observer<CustomEventArgs> observer)
         {
@@ -55,13 +56,6 @@ namespace LOUV.Torp.LiveService
             _DataObserver = observer;
         }
 
-        public IUDPService UDPDataService
-        {
-            get
-            {
-                return _udpDataService ?? (_udpDataService = (new UDPDataServiceFactory()).CreateService());
-            }
-        }
         public IUDPService UDPTraceService
         {
             get
@@ -91,14 +85,14 @@ namespace LOUV.Torp.LiveService
             TCPShellService.Stop();
 
             TCPDataService.UnRegister(NetDataObserver);
-            TCPDataService.Stop();
+           TCPDataService.Stop();
         }
         public bool StartUDPService()
         {
             if (!UDPTraceService.Start()) return false;
             UDPTraceService.Register(NetDataObserver);
-            if (!UDPDataService.Start()) return false;
-            UDPDataService.Register(NetDataObserver);
+            //if (!UDPDataService.Start()) return false;
+            //UDPDataService.Register(NetDataObserver);
             return true;
         }
 
@@ -106,8 +100,8 @@ namespace LOUV.Torp.LiveService
         {
             UDPTraceService.Stop();
             UDPTraceService.UnRegister(NetDataObserver);
-            UDPDataService.Stop();
-            UDPDataService.UnRegister(NetDataObserver);
+            //UDPDataService.Stop();
+            //UDPDataService.UnRegister(NetDataObserver);
         }
 
         public ITCPClientService TCPDataService
@@ -146,12 +140,12 @@ namespace LOUV.Torp.LiveService
             if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.IP), _commConf.CmdPort) ||
                 (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.IP), _commConf.DataPort)))
                 throw new Exception("网络初始化失败,请检查网络连接状态并重启程序");
-            //if (_udpTraceClient == null)
+         
                 _udpTraceClient = new UdpClient(_commConf.RecvPort);
             if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
-            //if (_udpDataClient == null)
-                _udpDataClient = new UdpClient(_commConf.BroadPort);
-            if (!UDPDataService.Init(_udpDataClient)) throw new Exception("数据广播网络初始化失败");
+           
+                _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
+            _udpBroadClient.EnableBroadcast = true;
             IsInitialize = true;
         }
 
@@ -256,45 +250,18 @@ namespace LOUV.Torp.LiveService
 
 
 
-        public Task<bool> BroadCast(byte[] buf)
+        public int BroadCast(byte[] buf)
         {
-            throw new NotImplementedException();
+            return UDPBroadCaster.Send(buf, buf.Length, IPAddress.Broadcast.ToString(), _commConf.BroadPort);
         }
-
-
-        public Task<bool> Listening()
-        {
-            throw new NotImplementedException();
-        }
-
 
         
 
        
 
-        public bool IsUDPWorking
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool IsUDPWorking { get; set; }
 
 
-        public bool IsTCPWorking
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool IsTCPWorking { get; set; }
     }
 }

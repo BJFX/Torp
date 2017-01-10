@@ -162,10 +162,10 @@
   <data name="Live_Title_Top" xml:space="preserve">
     <value>水声监控平台设置-实时监控</value>
   </data>
-  <data name="Mov4500_ApplicationName" xml:space="preserve">
+  <data name="Mon_ApplicationName" xml:space="preserve">
     <value>水声监控系统程序</value>
   </data>
-  <data name="Mov4500_RUNNING" xml:space="preserve">
+  <data name="Mon_RUNNING" xml:space="preserve">
     <value>水声监控系统正在运行</value>
   </data>
   <data name="NETWORK_DOWN" xml:space="preserve">

@@ -32,18 +32,16 @@ namespace LOUV.Torp.ICore
 
     public interface IMonNetCore : ICore
     {
-        //TCP客户端接收数据服务
+
         ITCPClientService TCPShellService { get; }
 
-    //TCP客户端shell服务
         ITCPClientService TCPDataService { get; }
 
         Task<bool> SendConsoleCMD(string cmd);
 
         Task<bool> SendCMD(byte[] buf);
         Task<bool> DownloadFile(Stream file, DownLoadFileType type);
-        Task<bool> BroadCast(byte[] buf);
-        Task<bool> Listening();
+        int BroadCast(byte[] buf);
         int SendBytes { get; }
         Observer<CustomEventArgs> NetDataObserver { get; }
         bool StartUDPService();

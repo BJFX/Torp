@@ -198,18 +198,18 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控系统程序 的本地化字符串。
         /// </summary>
-        internal static string Mov4500_ApplicationName {
+        internal static string Mon_ApplicationName {
             get {
-                return ResourceManager.GetString("Mov4500_ApplicationName", resourceCulture);
+                return ResourceManager.GetString("Mon_ApplicationName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 水声监控系统正在运行 的本地化字符串。
         /// </summary>
-        internal static string Mov4500_RUNNING {
+        internal static string Mon_RUNNING {
             get {
-                return ResourceManager.GetString("Mov4500_RUNNING", resourceCulture);
+                return ResourceManager.GetString("Mon_RUNNING", resourceCulture);
             }
         }
         

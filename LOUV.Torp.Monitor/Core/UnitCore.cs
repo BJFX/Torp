@@ -56,6 +56,8 @@ namespace LOUV.Torp.Monitor.Core
 
         public Mutex ACMMutex { get; set; }//全局解析锁
 
+        public Model3D BuoyModel { get; set; }//buoy 模型
+        public Model3D ObjModel { get; set; }//目标模型
         public Hashtable BuyoArray = new Hashtable();//store buoy objects
         public MonTraceService MonTraceService
         {
@@ -90,10 +92,17 @@ namespace LOUV.Torp.Monitor.Core
             if (buoypath == null)
                 throw new Exception("未找到3D组件！");
             buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
-            CurrentModel = await LoadAsync(buoypath, false);
-            if (CurrentModel == null)
+            BuoyModel = await LoadAsync(buoypath, false);
+            if (BuoyModel == null)
+                throw new Exception("加载浮标组件失败！");
+            var objpath = _monConf.GetModelPath("OBJ");
+            if (objpath == null)
+                throw new Exception("未找到3D组件！");
+            objpath = _monConf.MyExecPath + "\\" + objpath;//found
+            ObjModel = await LoadAsync(objpath, false);
+            if (ObjModel == null)
                 throw new Exception("加载模型组件失败！");
-
+            return true;
         }
         public bool LoadConfiguration()
         {
@@ -162,9 +171,9 @@ namespace LOUV.Torp.Monitor.Core
                 if(NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();
-                NetCore.Start();//只启动udp服务，tcp服务单独启动
+                if(!NetCore.StartUDPService())//只启动udp服务，tcp服务单独启动
                    
-                if(!MonTraceService.CreateService()) throw new Exception("数据保存服务启动失败");
+                if(!MonTraceService.CreateService()) throw new Exception("数据服务启动失败");
                 _serviceStarted = true;
                 Error = NetCore.Error;
                 return ServiceStarted;
@@ -238,8 +247,7 @@ namespace LOUV.Torp.Monitor.Core
         {
             get { return _serviceStarted; }
         }
-        public Buoy CurrentBuoy { get; set; }
-        public Buoy CurrentBuoy { get; set; }
+
         private async Task<Model3DGroup> LoadAsync(string model3DPath, bool freeze)
         {
             return await Task.Factory.StartNew(() =>

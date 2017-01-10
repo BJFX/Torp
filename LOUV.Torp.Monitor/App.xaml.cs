@@ -29,11 +29,11 @@ namespace LOUV.Torp.Monitor
         {
             //检查实例是否重复
             bool createdNew = false;
-            gMu = new Mutex(true, "Mov4500", out createdNew);
+            gMu = new Mutex(true, "Monitor", out createdNew);
             if (!createdNew)
             {
-                String strTitle = ResourcesHelper.TryFindResourceString("Mov4500_ApplicationName");
-                String strErrMsg = ResourcesHelper.TryFindResourceString("Mov4500_RUNNING");
+                String strTitle = ResourcesHelper.TryFindResourceString("Mon_ApplicationName");
+                String strErrMsg = ResourcesHelper.TryFindResourceString("Mon_RUNNING");
                 MessageBox.Show(strErrMsg, strTitle);
                 App.Current.Shutdown();
                 return;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LOUV.Torp.Monitor.Core
 {
-    class SettleSoundFile
+    public class SettleSoundFile
     {
         public int maxDepth = 13000;
         public int[] SVPd = new int[13000 + 31];
