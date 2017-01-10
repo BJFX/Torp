@@ -54,8 +54,8 @@ namespace LOUV.Torp.Monitor.Views
             Application.Current.MainWindow = this;
             TaskEx.Run(()=>UnitCore.Instance.Start());
             
-            //Kernel.Instance.Controller.NavigateToPage("Views/HomePageView.xaml");
-            Kernel.Instance.Controller.NavigateToPage("Views/LiveCaptureView.xaml");
+            Kernel.Instance.Controller.NavigateToPage("Views/HomePageView.xaml");
+            //Kernel.Instance.Controller.NavigateToPage("Views/LiveCaptureView.xaml");
             LOUV.Torp.Monitor.Helpers.LogHelper.WriteLog("开始工作");
             Splasher.CloseSplash();
             SwapMouseButton(false);//switch back

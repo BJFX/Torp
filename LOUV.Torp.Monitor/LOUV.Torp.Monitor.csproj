@@ -173,6 +173,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\SettleSoundFile.cs" />
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
     <Compile Include="Events\RefreshLog.cs" />
@@ -428,6 +429,15 @@
       <Project>{762a1a94-d438-43d8-8a9f-26e769ae7237}</Project>
       <Name>LOUV.Torp.Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\buoy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\torpedo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Satellite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

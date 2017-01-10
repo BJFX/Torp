@@ -48,23 +48,6 @@ namespace LOUV.Torp.LiveService
                 }
             }
         }
-        
-        /// <summary>
-        /// tcp数据交换初始化
-        /// </summary>
-        /// <param name="configure"></param>
-        /// <returns></returns>
-        private bool CreateTCPService()
-        {
-            // 同步方法，会阻塞进程，调用init用task
-            TCPShellService.ConnectSync();
-            TCPDataService.ConnectSync();
-            TCPShellService.Register(NetDataObserver);
-            TCPDataService.Register(NetDataObserver);
-            if (TCPShellService.Connected&&TCPShellService.Start()&&TCPDataService.Connected&&TCPDataService.Start())
-                return true;
-            return false;
-        }
 
         protected NetLiveService_Torp(CommNet conf, Observer<CustomEventArgs> observer)
         {
@@ -86,7 +69,31 @@ namespace LOUV.Torp.LiveService
                 return _udpTraceService ?? (_udpTraceService = (new UDPDebugServiceFactory()).CreateService());
             }
         }
-        private bool CreateUDPService()
+        /// <summary>
+        /// tcp数据交换初始化
+        /// </summary>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public bool StartTCPService()
+        {
+            // 同步方法，会阻塞进程，调用init用task
+            TCPShellService.ConnectSync();
+            TCPDataService.ConnectSync();
+            TCPShellService.Register(NetDataObserver);
+            TCPDataService.Register(NetDataObserver);
+            if (TCPShellService.Connected && TCPShellService.Start() && TCPDataService.Connected && TCPDataService.Start())
+                return true;
+            return false;
+        }
+        public void StopTCpService()
+        {
+            TCPShellService.UnRegister(NetDataObserver);
+            TCPShellService.Stop();
+
+            TCPDataService.UnRegister(NetDataObserver);
+            TCPDataService.Stop();
+        }
+        public bool StartUDPService()
         {
             if (!UDPTraceService.Start()) return false;
             UDPTraceService.Register(NetDataObserver);
@@ -94,13 +101,13 @@ namespace LOUV.Torp.LiveService
             UDPDataService.Register(NetDataObserver);
             return true;
         }
-        private bool StopUDPService()
+
+        public void StopUDPService()
         {
             UDPTraceService.Stop();
             UDPTraceService.UnRegister(NetDataObserver);
             UDPDataService.Stop();
             UDPDataService.UnRegister(NetDataObserver);
-            return true;
         }
 
         public ITCPClientService TCPDataService
@@ -138,7 +145,7 @@ namespace LOUV.Torp.LiveService
             _datatcpClient = new TcpClient { SendTimeout = 1000 };
             if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.IP), _commConf.CmdPort) ||
                 (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.IP), _commConf.DataPort)))
-                throw new Exception("通信网络初始化失败,请检查网络连接状态并重启程序");
+                throw new Exception("网络初始化失败,请检查网络连接状态并重启程序");
             //if (_udpTraceClient == null)
                 _udpTraceClient = new UdpClient(_commConf.RecvPort);
             if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
@@ -153,11 +160,7 @@ namespace LOUV.Torp.LiveService
             if (IsInitialize)
             {
 
-                TCPShellService.UnRegister(NetDataObserver);
-                TCPShellService.Stop();
-
-                TCPDataService.UnRegister(NetDataObserver);
-                TCPDataService.Stop();
+                StopTCpService();
                 StopUDPService();
 
 
@@ -171,8 +174,8 @@ namespace LOUV.Torp.LiveService
             IsWorking = false;
             if (_commConf == null || _DataObserver == null)
                 throw new Exception("网络通信无法设置");
-            if (!CreateTCPService()) throw new Exception("网络服务无法启动");
-            if (!CreateUDPService()) throw new Exception("启动广播网络失败");
+            if (!StartTCPService()) throw new Exception("网络服务无法启动");
+            if (!StartUDPService()) throw new Exception("启动广播网络失败");
             IsWorking = true;
         }
 
@@ -265,21 +268,9 @@ namespace LOUV.Torp.LiveService
         }
 
 
-        void IMonNetCore.StopUDPService()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public void StopTCpService()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartTCPService()
-        {
-            throw new NotImplementedException();
-        }
-
+       
 
         public bool IsUDPWorking
         {

@@ -23,8 +23,7 @@ using System.Windows.Media.Media3D;
 using System.Threading.Tasks;
 //using LOUV.Torp.WaveBox;
 using System.Net.NetworkInformation;
-using LOUV.Torp.MonitorConf;
-using LOUV.Torp.LiveService;
+
 namespace LOUV.Torp.Monitor.Core
 {
     /// <summary>
@@ -52,12 +51,12 @@ namespace LOUV.Torp.Monitor.Core
         private MonitorDataObserver _observer;
         private bool _serviceStarted;
         private CommNet _MonConfInfo;
-
+        public SettleSoundFile SoundFile = null;
         public string Error { get; private set; }
 
         public Mutex ACMMutex { get; set; }//全局解析锁
 
-
+        public Hashtable BuyoArray = new Hashtable();//store buoy objects
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
@@ -80,23 +79,53 @@ namespace LOUV.Torp.Monitor.Core
             PostMsgEvent_Tick=new AutoResetEvent(true);//定时器
 
         }
+        private async Task<bool> LoadAssets()
+        {
+            if(_monConf==null)
+            {
+                EventAggregator.PublishMessage(new LogEvent("配置没有初始化", LogType.Both));
+                return false;
+            }
+            var buoypath = _monConf.GetModelPath("Buoy");
+            if (buoypath == null)
+                throw new Exception("未找到3D组件！");
+            buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
+            CurrentModel = await LoadAsync(buoypath, false);
+            if (CurrentModel == null)
+                throw new Exception("加载模型组件失败！");
 
+        }
         public bool LoadConfiguration()
         {
             bool ret = true;
             try
             {
-                if (_monConf==null)
+                _monConf = MonConf.GetInstance();
+                _MonConfInfo = _monConf.GetNet();
+                if(_MonConfInfo==null)
                 {
-                    _monConf = MonConf.GetInstance();
-                    
+                    throw _monConf.ex;
+                }
+                if (_monConf.GetVelProfileName() != null)
+                {
+                    if (File.Exists(_monConf.GetVelProfileName()))
+                    {
+                        SoundFile = new SettleSoundFile(_monConf.GetVelProfileName());
+                    }
+                    else
+                    {
+                        EventAggregator.PublishMessage(new LogEvent("未找到预设声速梯度文件", LogType.Both));
+                    }
                 }
                 else
                 {
-                    _monConf = MonConf.GetInstance();
+                    EventAggregator.PublishMessage(new LogEvent("未配置声速梯度文件", LogType.OnlyLog));
                 }
-                _MonConfInfo = _monConf.GetNet();
- 
+                
+
+                _serviceStarted = true;//if failed never get here
+
+                return _serviceStarted;
     
             }
             catch (Exception ex)
@@ -127,9 +156,8 @@ namespace LOUV.Torp.Monitor.Core
             try
             {
                 NetworkChange.NetworkAvailabilityChanged += new
-            NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
+                NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
-                //
                 
                 if(NetCore.IsInitialize)
                     NetCore.Stop();
@@ -209,6 +237,19 @@ namespace LOUV.Torp.Monitor.Core
         public bool ServiceStarted
         {
             get { return _serviceStarted; }
+        }
+        public Buoy CurrentBuoy { get; set; }
+        public Buoy CurrentBuoy { get; set; }
+        private async Task<Model3DGroup> LoadAsync(string model3DPath, bool freeze)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                var mi = new ModelImporter();
+
+                // Alt 1. - freeze the model 
+                return mi.Load(model3DPath, null, true);
+
+            });
         }
     }
 }

@@ -11,7 +11,7 @@ namespace LOUV.Torp.Monitor.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var distance = (float)value;
-            if (distance != null)
+            if (distance != float.NaN)
             {
                 if (distance > 100)
                     return 150;

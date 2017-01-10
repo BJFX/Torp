@@ -46,12 +46,12 @@ namespace LOUV.Torp.ICore
         Task<bool> Listening();
         int SendBytes { get; }
         Observer<CustomEventArgs> NetDataObserver { get; }
-
+        bool StartUDPService();
         void StopUDPService();
 
         void StopTCpService();
 
-        void StartTCPService();
+        bool StartTCPService();
 
         bool IsUDPWorking { get; set; }
 

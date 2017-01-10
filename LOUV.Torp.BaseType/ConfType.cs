@@ -31,10 +31,15 @@ namespace LOUV.Torp.BaseType
             get { return "浮标-" + id.ToString("D2"); }
         }
         public int id { get; set; }
-        public string IP { get; set; }
         public string Memo { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
+        public float Range { get; set; }
+    }
+
+    public class Object
+    {
+
     }
 
     [Serializable]

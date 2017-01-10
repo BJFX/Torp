@@ -15,6 +15,7 @@ namespace LOUV.Torp.MonitorConf
 
         //配置文件
         private string xmldoc = "BasicConf.xml"; //const
+        public Exception ex { get; set; }
 
         public static MonConf GetInstance()
         {
@@ -28,6 +29,7 @@ namespace LOUV.Torp.MonitorConf
 
         protected MonConf()
         {
+            ex = null;
             MyExecPath = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName);
             xmldoc = MyExecPath + "\\" + xmldoc;
@@ -88,6 +90,11 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Net", "IP" };
             return GetValue(str);
         }
+        public bool SetNetIP(string newip)
+        {
+            string[] str = { "Net", "IP" };
+            return SetValue(str, newip);
+        }
         public CommGPS GetGPS()
         {
             var gpscomm = new CommGPS();
@@ -98,8 +105,9 @@ namespace LOUV.Torp.MonitorConf
                 gpscomm.GPSPort = GetGPSPort();
                 return gpscomm;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                ex = e;
                 return null;
             }
 
@@ -119,8 +127,34 @@ namespace LOUV.Torp.MonitorConf
             }
             catch (Exception e)
             {
+                ex = e;
                 return null;
             }
+        }
+        public string GetBuoyModel()
+        {
+            string[] str = { "Asset", "Buoy" };
+            return GetValue(str);
+        }
+        /// <summary>
+        /// model的相对路径
+        /// </summary>
+        /// <returns></returns>
+        public string GetModelPath(string name)
+        {
+            string[] str = { "Model", name };
+            return GetValue(str);
+        }
+
+        public string GetVelProfileName()
+        {
+            string[] str = { "Profile", "Name" };
+            return GetValue(str);
+        }
+        public bool SetVelProfileName(string filename)
+        {
+            string[] str = { "Profile", "Name" };
+            return SetValue(str, filename);
         }
     }
 }
