@@ -173,6 +173,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\MapCustom\BuoyMarker.xaml.cs">
+      <DependentUpon>BuoyMarker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapCustom\BuoyTip.xaml.cs">
+      <DependentUpon>BuoyTip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapCustom\InfoBoard.xaml.cs">
+      <DependentUpon>InfoBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapCustom\ObjectMarker.xaml.cs">
+      <DependentUpon>ObjectMarker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapCustom\ObjTip.xaml.cs">
+      <DependentUpon>ObjTip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\SettleSoundFile.cs" />
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
@@ -185,6 +200,26 @@
     <Compile Include="Views\GlobalSettingView.xaml.cs" />
     <Compile Include="Views\HomePageView.xaml.cs" />
     <Compile Include="Views\MainFrame.xaml.cs" />
+    <Page Include="Controls\MapCustom\BuoyMarker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MapCustom\BuoyTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MapCustom\InfoBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MapCustom\ObjectMarker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MapCustom\ObjTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TitleBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
