@@ -8,7 +8,7 @@ using LOUV.Torp.Monitor.Helpers;
 using DevExpress.Xpf.Core;
 using Microsoft.Win32;
 using System.Threading;
-using LOUV.Torp.Device;
+
 namespace LOUV.Torp.Monitor.Core
 {
     public class MonitorDataObserver:Observer<CustomEventArgs>

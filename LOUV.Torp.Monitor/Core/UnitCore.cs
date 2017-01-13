@@ -10,7 +10,6 @@ using System.Windows.Controls;
 //using LOUV.Torp.CommLib.Properties;
 using LOUV.Torp.CommLib.UDP;
 using LOUV.Torp.LiveService;
-using LOUV.Torp.TraceService;
 using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.CommLib;
 using LOUV.Torp.MonitorConf;

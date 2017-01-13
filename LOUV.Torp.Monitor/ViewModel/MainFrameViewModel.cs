@@ -10,7 +10,6 @@ using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.Monitor.Events;
 using LOUV.Torp.Monitor.Models;
 using LOUV.Torp.Monitor.Views;
-using DevExpress.Data.Async.Helpers;
 using TinyMetroWpfLibrary.Controller;
 using TinyMetroWpfLibrary.Events;
 using TinyMetroWpfLibrary.Frames;

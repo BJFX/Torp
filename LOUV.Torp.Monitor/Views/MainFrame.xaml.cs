@@ -9,9 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 using LOUV.Torp.Monitor.Events;
-using DevExpress.Charts.Native;
 using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Grid;
 using DevExpress.XtraPrinting.Native;
 //using ImageProc;
 using MahApps.Metro.Controls;
