@@ -33,7 +33,6 @@ namespace LOUV.Torp.LiveService
         private Observer<CustomEventArgs> _DataObserver;
         public string Error { get; set; }
         public bool IsInitialize { get; set; }
-        public bool IsWorking{ get; set; }
         public int SendBytes { get; set; }
         public UdpClient UDPBroadCaster { get; set; }
 
@@ -70,14 +69,20 @@ namespace LOUV.Torp.LiveService
         /// <returns></returns>
         public bool StartTCPService()
         {
+            IsTCPWorking = false;
             // 同步方法，会阻塞进程，调用init用task
             TCPShellService.ConnectSync();
             TCPDataService.ConnectSync();
             TCPShellService.Register(NetDataObserver);
             TCPDataService.Register(NetDataObserver);
-            if (TCPShellService.Connected && TCPShellService.Start() && TCPDataService.Connected && TCPDataService.Start())
-                return true;
-            return false;
+            if (TCPShellService.Connected && TCPShellService.Start() && TCPDataService.Connected &&
+                TCPDataService.Start())
+            {
+                IsTCPWorking = true;
+                return IsTCPWorking;
+            }
+                
+            return IsTCPWorking;
         }
         public void StopTCpService()
         {
@@ -86,14 +91,17 @@ namespace LOUV.Torp.LiveService
 
             TCPDataService.UnRegister(NetDataObserver);
            TCPDataService.Stop();
+            IsTCPWorking = false;
         }
         public bool StartUDPService()
         {
-            if (!UDPTraceService.Start()) return false;
+            IsUDPWorking = false;
+            if (!UDPTraceService.Start()) return IsUDPWorking;
             UDPTraceService.Register(NetDataObserver);
             //if (!UDPDataService.Start()) return false;
             //UDPDataService.Register(NetDataObserver);
-            return true;
+            IsUDPWorking = true;
+            return IsUDPWorking;
         }
 
         public void StopUDPService()
@@ -102,6 +110,7 @@ namespace LOUV.Torp.LiveService
             UDPTraceService.UnRegister(NetDataObserver);
             //UDPDataService.Stop();
             //UDPDataService.UnRegister(NetDataObserver);
+            IsUDPWorking = false;
         }
 
         public ITCPClientService TCPDataService
@@ -159,18 +168,18 @@ namespace LOUV.Torp.LiveService
 
 
             }
-            IsWorking = false;
+
             IsInitialize = false;
         }
 
         public void Start()
         {
-            IsWorking = false;
+            
             if (_commConf == null || _DataObserver == null)
                 throw new Exception("网络通信无法设置");
             if (!StartTCPService()) throw new Exception("网络服务无法启动");
             if (!StartUDPService()) throw new Exception("启动广播网络失败");
-            IsWorking = true;
+ 
         }
 
 
@@ -263,5 +272,18 @@ namespace LOUV.Torp.LiveService
 
 
         public bool IsTCPWorking { get; set; }
+
+
+        public bool IsWorking
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

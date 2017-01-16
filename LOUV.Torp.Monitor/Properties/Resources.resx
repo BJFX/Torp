@@ -136,13 +136,13 @@
     <value>串口服务正常</value>
   </data>
   <data name="GLOBALSETTING_Title_Top" xml:space="preserve">
-    <value>水声监控平台设置</value>
+    <value>多点水声监控平台设置</value>
   </data>
   <data name="Home_Brand" xml:space="preserve">
     <value>多点水声监控平台</value>
   </data>
   <data name="Home_Brand_LOAT" xml:space="preserve">
-    <value>智能声制导实验室</value>
+    <value>水下航行器信息技术重点实验室</value>
   </data>
   <data name="Home_Tile_Console" xml:space="preserve">
     <value>命令行模式</value>
@@ -181,16 +181,16 @@
     <value>水声监控系统</value>
   </data>
   <data name="SPLASH_BAND_DESCRIPTION" xml:space="preserve">
-    <value>多浮标水声监控监测系统</value>
+    <value>多点浮标通信、位置呈现、目标监控</value>
   </data>
   <data name="SPLASH_COMPANY_NAME" xml:space="preserve">
-    <value>智能声制导实验室</value>
+    <value>水下航行器信息技术重点实验室</value>
   </data>
   <data name="SPLASH_COPY_RIGHT" xml:space="preserve">
     <value> © 2017 中国科学院声学研究所 </value>
   </data>
   <data name="SPLASH_PRODUCT_NAME" xml:space="preserve">
-    <value>水声监控平台</value>
+    <value>水声监控主控程序</value>
   </data>
   <data name="SPLASH_RIGHT_RESERVER" xml:space="preserve">
     <value>版权所有</value>

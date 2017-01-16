@@ -17,11 +17,7 @@ namespace LOUV.Torp.Monitor.Helpers
             if (loginfo.IsInfoEnabled)
             {
                 loginfo.Info(info);
-                App.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    if (MainFrameViewModel.pMainFrame != null)
-                        MainFrameViewModel.pMainFrame.MsgLog.Add(DateTime.Now.ToLongTimeString() + ":" + info);
-                }));
+                
             }
         }
         /// <summary>
@@ -45,15 +41,7 @@ namespace LOUV.Torp.Monitor.Helpers
                 string errorMsg = BeautyErrorMsg(ex);
                 logerror.Error(errorMsg);
             }
-            App.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                if (MainFrameViewModel.pMainFrame != null)
-                {
-                    MainFrameViewModel.pMainFrame.MsgLog.Add(DateTime.Now.ToLongTimeString() + ":" + info);
-                    if (MainFrameViewModel.pMainFrame.MsgLog.Count > 200)
-                        MainFrameViewModel.pMainFrame.MsgLog.RemoveAt(0);
-                }
-            }));
+            
         }
         /// <summary>
         /// 美化错误信息

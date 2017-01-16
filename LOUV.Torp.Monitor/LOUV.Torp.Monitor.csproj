@@ -127,6 +127,7 @@
     <Compile Include="Controls\MapCustom\InfoBoard.xaml.cs">
       <DependentUpon>InfoBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MapCustom\Map.cs" />
     <Compile Include="Controls\MapCustom\ObjectMarker.xaml.cs">
       <DependentUpon>ObjectMarker.xaml</DependentUpon>
     </Compile>
@@ -173,10 +174,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -214,10 +211,6 @@
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\ResourcesHelper.cs" />
     <Compile Include="Helpers\TreeHelper.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Resources\ControlStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

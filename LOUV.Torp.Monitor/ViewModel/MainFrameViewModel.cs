@@ -27,28 +27,10 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             base.Initialize();
             pMainFrame = this;
-            MsgLog = new ObservableCollection<string>();
-            MsgLog.CollectionChanged+=MsgLog_CollectionChanged;
-            t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, RefreshStatus, Dispatcher.CurrentDispatcher);
-            Version = Properties.Resources.Version_Number;
-            BuildNo = Properties.Resources.Build_Number;
         }
 
-        private void RefreshStatus(object sender, EventArgs e)
-        {
-            NetworkStatus = Status.NetworkStatus;
-            LastUpdateTime = Status.LastUpdateTime;
-            ReceiveMsgCount = Status.ReceiveMsgCount.ToString();
-        }
-
-        private void MsgLog_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            base.OnPropertyChanged(() => MsgLog);
-            var bar = (ScrollViewer)((MainFrame)App.Current.MainWindow).scrollbar;
-            if (bar != null)
-                bar.ScrollToEnd();
-        }
-
+        
+        
         #region action
         internal void GoToGlobalSettings()
         {
@@ -64,6 +46,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         internal void ExitProgram()
         {
+            
             Application.Current.Shutdown();
         }
 
@@ -74,11 +57,7 @@ namespace LOUV.Torp.Monitor.ViewModel
 
         #endregion
         #region binding property
-        public ObservableCollection<string> MsgLog
-        {
-            get { return GetPropertyValue(() => MsgLog); }
-            set { SetPropertyValue(() => MsgLog, value); }
-        }
+        
         public IDialogCoordinator DialogCoordinator
         {
             get { return _dialogCoordinator; }
@@ -89,43 +68,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => AboutVisibility); }
             set { SetPropertyValue(() => AboutVisibility, value); }
         }
-        public string BuildNo
-        {
-            get { return GetPropertyValue(() => BuildNo); }
-            set { SetPropertyValue(() => BuildNo, value); }
-        }
 
-        public string Version
-        {
-            get { return GetPropertyValue(() => Version); }
-            set { SetPropertyValue(() => Version, value); }
-        }
-
-        public string NetworkStatus
-        {
-            get { return GetPropertyValue(() => NetworkStatus); }
-            set { SetPropertyValue(() => NetworkStatus, value); }
-        }
-        public string CommStatus
-        {
-            get { return GetPropertyValue(() => CommStatus); }
-            set { SetPropertyValue(() => CommStatus, value); }
-        }
-        
-
-        public string LastUpdateTime
-        {
-            get { return GetPropertyValue(() => LastUpdateTime); }
-            set { SetPropertyValue(() => LastUpdateTime, value); }
-        }
-
-        public string ReceiveMsgCount
-        {
-            get { return GetPropertyValue(() => ReceiveMsgCount); }
-            set { SetPropertyValue(() => ReceiveMsgCount, value); }
-        }
-
-        
         #endregion
 
     }
