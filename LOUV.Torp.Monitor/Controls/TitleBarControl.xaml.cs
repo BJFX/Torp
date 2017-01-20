@@ -26,8 +26,6 @@ namespace LOUV.Torp.Monitor.Controls
         public TitleBarControl()
         {
             InitializeComponent();
-            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromProperty(TitleBarControl.IsOpenProperty, typeof(TitleBarControl));
-            descriptor.AddValueChanged(this, new EventHandler(OnIsOpenChanged));
         }
 
         private MainFrameViewModel _vm;
@@ -43,25 +41,6 @@ namespace LOUV.Torp.Monitor.Controls
                 return _vm;
             }
         }
-
-
-
-        public bool IsOpen
-        {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
-        }
-
-        public void OnIsOpenChanged(object sender, EventArgs e)
-        {
-            if (fanpanel != null)
-            {
-                fanpanel.IsOpen = IsOpen;
-            }
-        }
-        // Using a DependencyProperty as the backing store for IsOpen.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(TitleBarControl), new PropertyMetadata(false));
 
 
         private Window _mainWindow;
@@ -81,10 +60,6 @@ namespace LOUV.Torp.Monitor.Controls
             VM.GoToGlobalSettings();
         }
 
-        private void ShowMore(object sender, RoutedEventArgs e)
-        {
-            this.IsOpen = true;
-        }
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
@@ -94,10 +69,7 @@ namespace LOUV.Torp.Monitor.Controls
         {
             VM.GoBack();
         }
-        private void GoCommandWin(object sender, RoutedEventArgs e)
-        {
-            VM.GoCommandWin();
-        }
+        
        
         private void Minimize(object sender, RoutedEventArgs e)
         {
@@ -113,8 +85,8 @@ namespace LOUV.Torp.Monitor.Controls
             md.AffirmativeButtonText = "退出";
             md.NegativeButtonText = "取消";
             md.ColorScheme = MetroDialogColorScheme.Accented;
-            var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "退出程序",
-                "真的要退出多点监控程序吗？", MessageDialogStyle.AffirmativeAndNegative, md);
+            var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "退出",
+                "真的要退出监控程序吗？", MessageDialogStyle.AffirmativeAndNegative, md);
             if (result == MessageDialogResult.Affirmative)
                 VM.ExitProgram();
         }
@@ -153,46 +125,9 @@ namespace LOUV.Torp.Monitor.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            this.Loaded += TitleBarControl_Loaded;
-            this.Unloaded += TitleBarControl_Unloaded;
      
         }
 
-        private void TitleBarControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Window window = TreeHelper.TryFindParent<Window>(this);
-            if (window != null)
-            {
-                window.PreviewMouseLeftButtonDown -= window_PreviewMouseLeftButtonDown;
-            }
-        }
 
-        private void TitleBarControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window window = TreeHelper.TryFindParent<Window>(this);
-            if (window != null)
-            {
-                window.PreviewMouseLeftButtonDown += window_PreviewMouseLeftButtonDown;
-            }
-        }
-
-        private void window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            foreach (var item in fanpanel.Children)
-            {
-                Button btn = item as Button;
-                if (btn.Name == "TestButton" && btn.IsMouseOver)
-                {
-                    return;
-                }
-
-                if ((btn!=null && btn.IsMouseOver))
-	            {
-                    return;
-	            }
-            }
-            this.IsOpen = false;
-        }
     }
 }

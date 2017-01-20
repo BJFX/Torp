@@ -29,14 +29,14 @@ namespace LOUV.Torp.Monitor.Properties {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LOUV.Torp.Monitor.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace LOUV.Torp.Monitor.Properties {
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 版本号 1.0 的本地化字符串。
         /// </summary>
-        internal static string About_Version {
+        public static string About_Version {
             get {
                 return ResourceManager.GetString("About_Version", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 保存 的本地化字符串。
         /// </summary>
-        internal static string AppBarButton_Save {
+        public static string AppBarButton_Save {
             get {
                 return ResourceManager.GetString("AppBarButton_Save", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 保存结果 的本地化字符串。
         /// </summary>
-        internal static string AppBarButton_SaveResult {
+        public static string AppBarButton_SaveResult {
             get {
                 return ResourceManager.GetString("AppBarButton_SaveResult", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 1001 的本地化字符串。
         /// </summary>
-        internal static string Build_Number {
+        public static string Build_Number {
             get {
                 return ResourceManager.GetString("Build_Number", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 串口打开失败 的本地化字符串。
         /// </summary>
-        internal static string Comm_Failed {
+        public static string Comm_Failed {
             get {
                 return ResourceManager.GetString("Comm_Failed", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 串口服务正常 的本地化字符串。
         /// </summary>
-        internal static string Comm_OK {
+        public static string Comm_OK {
             get {
                 return ResourceManager.GetString("Comm_OK", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 多点水声监控平台设置 的本地化字符串。
         /// </summary>
-        internal static string GLOBALSETTING_Title_Top {
+        public static string GLOBALSETTING_Title_Top {
             get {
                 return ResourceManager.GetString("GLOBALSETTING_Title_Top", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 多点水声监控平台 的本地化字符串。
         /// </summary>
-        internal static string Home_Brand {
+        public static string Home_Brand {
             get {
                 return ResourceManager.GetString("Home_Brand", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水下航行器信息技术重点实验室 的本地化字符串。
         /// </summary>
-        internal static string Home_Brand_LOAT {
+        public static string Home_Brand_LOAT {
             get {
                 return ResourceManager.GetString("Home_Brand_LOAT", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 命令行模式 的本地化字符串。
         /// </summary>
-        internal static string Home_Tile_Console {
+        public static string Home_Tile_Console {
             get {
                 return ResourceManager.GetString("Home_Tile_Console", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 数据分析 的本地化字符串。
         /// </summary>
-        internal static string Home_Tile_Data {
+        public static string Home_Tile_Data {
             get {
                 return ResourceManager.GetString("Home_Tile_Data", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 实时通信 的本地化字符串。
         /// </summary>
-        internal static string Home_Tile_Live {
+        public static string Home_Tile_Live {
             get {
                 return ResourceManager.GetString("Home_Tile_Live", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 基本设置 的本地化字符串。
         /// </summary>
-        internal static string Home_Tile_Setup {
+        public static string Home_Tile_Setup {
             get {
                 return ResourceManager.GetString("Home_Tile_Setup", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 多点浮标水声监控系统 的本地化字符串。
         /// </summary>
-        internal static string Home_Title_ApplicationName {
+        public static string Home_Title_ApplicationName {
             get {
                 return ResourceManager.GetString("Home_Title_ApplicationName", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控平台设置-实时监控 的本地化字符串。
         /// </summary>
-        internal static string Live_Title_Top {
+        public static string Live_Title_Top {
             get {
                 return ResourceManager.GetString("Live_Title_Top", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控系统程序 的本地化字符串。
         /// </summary>
-        internal static string Mon_ApplicationName {
+        public static string Mon_ApplicationName {
             get {
                 return ResourceManager.GetString("Mon_ApplicationName", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控系统正在运行 的本地化字符串。
         /// </summary>
-        internal static string Mon_RUNNING {
+        public static string Mon_RUNNING {
             get {
                 return ResourceManager.GetString("Mon_RUNNING", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 网络未连接 的本地化字符串。
         /// </summary>
-        internal static string NETWORK_DOWN {
+        public static string NETWORK_DOWN {
             get {
                 return ResourceManager.GetString("NETWORK_DOWN", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 网络连接出错！ 的本地化字符串。
         /// </summary>
-        internal static string NETWORK_ERROR {
+        public static string NETWORK_ERROR {
             get {
                 return ResourceManager.GetString("NETWORK_ERROR", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 网络已连接 的本地化字符串。
         /// </summary>
-        internal static string NETWORK_OK {
+        public static string NETWORK_OK {
             get {
                 return ResourceManager.GetString("NETWORK_OK", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控系统 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_BAND {
+        public static string SPLASH_BAND {
             get {
                 return ResourceManager.GetString("SPLASH_BAND", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 多点浮标通信、位置呈现、目标监控 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_BAND_DESCRIPTION {
+        public static string SPLASH_BAND_DESCRIPTION {
             get {
                 return ResourceManager.GetString("SPLASH_BAND_DESCRIPTION", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水下航行器信息技术重点实验室 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_COMPANY_NAME {
+        public static string SPLASH_COMPANY_NAME {
             get {
                 return ResourceManager.GetString("SPLASH_COMPANY_NAME", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似  © 2017 中国科学院声学研究所  的本地化字符串。
         /// </summary>
-        internal static string SPLASH_COPY_RIGHT {
+        public static string SPLASH_COPY_RIGHT {
             get {
                 return ResourceManager.GetString("SPLASH_COPY_RIGHT", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 水声监控主控程序 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_PRODUCT_NAME {
+        public static string SPLASH_PRODUCT_NAME {
             get {
                 return ResourceManager.GetString("SPLASH_PRODUCT_NAME", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 版权所有 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_RIGHT_RESERVER {
+        public static string SPLASH_RIGHT_RESERVER {
             get {
                 return ResourceManager.GetString("SPLASH_RIGHT_RESERVER", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 Version 1.0 的本地化字符串。
         /// </summary>
-        internal static string SPLASH_VERSION {
+        public static string SPLASH_VERSION {
             get {
                 return ResourceManager.GetString("SPLASH_VERSION", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace LOUV.Torp.Monitor.Properties {
         /// <summary>
         ///   查找类似 1.0 的本地化字符串。
         /// </summary>
-        internal static string Version_Number {
+        public static string Version_Number {
             get {
                 return ResourceManager.GetString("Version_Number", resourceCulture);
             }

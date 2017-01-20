@@ -8,7 +8,7 @@ namespace LOUV.Torp.Monitor.ViewModel
     public class ViewModelLocator
     {
         public MainFrameViewModel _mainFrameViewModel;
-        //public HomePageViewModel _homwPageViewModel;
+        public HomePageViewModel _homwPageViewModel;
         //public LiveCaptureViewModel _LiveCaptureViewModel;
         public GlobalSettingViewModel _GlobalSettingViewModel;
         /// <summary>
@@ -27,7 +27,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 return _mainFrameViewModel;
             }
         }
-        /*public HomePageViewModel HomePageViewModel
+        public HomePageViewModel HomePageViewModel
         {
             get
             {
@@ -39,7 +39,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 }
                 return _homwPageViewModel;
             }
-        }*/
+        }
         public GlobalSettingViewModel GlobalSettingViewModel
         {
             get
