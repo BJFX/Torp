@@ -178,7 +178,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   查找类似 多点浮标水声监控系统 的本地化字符串。
+        ///   查找类似 水声监控显控 的本地化字符串。
         /// </summary>
         public static string Home_Title_ApplicationName {
             get {

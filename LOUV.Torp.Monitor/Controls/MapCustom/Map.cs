@@ -21,8 +21,8 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            FormattedText text = new FormattedText(MapName, CultureInfo.CurrentUICulture, fd, tf, 36, Brushes.Blue);
-            drawingContext.DrawText(text, new Point(text.Height, text.Height));
+            FormattedText text = new FormattedText(MapName, CultureInfo.CurrentUICulture, fd, tf, 24, Brushes.Blue);
+            drawingContext.DrawText(text, new Point((ActualWidth -text.Width)/ 2, ActualHeight - text.Height));
 
             drawingContext.DrawLine(cross, new Point((ActualWidth / 2) - 10, ActualHeight / 2), new Point((ActualWidth / 2) + 10, ActualHeight / 2));
             drawingContext.DrawLine(cross, new Point(ActualWidth / 2, (ActualHeight / 2) - 10), new Point(ActualWidth / 2, (ActualHeight / 2) + 10));

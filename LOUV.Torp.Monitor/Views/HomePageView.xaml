@@ -15,8 +15,8 @@
       Background="{StaticResource DefaultBackgroundBrush}"
       DataContext="{Binding HomePageViewModel, Source={StaticResource ViewModelLocator}}" 
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="1080"
-	Title="MainPage">
+      d:DesignHeight="720" d:DesignWidth="1080" KeyUp="HomePageView_OnKeyUp" PreviewKeyDown ="HomePageView_PreviewKeyDown"
+	Title="MainPage"> 
     <Page.Resources>
         <Converters:HideZeroConverter x:Key="HideZeroConverter"/>
         <ImageBrush x:Key="LiveImageBrush" ImageSource="{StaticResource LiveImageBackground}"/>
@@ -27,7 +27,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="90"/>
+                <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15"/>
@@ -42,7 +42,7 @@
                     <RowDefinition Height="5"/>
                 </Grid.RowDefinitions>
                 <ViewControls:TitleBarControl 
-                    Foreground="Black"
+                    Foreground="White"
                     Title="{Binding Home_Title_ApplicationName, Mode=OneWay, Source={StaticResource Resources}}"
                     Grid.Row ="0"
                     TitleImageSource="/Assets/UWA.png"
@@ -65,11 +65,25 @@
                 </Grid.ColumnDefinitions>
                 <MetroControl:MetroAnimatedTabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
                     <MetroControl:MetroTabItem x:Name="TwoDMapTabItem" Header="地图" IsSelected="True">
-                        
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Custom:Map x:Name="MainMap" MapType="OpenStreetMap" Zoom="13" MaxZoom="17" MinZoom="1" GotFocus="MainMap_GotFocus" LostFocus="MainMap_LostFocus" />
+                            
+                                <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.2">
+                                    <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
+                                    <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="9" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
+                                    <Button x:Name="czuZoomDown" Style="{StaticResource ZoomOutAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Click="czuZoomDown_Click"/>
+                                </Grid>
+
+                        </Grid>
                     </MetroControl:MetroTabItem>
                     <MetroControl:MetroTabItem x:Name="ThreeDMapTabItem" Header="三维">
 
                     </MetroControl:MetroTabItem>
+                   
                 </MetroControl:MetroAnimatedTabControl>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" >

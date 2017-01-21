@@ -19,4 +19,10 @@
     <BitmapImage x:Key="RemoteOver" UriSource="/Assets/ico_info_o.png"/>
     <BitmapImage x:Key="RemotePressed" UriSource="/Assets/ico_info_p.png"/>
     <BitmapImage x:Key="AppIcon" UriSource="/Assets/ico_task.png"/>
+    <BitmapImage x:Key="ZoominNormal" UriSource="/Assets/ico_zoomin_n.png"/>
+    <BitmapImage x:Key="ZoominOver" UriSource="/Assets/ico_zoomin_o.png"/>
+    <BitmapImage x:Key="ZoominPressed" UriSource="/Assets/ico_zoomin_p.png"/>
+    <BitmapImage x:Key="ZoomoutNormal" UriSource="/Assets/ico_zoomout_n.png"/>
+    <BitmapImage x:Key="ZoomoutOver" UriSource="/Assets/ico_zoomout_o.png"/>
+    <BitmapImage x:Key="ZoomoutPressed" UriSource="/Assets/ico_zoomout_p.png"/>
 </ResourceDictionary>
