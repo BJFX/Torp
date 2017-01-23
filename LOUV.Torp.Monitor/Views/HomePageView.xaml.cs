@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using LOUV.Torp.Monitor.Core;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GMap.NET.WindowsPresentation;
+using GMap.NET;
+using LOUV.Torp.Monitor.Events;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -20,9 +23,70 @@ namespace LOUV.Torp.Monitor.Views
     /// </summary>
     public partial class HomePageView : Page
     {
+        
         public HomePageView()
         {
             InitializeComponent();
+            UnitCore.Instance.MainMapCfg = null;
+            try
+            {
+                UnitCore.Instance.MainMapCfg = UnitCore.Instance.MonConfigueService.LoadMapCfg();
+            }
+            catch(Exception ex)
+            {
+                var errmsg = new ErrorEvent(ex,LogType.Both);
+                errmsg.Message = "地图配置错误，请修改Basic.conf后重启程序";
+                UnitCore.Instance.EventAggregator.PublishMessage(errmsg);
+            }
+            // config map
+
+            MainMap.Position = new PointLatLng(UnitCore.Instance.MainMapCfg.CenterLat, 
+                UnitCore.Instance.MainMapCfg.CenterLng);
+            MainMap.MapName = UnitCore.Instance.MainMapCfg.Title;
+            ///TBD
+            // map events
+            MainMap.OnTileLoadComplete += new TileLoadComplete(MainMap_OnTileLoadComplete);
+            MainMap.OnTileLoadStart += new TileLoadStart(MainMap_OnTileLoadStart);
+            MainMap.OnMapTypeChanged += new MapTypeChanged(MainMap_OnMapTypeChanged);
+            MainMap.MouseMove += new System.Windows.Input.MouseEventHandler(MainMap_MouseMove);
+            MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
+            MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
+            MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
+        }
+
+        private void MainMap_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MainMap.Focus();
+        }
+
+        private void MainMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainMap.ZoomAndCenterMarkers(null);
+        }
+
+        private void MainMap_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MainMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MainMap_OnMapTypeChanged(MapType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MainMap_OnTileLoadStart()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MainMap_OnTileLoadComplete(long ElapsedMilliseconds)
+        {
+            throw new NotImplementedException();
         }
 
         private void czuZoomUp_Click(object sender, RoutedEventArgs e)
@@ -99,6 +163,12 @@ namespace LOUV.Torp.Monitor.Views
         private void MainMap_LostFocus(object sender, RoutedEventArgs e)
         {
             ZoomSlide.Opacity = 0.2;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            Splasher.CloseSplash();
         }
     }
 }

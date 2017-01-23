@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Torp>
+  <Net>
+    <IP>127.0.0.1</IP>
+    <CmdPort>8080</CmdPort>
+    <DataPort>8081</DataPort>
+    <Broadcast>10040</Broadcast>
+    <RecvPort>10041</RecvPort>
+  </Net>
+  <GPS>
+    <ComPort>COM1</ComPort>
+    <DataRate>19200</DataRate>
+  </GPS>
+  <Asset>
+    <Buoy>Assets/Ship.3DS</Buoy>
+    <OBJ>Assets/Ship.3DS</OBJ>
+  </Asset>
+  <Map>
+    <Name>千岛湖</Name>
+    <MapType>GoogleSatellite</MapType>
+    <Center>
+	<Lat>30.5347092</Lat>
+	<Long>119.8939246</Long>
+    </Center>
+    <Offset>
+	<Lat>-0.0024</Lat>
+	<Long>-0.0022</Long>
+    </Offset>
+  </Map>
+</Torp>

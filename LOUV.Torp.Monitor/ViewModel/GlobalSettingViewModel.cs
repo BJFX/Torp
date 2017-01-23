@@ -39,7 +39,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             bInitial = false;
             if(!UnitCore.Instance.LoadConfiguration())
                 return;
-            var conf = UnitCore.Instance.MovConfigueService.GetNet();
+            var conf = UnitCore.Instance.MonConfigueService.GetNet();
             
             if (conf != null)
             {

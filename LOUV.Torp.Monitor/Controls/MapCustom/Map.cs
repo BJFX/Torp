@@ -14,7 +14,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
     /// </summary>
     public class Map:GMapControl
     {
-        public string MapName = "实验地图";
+        public string MapName { get; set; }
         readonly Typeface tf = new Typeface("GenericSansSerif");
         readonly System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
         Pen cross = new Pen(Brushes.Red, 1);

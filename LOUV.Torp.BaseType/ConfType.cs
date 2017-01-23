@@ -10,7 +10,6 @@ namespace LOUV.Torp.BaseType
     {
         public string Comm { get; set; }
         public int DataRate { get; set; }
-        public int GPSPort { get; set; }
     }
 
     public class CommNet
@@ -22,7 +21,20 @@ namespace LOUV.Torp.BaseType
         public int RecvPort { get; set; }
 
     }
+    public struct Offset{
+        public double Lat;
+        public double Lng;
+    }
+    public class MapCfg
+    {
+        public double CenterLat { get; set; }
+        public double CenterLng { get; set; }
+        public string Title { get; set; }
+        //public string AccessMode { get; set; }
+        public string MapType { get; set; }
+        public Offset MapOffset { get; set; }  
 
+    }
 
     public class Buoy
     {

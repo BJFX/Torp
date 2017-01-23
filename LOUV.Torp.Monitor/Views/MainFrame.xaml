@@ -17,7 +17,7 @@
         dx:ThemeManager.ThemeName="MetropolisDark" IgnoreTaskbarOnMaximize="True"
         commands:ApplicationCommands.RegisterCommandBindings="{Binding RegisteredCommands}"
        
-        ShowInTaskbar ="True" ShowTitleBar ="False"  ShowCloseButton="False" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None"  EnableDWMDropShadow="True" IsWindowDraggable="False">
+        ShowInTaskbar ="True" ShowTitleBar ="False"  ShowCloseButton="False" WindowStartupLocation="CenterScreen" WindowState="Minimized" ResizeMode="NoResize" WindowStyle="None"  EnableDWMDropShadow="True" IsWindowDraggable="False">
     <metroControl:MetroWindow.Resources>
         <Converters:WorkAreaWidthConverter x:Key="waw"/>
         <Converters:WorkAreaHeightConverter x:Key="wah"/>
@@ -121,7 +121,8 @@
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0" >
                         <Image Width="50" Height="50" Source="{StaticResource AppIcon}" Margin="0,0,10,0"/>
                         <TextBlock 
-                                   Text="{Binding Home_Title_ApplicationName, Mode=OneWay, Source={StaticResource Resources}}" 
+                                   Text="地图设置" 
+                                   Foreground="White"
                                    FontSize="{StaticResource Medium}"
                                    HorizontalAlignment="Center"
                                    TextWrapping="Wrap"
@@ -129,8 +130,6 @@
                                    Width="250"
                                    Margin="0,0,20,0" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <TextBlock Margin="0,10,0,0" Text="{Binding Version}" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding BuildNo}" TextWrapping="Wrap"/>
                     <TextBlock />
                     <TextBlock />
 
@@ -142,10 +141,6 @@
                     <TextBlock />
 
                     <TextBlock />
-                    <StackPanel VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding SPLASH_COPY_RIGHT, Mode=OneWay, Source={StaticResource Resources}}" TextWrapping="Wrap" Margin="0,10,0,0"/>
-                        <TextBlock Text="{Binding SPLASH_RIGHT_RESERVER, Mode=OneWay, Source={StaticResource Resources}}" TextWrapping="Wrap"/>
-                    </StackPanel>
                 </StackPanel>
 
             </Grid>

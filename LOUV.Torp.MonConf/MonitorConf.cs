@@ -58,12 +58,6 @@ namespace LOUV.Torp.MonitorConf
             return int.Parse(GetValue(str));
         }
 
-        protected int GetGPSPort()
-        {
-            string[] str = { "GPS", "GPSPort" };
-            return int.Parse(GetValue(str));
-        }
-
         protected int GetNetDataPort()
         {
             string[] str = { "Net", "DataPort" };
@@ -102,7 +96,6 @@ namespace LOUV.Torp.MonitorConf
             {
                 gpscomm.Comm = GetGPSComm();
                 gpscomm.DataRate = GetGPSDataRate();
-                gpscomm.GPSPort = GetGPSPort();
                 return gpscomm;
             }
             catch (Exception e)
@@ -140,9 +133,9 @@ namespace LOUV.Torp.MonitorConf
         /// model的相对路径
         /// </summary>
         /// <returns></returns>
-        public string GetModelPath(string name)
+        public string GetObjModel()
         {
-            string[] str = { "Model", name };
+            string[] str = { "Asset", "OBJ" };
             return GetValue(str);
         }
 
@@ -156,5 +149,92 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Profile", "Name" };
             return SetValue(str, filename);
         }
+
+        public MapCfg LoadMapCfg()
+        {
+            var mapcfg = new MapCfg();
+            mapcfg.Title = GetMapName();
+            mapcfg.CenterLat = GetCenLat();
+            mapcfg.CenterLng = GetCenLng();
+            mapcfg.MapType = GetMapType();
+            mapcfg.MapOffset = GetMapOffset();
+            return mapcfg;
+            
+        }
+
+        public Offset GetMapOffset()
+        {
+            var point = new Offset();
+            point.Lat = GetMapOffsetLat();
+            point.Lng = GetMapOffsetLong();
+            return point;
+        }
+        public bool SetMapOffset(Offset point)
+        {
+            return SetMapOffsetLat(point.Lat) && SetMapOffsetLong(point.Lng);
+        }
+        private double GetMapOffsetLong()
+        {
+            string[] str = { "Map", "Offset", "Long" };
+            return double.Parse(GetValue(str));
+        }
+        private double GetMapOffsetLat()
+        {
+            string[] str = { "Map", "Offset", "Lat" };
+            return double.Parse(GetValue(str));
+        }
+        private bool SetMapOffsetLong(double lng)
+        {
+            string[] str = { "Map", "Offset", "Long" };
+            return SetValue(str,lng.ToString());
+        }
+        private bool SetMapOffsetLat(double lat)
+        {
+            string[] str = { "Map", "Offset", "Lat" };
+            return SetValue(str, lat.ToString());
+        }
+        public string GetMapType()
+        {
+            string[] str = { "Map", "MapType" };
+            return GetValue(str);
+        }
+        public bool SetMapType(string type)
+        {
+            string[] str = { "Map", "MapType" };
+            return SetValue(str, type);
+        }
+
+        public double GetCenLng()
+        {
+            string[] str = { "Map", "Center", "Long" };
+            return double.Parse(GetValue(str));
+        }
+        public bool SetCenLng(double lng)
+        {
+            string[] str = { "Map", "Center","Long"};
+            return SetValue(str, lng.ToString());
+        }
+        public double GetCenLat()
+        {
+            string[] str = { "Map", "Center", "Lat" };
+            return double.Parse(GetValue(str));
+        }
+
+        public bool SetCenLat(double lat)
+        {
+            string[] str = { "Map", "Center", "Lat" };
+            return SetValue(str, lat.ToString());
+        }
+        public string GetMapName()
+        {
+            string[] str = { "Map", "Name" };
+            return GetValue(str);
+        }
+        public bool SetMapName(string title)
+        {
+            string[] str = { "Map", "Name" };
+            return SetValue(str, title);
+        }
+
     }
 }

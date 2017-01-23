@@ -41,7 +41,7 @@ namespace LOUV.Torp.Monitor.Core
         //网络服务接口
         private IMonNetCore _iNetCore;
         //串口服务接口，如果有
-        private ICommCore _iCommCore;
+        //private ICommCore _iCommCore;
         //文件服务接口
         private IFileCore _iFileCore;
         private MonTraceService _MonTraceService;
@@ -57,7 +57,9 @@ namespace LOUV.Torp.Monitor.Core
 
         public Model3D BuoyModel { get; set; }//buoy 模型
         public Model3D ObjModel { get; set; }//目标模型
-        public Hashtable BuyoArray = new Hashtable();//store buoy objects
+        public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
+        public Hashtable BuoyArray = new Hashtable();//store buoy objects
+        public MapCfg MainMapCfg { get; set; }//map配置
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
@@ -87,14 +89,14 @@ namespace LOUV.Torp.Monitor.Core
                 EventAggregator.PublishMessage(new LogEvent("配置没有初始化", LogType.Both));
                 return false;
             }
-            var buoypath = _monConf.GetModelPath("Buoy");
+            var buoypath = _monConf.GetBuoyModel();
             if (buoypath == null)
                 throw new Exception("未找到3D组件！");
             buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
             BuoyModel = await LoadAsync(buoypath, false);
             if (BuoyModel == null)
                 throw new Exception("加载浮标组件失败！");
-            var objpath = _monConf.GetModelPath("OBJ");
+            var objpath = _monConf.GetObjModel();
             if (objpath == null)
                 throw new Exception("未找到3D组件！");
             objpath = _monConf.MyExecPath + "\\" + objpath;//found
@@ -114,21 +116,21 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     throw _monConf.ex;
                 }
-                if (_monConf.GetVelProfileName() != null)
-                {
-                    if (File.Exists(_monConf.GetVelProfileName()))
-                    {
-                        SoundFile = new SettleSoundFile(_monConf.GetVelProfileName());
-                    }
-                    else
-                    {
-                        EventAggregator.PublishMessage(new LogEvent("未找到预设声速梯度文件", LogType.Both));
-                    }
-                }
-                else
-                {
-                    EventAggregator.PublishMessage(new LogEvent("未配置声速梯度文件", LogType.OnlyLog));
-                }
+                //if (_monConf.GetVelProfileName() != null)
+                //{
+                //    if (File.Exists(_monConf.GetVelProfileName()))
+                //    {
+                //        SoundFile = new SettleSoundFile(_monConf.GetVelProfileName());
+                //    }
+                //    else
+                //    {
+                //        EventAggregator.PublishMessage(new LogEvent("未找到预设声速梯度文件", LogType.Both));
+                //    }
+                //}
+                //else
+                //{
+                //    EventAggregator.PublishMessage(new LogEvent("未配置声速梯度文件", LogType.OnlyLog));
+                //}
                 
 
                 _serviceStarted = true;//if failed never get here
@@ -220,7 +222,7 @@ namespace LOUV.Torp.Monitor.Core
             _serviceStarted = false;
             
         }
-        public MonConf MovConfigueService
+        public MonConf MonConfigueService
         {
             get { return _monConf; }
         }
