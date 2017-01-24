@@ -24,7 +24,15 @@ namespace LOUV.Torp.BaseType
     public struct Offset{
         public double Lat;
         public double Lng;
+        public static Offset operator -(Offset off)
+        {
+            var newoff = new Offset();
+            newoff.Lat = -off.Lat;
+            newoff.Lng = -off.Lng;
+            return newoff;
+        }
     }
+    operator 
     public class MapCfg
     {
         public double CenterLat { get; set; }

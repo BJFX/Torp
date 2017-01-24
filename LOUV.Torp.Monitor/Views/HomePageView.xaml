@@ -76,7 +76,7 @@
                                     <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="9" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
                                     <Button x:Name="czuZoomDown" Style="{StaticResource ZoomOutAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Click="czuZoomDown_Click"/>
                                 </Grid>
-
+                            <Controls:MetroProgressBar x:Name ="MapLoadBar" Margin="20,0" Visibility="Hidden"/>
                         </Grid>
                     </MetroControl:MetroTabItem>
                     <MetroControl:MetroTabItem x:Name="ThreeDMapTabItem" Header="三维">
