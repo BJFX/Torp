@@ -43,6 +43,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\UWSensorControl\USBLDC\NMEA0183\NMEA0183.csproj">
+      <Project>{849c3cc7-f45e-491f-b9a0-2d62004549be}</Project>
+      <Name>NMEA0183</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.BaseType\LOUV.Torp.BaseType.csproj">
       <Project>{405f8ce4-6f62-40fb-8dca-7c6e44c8a1d2}</Project>
       <Name>LOUV.Torp.BaseType</Name>

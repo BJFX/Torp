@@ -32,7 +32,6 @@ namespace LOUV.Torp.BaseType
             return newoff;
         }
     }
-    operator 
     public class MapCfg
     {
         public double CenterLat { get; set; }

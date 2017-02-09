@@ -30,8 +30,8 @@ namespace LOUV.Torp.Monitor.Views
         private Offset GpsTomapOffset;//GPS坐标转换为地图内部坐标
         private PointLatLng currentClick;//当前点击的位置
         List<BuoyMarker> buoyMarkers = new List<BuoyMarker>();
-        List<InfoBoard> buoyMarkers = new List<InfoBoard>();
-        List<ObjectMarker> buoyMarkers = new List<ObjectMarker>();
+        List<InfoBoard> infoMarkers = new List<InfoBoard>();
+        List<ObjectMarker> objMarkers = new List<ObjectMarker>();
         private MapRoute trackRoute;
         public HomePageView()
         {
@@ -65,9 +65,9 @@ namespace LOUV.Torp.Monitor.Views
             GpsTomapOffset = cfg.MapOffset;
             mapToGpsOffset = -GpsTomapOffset;
             MainMap.Position = new PointLatLng(cfg.CenterLat,cfg.CenterLng);
-            MainMap.Position.Offset(GpsTomapOffset);
+            MainMap.Position.Offset(GpsTomapOffset.Lat,GpsTomapOffset.Lng);
             MainMap.MapName = cfg.Title;
-            MainMap = Enum.Parse(typeof (MapType), cfg.MapType);
+            MainMap.MapType = (MapType)Enum.Parse(typeof(MapType), cfg.MapType);
         }
 
         #region map event
@@ -246,8 +246,8 @@ namespace LOUV.Torp.Monitor.Views
         private void Goto(double lat, double lng)
         {
             var center = new PointLatLng(lat, lng);
-            center.Offset();
-            MainMap.Position = currentMarker.Position;
+            center.Offset(GpsTomapOffset.Lat, GpsTomapOffset.Lng);
+            MainMap.Position = center;
         }
         #endregion
     }
