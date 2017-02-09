@@ -62,4 +62,12 @@ namespace LOUV.Torp.CommLib.UDP
             return new ACMGPSService();
         }
     }
+
+    public class TorpDataServiceFactory : IUDPServiceFactory
+    {
+        public IUDPService CreateService()
+        {
+            return new TorpDataService();
+        }
+    }
 }

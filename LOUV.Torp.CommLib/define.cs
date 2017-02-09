@@ -25,6 +25,9 @@
         GPS=6,
         USBL=7,
         Sail=8,//潜器中udp接收到的数据
+        //Torp
+        TeleRange=11,//通信遥测信号
+        Range=12，//仅脉冲信号
     }
 
     public enum ACNCommandMode

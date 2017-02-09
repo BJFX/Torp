@@ -315,4 +315,78 @@ namespace LOUV.Torp.CommLib.UDP
             }
         }
     }
+
+    /// <summary>
+    /// 接收外部广播数据服务：GPS/TeleRange/Range
+    /// </summary>
+    public class TorpDataService : UDPBaseService
+    {
+        private List<byte> _recvQueue = new List<byte>();
+        protected override void ListensenUDP()
+        {
+            var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            var flag = true;
+            _recvQueue.Clear();
+            byte[] buffer = null;
+            string error = string.Empty;
+            var mode = CallMode.GPS;
+            while (flag)
+            {
+                try
+                {
+                    buffer = _udpClient.Receive(ref remoteIpEndPoint);
+                    _recvQueue.AddRange(buffer);
+
+                    CheckQueue(ref _recvQueue);
+                }
+                catch (SocketException exception)
+                {
+                    if (exception.ErrorCode != 0x2714) //程序关闭
+                    {
+                        error = exception.Message;
+                        mode = CallMode.ErrMode;
+                        flag = false;
+                    }
+                    else
+                    {
+                        flag = false;
+                        return;
+                    }
+
+                }
+                finally
+                {
+                    if (buffer == null)
+                    {
+                        var e = new CustomEventArgs(0, string.Empty, null, 0, flag, error, mode,
+                            _udpClient);
+                        OnParsed(e);
+                    }
+                    else
+                    {
+                        var e = new CustomEventArgs(0, string.Empty, buffer, buffer.Length, flag, error, mode,
+                            _udpClient);
+                        OnParsed(e);
+                    }
+                }
+            }
+        }
+
+        private void CheckQueue(ref List<byte> queue)
+        {
+            if (queue.Count >= 1032)//可能够一次数据
+            {
+                var bytes = new byte[1032];
+                queue.CopyTo(0,bytes,0,1032);
+                queue.RemoveRange(0,1032);
+
+                switch (BitConverter.ToInt16(bytes,0))
+                {
+                    case 0x0129:
+                        break;
+                        
+                }
+            }
+        }
+    }
 }

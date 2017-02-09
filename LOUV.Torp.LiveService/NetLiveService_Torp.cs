@@ -55,11 +55,11 @@ namespace LOUV.Torp.LiveService
             _DataObserver = observer;
         }
 
-        public IUDPService UDPTraceService
+        public IUDPService UDPDataService
         {
             get
             {
-                return _udpTraceService ?? (_udpTraceService = (new UDPDebugServiceFactory()).CreateService());
+                return _udpTraceService ?? (_udpTraceService = (new TorpDataServiceFactory()).CreateService());
             }
         }
         /// <summary>
@@ -96,8 +96,8 @@ namespace LOUV.Torp.LiveService
         public bool StartUDPService()
         {
             IsUDPWorking = false;
-            if (!UDPTraceService.Start()) return IsUDPWorking;
-            UDPTraceService.Register(NetDataObserver);
+            if (!UDPDataService.Start()) return IsUDPWorking;
+            UDPDataService.Register(NetDataObserver);
             //if (!UDPDataService.Start()) return false;
             //UDPDataService.Register(NetDataObserver);
             IsUDPWorking = true;
@@ -106,8 +106,8 @@ namespace LOUV.Torp.LiveService
 
         public void StopUDPService()
         {
-            UDPTraceService.Stop();
-            UDPTraceService.UnRegister(NetDataObserver);
+            UDPDataService.Stop();
+            UDPDataService.UnRegister(NetDataObserver);
             //UDPDataService.Stop();
             //UDPDataService.UnRegister(NetDataObserver);
             IsUDPWorking = false;
@@ -151,7 +151,7 @@ namespace LOUV.Torp.LiveService
                 throw new Exception("网络初始化失败,请检查网络连接状态并重启程序");
          
                 _udpTraceClient = new UdpClient(_commConf.RecvPort);
-            if (!UDPTraceService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
+            if (!UDPDataService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
            
                 _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
             _udpBroadClient.EnableBroadcast = true;
