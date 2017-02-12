@@ -329,7 +329,7 @@ namespace LOUV.Torp.CommLib.UDP
             _recvQueue.Clear();
             byte[] buffer = null;
             string error = string.Empty;
-            var mode = CallMode.GPS;
+            CallMode mode = CallMode.GPS;
             while (flag)
             {
                 try
@@ -337,7 +337,7 @@ namespace LOUV.Torp.CommLib.UDP
                     buffer = _udpClient.Receive(ref remoteIpEndPoint);
                     _recvQueue.AddRange(buffer);
 
-                    CheckQueue(ref _recvQueue);
+                    CheckQueue(ref _recvQueue, remoteIpEndPoint);
                 }
                 catch (SocketException exception)
                 {
@@ -354,38 +354,43 @@ namespace LOUV.Torp.CommLib.UDP
                     }
 
                 }
-                finally
-                {
-                    if (buffer == null)
-                    {
-                        var e = new CustomEventArgs(0, string.Empty, null, 0, flag, error, mode,
-                            _udpClient);
-                        OnParsed(e);
-                    }
-                    else
-                    {
-                        var e = new CustomEventArgs(0, string.Empty, buffer, buffer.Length, flag, error, mode,
-                            _udpClient);
-                        OnParsed(e);
-                    }
-                }
             }
         }
 
-        private void CheckQueue(ref List<byte> queue)
+        private void CheckQueue(ref List<byte> queue,IPEndPoint RemoteIpEndPoint)
         {
-            if (queue.Count >= 1032)//可能够一次数据
+            byte[] bytes = null;
+            CallMode mode= CallMode.GPS;
+            while (queue.Count >= 1032)//够一次数据
             {
-                var bytes = new byte[1032];
-                queue.CopyTo(0,bytes,0,1032);
-                queue.RemoveRange(0,1032);
-
-                switch (BitConverter.ToInt16(bytes,0))
+                bytes = new byte[1032];
+                if (queue[1] == 0x01 && (queue[0] == 0x28) || (queue[0] == 0x29) || (queue[0] == 0x2A))//find head
                 {
+                    queue.CopyTo(0,bytes,0,1032);
+                    queue.RemoveRange(0,1032);
+                }
+                else
+                {
+                    queue.RemoveAt(0);
+                    continue;
+                }
+                
+
+                switch (BitConverter.ToInt16(bytes, 0))
+                {
+                    case 0x0128:
+                        mode = CallMode.Range;
+                        break;
                     case 0x0129:
+                        mode = CallMode.TeleRange;
+                        break;
+                    case 0x012A:
+                        mode = CallMode.GPS;
                         break;
                         
                 }
+                var e = new CustomEventArgs(0, null, bytes, bytes.Length, true, null, mode, RemoteIpEndPoint.ToString().Split(':')[0]);
+                OnParsed(e);
             }
         }
     }

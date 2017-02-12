@@ -16,7 +16,6 @@ namespace LOUV.Torp.Monitor.Core
   
         public void Handle(object sender, CustomEventArgs e)
         {
-            string datatype = "";
             if (e.ParseOK)
             {
               //
@@ -25,40 +24,20 @@ namespace LOUV.Torp.Monitor.Core
                     int id = 0;
                     byte[] buffer = null;
                     
-                    if (e.Mode != CallMode.NoneMode)
-                    {
-                        id = BitConverter.ToUInt16(e.DataBuffer, 0);
-                        if (e.Mode == CallMode.Sail)
-                        {
-                            buffer = new byte[e.DataBufferLength - 2];
-                            Buffer.BlockCopy(e.DataBuffer, 2, buffer, 0, e.DataBufferLength - 2);
-                        }
-                        else
-                        {
-                            buffer = new byte[e.DataBufferLength - 4];
-                            Buffer.BlockCopy(e.DataBuffer, 4, buffer, 0, e.DataBufferLength - 4);
-                        }
-                        
-                    }
-                    else//shell
-                    {
-                        string shell = e.Outstring;
-                       
-                    }
                     //类型标志
-                    if (e.Mode == CallMode.Sail) //水下航控或ADCP或BP
+                    if (e.Mode == CallMode.GPS) //水下航控或ADCP或BP
                     {
                        
                             
 
                     }
-                    else if (e.Mode == CallMode.USBL)
+                    else if (e.Mode == CallMode.Range)
                     {
-                        datatype = "USBL";
+                        //datatype = "USBL";
                     }
-                    else if (e.Mode == CallMode.GPS)
+                    else if (e.Mode == CallMode.TeleRange)
                     {
-                        datatype = "GPS";
+                        //datatype = "GPS";
                     }
                     else if (e.Mode == CallMode.DataMode) //payload or ssb
                     {
@@ -66,47 +45,15 @@ namespace LOUV.Torp.Monitor.Core
                     }
                     //保持数据
                     
-                    //开始处理
-                    if (e.Mode == CallMode.DataMode)
-                    {
-                        
-
-                        App.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            try
-                            {
-                                UnitCore.Instance.ACMMutex.WaitOne();
-                                
-                                UnitCore.Instance.ACMMutex.ReleaseMutex();
-
-                            }
-                            catch (Exception ex)
-                            {
-                                    if (UnitCore.Instance.ACMMutex.WaitOne(100) == true)//如果能获取Mutex或已经获取Mutex就释放它
-                                    {
-                                        UnitCore.Instance.ACMMutex.ReleaseMutex();
-                                    }
-                                    UnitCore.Instance.EventAggregator.PublishMessage(new ErrorEvent(ex, LogType.Both));
-
-                            }
-                            
-
-                        }));
-
-
-                        
-                    }
-                    else if (e.Mode == CallMode.Sail)
-                    {
-                       
-                    }
+                    
                     
                 }
                 catch (Exception ex)
-                {             
-                  
+                {
+                    App.Current.Dispatcher.Invoke(new Action(() =>
+                    {
                         UnitCore.Instance.EventAggregator.PublishMessage(new ErrorEvent(ex, LogType.Both));
-
+                    }));
                 }
 
 
@@ -117,7 +64,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     App.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        UnitCore.Instance.NetCore.StopTCpService();
+                        UnitCore.Instance.NetCore.StopUDPService();
                        // UnitCore.Instance.EventAggregator.PublishMessage(new ErrorEvent(e.Ex, LogType.Both));
                     }));
                     

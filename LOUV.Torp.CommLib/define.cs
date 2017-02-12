@@ -5,6 +5,7 @@
         LoaderMode = 0,
         HexMode = 1,
     }
+
     /// <summary>
     /// 调用模式：NoneMode,无模式：用于UDP调试接收，TCPshell接收
     /// AnsMode，应答模式：用于串口命令应答接收，TCP数据应答接收
@@ -15,30 +16,30 @@
     /// </summary>
     public enum CallMode
     {
-        NoneMode =0,
+        NoneMode = 0,
         AnsMode = 1,
-        DataMode =2,
-        CommData=3,
-        LoaderMode =4,
+        DataMode = 2,
+        CommData = 3,
+        LoaderMode = 4,
         ErrMode = 5,
+
         /// 4500中出现的调用模式，都是从UDP接收而来
-        GPS=6,
-        USBL=7,
-        Sail=8,//潜器中udp接收到的数据
+        GPS = 6,
+        USBL = 7,
+        Sail = 8, //潜器中udp接收到的数据
         //Torp
-        TeleRange=11,//通信遥测信号
-        Range=12，//仅脉冲信号
+        TeleRange = 11, //通信遥测信号
+        Range = 12,//仅脉冲信号
     }
 
     public enum ACNCommandMode
     {
         //shell string/loader
-        CmdCharMode=0,
+        CmdCharMode = 0,
         //cmd,data
         CmdWithData = 1,
 
-        
+
     }
 
-   
 }
