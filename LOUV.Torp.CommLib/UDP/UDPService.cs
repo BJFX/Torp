@@ -359,11 +359,11 @@ namespace LOUV.Torp.CommLib.UDP
 
         private void CheckQueue(ref List<byte> queue,IPEndPoint RemoteIpEndPoint)
         {
-            byte[] bytes = null;
+            var bytes = new byte[1032];
             CallMode mode= CallMode.GPS;
             while (queue.Count >= 1032)//够一次数据
             {
-                bytes = new byte[1032];
+                
                 if (queue[1] == 0x01 && (queue[0] == 0x28) || (queue[0] == 0x29) || (queue[0] == 0x2A))//find head
                 {
                     queue.CopyTo(0,bytes,0,1032);
