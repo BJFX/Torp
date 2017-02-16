@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LOUV.Torp.BaseType;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,15 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         public BuoyTip()
         {
             InitializeComponent();
+        }
+        public void SetValues(Buoy buoy)
+        {
+            BuoyID.Text = buoy.Name;
+            Range.Text = buoy.Range;
+            Lat.Text = buoy.Latitude.ToString("F6");
+            Long.Text = buoy.Longitude.ToString("F6");
+            TimeGps.Text = buoy.GpsTime;
+            Memo.Text = buoy.Memo;
         }
     }
 }

@@ -54,6 +54,7 @@ namespace LOUV.Torp.BaseType
         public float Longitude { get; set; }
         public float Latitude { get; set; }
         public float Range { get; set; }
+        public string GpsTime { get; set; }
     }
 
     public class Object
