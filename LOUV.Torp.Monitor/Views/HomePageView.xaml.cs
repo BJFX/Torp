@@ -57,6 +57,17 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
+
+            //
+            var test = new Buoy();
+            test.id = 4;
+            currentMarker = new GMapMarker(MainMap.Position);
+            {
+                currentMarker.Shape = new BuoyMarker(this, currentMarker,test);
+                currentMarker.Offset = new System.Windows.Point(-15, -15);
+                currentMarker.ZIndex = int.MaxValue;
+                MainMap.Markers.Add(currentMarker);
+            }
             
         }
 
@@ -250,6 +261,8 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.Position = center;
         }
         #endregion
+
+        public GMapMarker currentMarker { get; set; }
     }
 
 }

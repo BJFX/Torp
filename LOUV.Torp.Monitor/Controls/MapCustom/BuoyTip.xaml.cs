@@ -24,10 +24,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         {
             InitializeComponent();
         }
-        public void SetValues(Buoy buoy)
+        public void SetBuoy(Buoy buoy)
         {
             BuoyID.Text = buoy.Name;
-            Range.Text = buoy.Range;
+            Range.Text = buoy.Range.ToString("F2");
             Lat.Text = buoy.Latitude.ToString("F6");
             Long.Text = buoy.Longitude.ToString("F6");
             TimeGps.Text = buoy.GpsTime;
