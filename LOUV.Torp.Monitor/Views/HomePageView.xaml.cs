@@ -42,8 +42,10 @@ namespace LOUV.Torp.Monitor.Views
             }
             catch (Exception ex)
             {
-                var errmsg = new ErrorEvent(ex, LogType.Both);
-                errmsg.Message = "地图配置错误，请修改BasicConf.xml后重启程序";
+                var errmsg = new ErrorEvent(ex, LogType.Both)
+                {
+                    Message = "地图配置错误，请修改BasicConf.xml后重启程序"
+                };
                 UnitCore.Instance.EventAggregator.PublishMessage(errmsg);
                 return;
             }
@@ -53,14 +55,16 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.OnTileLoadComplete += new TileLoadComplete(MainMap_OnTileLoadComplete);
             MainMap.OnTileLoadStart += new TileLoadStart(MainMap_OnTileLoadStart);
             MainMap.OnMapTypeChanged += new MapTypeChanged(MainMap_OnMapTypeChanged);
-            MainMap.MouseMove += new System.Windows.Input.MouseEventHandler(MainMap_MouseMove);
+            //MainMap.MouseMove += new System.Windows.Input.MouseEventHandler(MainMap_MouseMove);
             MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
 
             //
-            var test = new Buoy();
-            test.id = 4;
+            var test = new Buoy()
+            {
+                id = 4
+            };
             currentMarker = new GMapMarker(MainMap.Position);
             {
                 currentMarker.Shape = new BuoyMarker(this, currentMarker,test);
@@ -104,10 +108,6 @@ namespace LOUV.Torp.Monitor.Views
 
         }
 
-        private void MainMap_MouseMove(object sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void MainMap_OnMapTypeChanged(MapType type)
         {

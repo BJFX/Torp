@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Views;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media.Effects;
 
 namespace LOUV.Torp.Monitor.Controls.MapCustom
 {
@@ -27,6 +28,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         BuoyTip Tip;
         GMapMarker Marker;
         HomePageView MainWindow;
+        readonly ScaleTransform scale = new ScaleTransform(1, 1);
         public BuoyMarker(HomePageView window, GMapMarker marker, Buoy buoy)
         {
             this.InitializeComponent();
@@ -36,12 +38,12 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
 
             Popup = new Popup();
             Tip = new BuoyTip();
-
+            RenderTransform = scale;
             this.Loaded += new RoutedEventHandler(BuoyMarker_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(BuoyMarker_SizeChanged);
             this.MouseEnter += new MouseEventHandler(MarkerControl_MouseEnter);
             this.MouseLeave += new MouseEventHandler(MarkerControl_MouseLeave);
-            this.MouseMove += new MouseEventHandler(BuoyMarker_MouseMove);
+            //this.MouseMove += new MouseEventHandler(BuoyMarker_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonDown);
 
@@ -50,40 +52,60 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
                 Tip.SetBuoy(buoy);
             }
             Popup.Child = Tip;
+            CanPopUp = true;
         }
-
+        public bool CanPopUp{get;set;}
         private void BuoyMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            if (!IsMouseCaptured)
+            {
+                Mouse.Capture(this);
+            }
         }
 
         private void BuoyMarker_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            if (IsMouseCaptured)
+            {
+                Mouse.Capture(null);
+            }
         }
-        private void BuoyMarker_MouseMove(object sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+        public DropShadowEffect ShadowEffect;
         private void MarkerControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            Marker.ZIndex -= 10000;
+            Cursor = Cursors.Arrow;
+            this.Effect = null;
+
+            scale.ScaleY = 1;
+            scale.ScaleX = 1;
+            if (CanPopUp)
+                Popup.IsOpen = false;
         }
 
         private void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            Marker.ZIndex += 10000;
+            Cursor = Cursors.Hand;
+            this.Effect = ShadowEffect;
+
+            scale.ScaleY = 1.5;
+            scale.ScaleX = 1.5;
+            if (CanPopUp)
+                Popup.IsOpen = true;
         }
 
         private void BuoyMarker_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            Marker.Offset = new Point(-e.NewSize.Width / 2, -e.NewSize.Height);
         }
 
         private void BuoyMarker_Loaded(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (icon.Source.CanFreeze)
+            {
+                icon.Source.Freeze();
+            }
         }
     }
 }

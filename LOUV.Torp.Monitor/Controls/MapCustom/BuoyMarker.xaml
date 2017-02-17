@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="64">
     <Grid>
-        <Image Source="/LOUV.Torp.Monitor;component/Assets/buoy.png" />
+        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/buoy.png" />
     </Grid>
 </UserControl>
