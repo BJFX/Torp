@@ -46,8 +46,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             //this.MouseMove += new MouseEventHandler(BuoyMarker_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonDown);
-
-            Popup.Placement = PlacementMode.Mouse;
+            Popup.PlacementTarget = icon;
+            Popup.HorizontalOffset = 30;
+            Popup.VerticalOffset = -120;
+            Popup.Placement = PlacementMode.Relative;
             {
                 Tip.SetBuoy(buoy);
             }
@@ -89,8 +91,8 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Cursor = Cursors.Hand;
             this.Effect = ShadowEffect;
 
-            scale.ScaleY = 1.5;
-            scale.ScaleX = 1.5;
+            scale.ScaleY = 1.2;
+            scale.ScaleX = 1.2;
             if (CanPopUp)
                 Popup.IsOpen = true;
         }
