@@ -70,7 +70,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Custom:Map x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" />
+                            <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" />
                                 <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.2">
                                     <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
                                     <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="9" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />

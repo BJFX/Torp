@@ -215,12 +215,12 @@ namespace LOUV.Torp.Monitor.Views
 
         private void MainMap_GotFocus(object sender, RoutedEventArgs e)
         {
-            ZoomSlide.Opacity = 0.9;
+            ZoomSlide.Opacity = 0.95;
         }
 
         private void MainMap_LostFocus(object sender, RoutedEventArgs e)
         {
-            ZoomSlide.Opacity = 0.2;
+            ZoomSlide.Opacity = 0.5;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
