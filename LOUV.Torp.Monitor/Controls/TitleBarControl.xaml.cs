@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LOUV.Torp.Monitor.Core;
+using LOUV.Torp.Monitor.Events;
 using MahApps.Metro.Controls.Dialogs;
 using TinyMetroWpfLibrary.Controls;
 using LOUV.Torp.Monitor.ViewModel;
@@ -63,7 +65,7 @@ namespace LOUV.Torp.Monitor.Controls
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
-            VM.ShowAbout();
+            UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide());
         }
         private void GoBack(object sender, RoutedEventArgs e)
         {

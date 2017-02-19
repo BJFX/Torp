@@ -138,6 +138,7 @@
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
     <Compile Include="Events\RefreshLog.cs" />
+    <Compile Include="Events\ShowAboutSlide.cs" />
     <Compile Include="Splasher.cs" />
     <Compile Include="SplashWindow.xaml.cs" />
     <Compile Include="ViewModel\GlobalSettingViewModel.cs" />

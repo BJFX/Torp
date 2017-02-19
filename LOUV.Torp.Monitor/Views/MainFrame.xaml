@@ -34,60 +34,6 @@
             <TextBlock Height="30" Text=".。。。" x:Name="MessageTextBlock"
                                Foreground="{DynamicResource AccentColorBrush}" />
         </dialogs:CustomDialog>
-        <dialogs:CustomDialog x:Key="SendFhDialog"
-                                 Title="输入跳频信息"
-                                 x:Name="SendFhDialog">
-            <StackPanel Orientation="Vertical">
-                <TextBox Height="50" FontSize ="28" Width =" 200" x:Name="FHBlock"
-                               Foreground="{DynamicResource AccentColorBrush}" MaxLength="4" />
-                <TextBlock Height="26" FontSize ="16"  Text="(最多输入4个字符)" x:Name="LeftSize"/>
-                <UniformGrid>
-                    <Button Style="{DynamicResource SquareButtonStyle}"
-							Margin="5"
-							Content="发送" />
-                    <Button Style="{DynamicResource SquareButtonStyle}"
-							Margin="5"
-							Content="取消" Click="CloseFh"/>
-                </UniformGrid>
-            </StackPanel>
-
-        </dialogs:CustomDialog>
-        <dialogs:CustomDialog x:Key="SendImgDialog"
-                                 Title="选取图片"
-                                 x:Name="SendImgDialog">
-            <Grid x:Name="MainGrid" Background="#696969">
-                <StackPanel Orientation="Vertical">
-                    <Viewbox x:Name="vb" Width="800" Height="636">
-                        <Image Name="SelectImageContainer" Source="/LOUV.Torp.Monitor;component/Assets/UWV_Right.png" Stretch="None"/>
-                    </Viewbox>
-                    <CheckBox x:Name="CropImgChk" Content="截取图像" Checked="CropImgChk_Checked" Unchecked="CropImgChk_Unchecked"/>
-                <UniformGrid Columns="3">
-                    <Button Style="{DynamicResource SquareButtonStyle}"
-							Margin="5"
-							Content="浏览" />
-                    <Button Style="{DynamicResource SquareButtonStyle}"
-							Margin="5"
-							Content="发送" />
-                    <Button Style="{DynamicResource SquareButtonStyle}"
-							Margin="5"
-							Content="取消" Click="CloseImg"/>
-                </UniformGrid>
-            </StackPanel>
-                <Canvas Name="container" Cursor="ScrollAll" Visibility="Hidden">
-                    <Viewbox Width="256" Height="256"
-                             Name="vb1" 
-                             Stretch="Uniform" 
-                             StretchDirection="Both"
-                             HorizontalAlignment="Center" 
-                             PreviewMouseLeftButtonDown="vb1_PreviewMouseLeftButtonDown" PreviewMouseUp="vb1_PreviewMouseUp" PreviewMouseMove="vb1_PreviewMouseMove" PreviewMouseWheel="vb1_PreviewMouseWheel">
-                        <StackPanel>
-                            <Button x:Name ="CropSection" Content="截取图像部分" Width="256" Height="256" Opacity="0.4"/>
-                        </StackPanel>
-                    </Viewbox>
-                </Canvas>
-                <Image x:Name="cropimg" Width="256" Height="256" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden" Margin="0,0,-256,0"/>
-            </Grid>
-        </dialogs:CustomDialog>
     </metroControl:MetroWindow.Resources>
 
     <Grid x:Name="FirstGrid">
@@ -95,56 +41,5 @@
 			NavigationUIVisibility="Hidden"
             HorizontalContentAlignment="Stretch" Loaded="ContentFrame_Loaded" FontSize="24">
         </Frame>
-        <Controls:AnimationSlide  
-            Panel.ZIndex="90"
-                                     x:Name="AboutPanel"
-                                     IsOpen="{Binding AboutVisibility, Mode=TwoWay}" 
-                                     IsAutoClose="True"   
-                                     Width="350" 
-                                     VerticalAlignment="Stretch"
-                                     Visibility= "Visible"
-                                     HorizontalAlignment="Right">
-            <Grid Background="#696969" TextBlock.FontSize="{StaticResource Small}">
-                <Grid.Resources>
-                    <Style x:Key="HyperlinkStyle" TargetType="Hyperlink">
-                        <Setter Property="Foreground" Value="Orange"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="White"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Resources>
-
-                <StackPanel Orientation="Vertical" Margin="10,20,10,20" >
-
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0" >
-                        <Image Width="50" Height="50" Source="{StaticResource AppIcon}" Margin="0,0,10,0"/>
-                        <TextBlock 
-                                   Text="地图设置" 
-                                   Foreground="White"
-                                   FontSize="{StaticResource Medium}"
-                                   HorizontalAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   MaxHeight="60"
-                                   Width="250"
-                                   Margin="0,0,20,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <TextBlock />
-                    <TextBlock />
-
-                    <TextBlock Text="{Binding NetworkStatus}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                    <TextBlock />
-                    <TextBlock Text="{Binding CommStatus}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                    <TextBlock />
-                    <TextBlock Text="{Binding GPSLastUpdateTime}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                    <TextBlock />
-
-                    <TextBlock />
-                </StackPanel>
-
-            </Grid>
-        </Controls:AnimationSlide>
-        <Border Name="Overlay" Panel.ZIndex="100" HorizontalAlignment="Stretch"  Visibility="Collapsed" VerticalAlignment="Stretch" Background="{DynamicResource GrayBrush}" Opacity="0.7" />
     </Grid>
 </metroControl:MetroWindow>

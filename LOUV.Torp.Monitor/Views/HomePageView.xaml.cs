@@ -141,7 +141,8 @@ namespace LOUV.Torp.Monitor.Views
 
         private void MainMap_OnMapTypeChanged(MapType type)
         {
-            throw new NotImplementedException();
+            sliderZoom.Minimum = MainMap.MinZoom;
+            sliderZoom.Maximum = MainMap.MaxZoom;
         }
 
         private void MainMap_OnTileLoadStart()
@@ -181,7 +182,7 @@ namespace LOUV.Torp.Monitor.Views
         {
             MainMap.Zoom = ((int) MainMap.Zoom) + 1;
             czuZoomDown.IsEnabled = true;
-            if (MainMap.Zoom == 17)
+            if (MainMap.Zoom == sliderZoom.Maximum)
                 czuZoomUp.IsEnabled = false;
         }
 
@@ -189,7 +190,7 @@ namespace LOUV.Torp.Monitor.Views
         {
             MainMap.Zoom = ((int) (MainMap.Zoom + 0.99)) - 1;
             czuZoomUp.IsEnabled = true;
-            if (MainMap.Zoom == 1)
+            if (MainMap.Zoom == sliderZoom.Minimum)
                 czuZoomDown.IsEnabled = false;
         }
 

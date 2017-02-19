@@ -43,7 +43,7 @@ namespace LOUV.Torp.BaseType
         public Offset MapOffset { get; set; }  
 
     }
-
+    [Serializable]
     public class Buoy
     {
         public string Name
@@ -57,7 +57,14 @@ namespace LOUV.Torp.BaseType
         public float Range { get; set; }
         public string GpsTime { get; set; }
     }
-
+    [Serializable]
+    public class Info
+    {
+        public string Name { get; set; }
+        public string Memo { get; set; }
+        public float Longitude { get; set; }
+        public float Latitude { get; set; }
+    }
     public class Target
     {
 

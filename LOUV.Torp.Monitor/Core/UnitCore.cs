@@ -64,6 +64,7 @@ namespace LOUV.Torp.Monitor.Core
         public Hashtable InfoBoard = new Hashtable();
         public Target TargetObj = new Target();
         public MapCfg MainMapCfg { get; set; }//map配置
+        InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
@@ -172,6 +173,7 @@ namespace LOUV.Torp.Monitor.Core
                 };
                 Buoy.Add("浮标4",by4);
                 InfoBoard = new Hashtable();
+                SaveInitPara();
                 var errmsg = new ErrorEvent(MyEx, LogType.Both)
                 {
                     Message = "浮标信息读取失败，使用默认参数"
@@ -182,7 +184,7 @@ namespace LOUV.Torp.Monitor.Core
 
         private void SaveInitPara()
         {
-            string gridname = MonConf.GetInstance().MyExecPath + "\\" + "default.conf";
+            string gridname = MonConf.GetInstance().MyExecPath + "\\" + "default.ini";
             Stream stream = new FileStream(gridname, FileMode.Create, FileAccess.Write, FileShare.None);
             BinaryFormatter formatter = new BinaryFormatter();
             try
@@ -198,7 +200,7 @@ namespace LOUV.Torp.Monitor.Core
                 stream.Close();
                 var errmsg = new ErrorEvent(MyEx, LogType.Both)
                 {
-                    Message = "保存浮标信息失败"
+                    Message = "保存浮标信息失败：" + MyEx.Message,
                 };
                 UnitCore.Instance.EventAggregator.PublishMessage(errmsg);
             }
@@ -317,7 +319,5 @@ namespace LOUV.Torp.Monitor.Core
 
             });
         }
-
-        public InitialData initpara { get; set; }
     }
 }

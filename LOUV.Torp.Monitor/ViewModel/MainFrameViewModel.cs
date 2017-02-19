@@ -50,11 +50,6 @@ namespace LOUV.Torp.Monitor.ViewModel
             Application.Current.Shutdown();
         }
 
-        internal void ShowAbout()
-        {
-            AboutVisibility = true;
-        }
-
         #endregion
         #region binding property
         
@@ -63,11 +58,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return _dialogCoordinator; }
             set { _dialogCoordinator = value; }
         }
-        public bool AboutVisibility
-        {
-            get { return GetPropertyValue(() => AboutVisibility); }
-            set { SetPropertyValue(() => AboutVisibility, value); }
-        }
+
 
         #endregion
 
