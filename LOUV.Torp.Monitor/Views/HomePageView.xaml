@@ -15,8 +15,9 @@
       Background="{StaticResource DefaultBackgroundBrush}"
       DataContext="{Binding HomePageViewModel, Source={StaticResource ViewModelLocator}}" 
       mc:Ignorable="d" 
+      KeepAlive="True"
       d:DesignHeight="720" d:DesignWidth="1080" KeyUp="HomePageView_OnKeyUp" PreviewKeyDown ="HomePageView_PreviewKeyDown"
-	Title="MainPage" Loaded="Page_Loaded"> 
+	Title="MainPage" Loaded="Page_Loaded">
     <Page.Resources>
         <Converters:HideZeroConverter x:Key="HideZeroConverter"/>
         <ImageBrush x:Key="LiveImageBrush" ImageSource="{StaticResource LiveImageBackground}"/>
@@ -68,25 +69,42 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
                             <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" />
-                                <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.2">
-                                    <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
-                                    <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="9" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
-                                    <Button x:Name="czuZoomDown" Style="{StaticResource ZoomOutAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Click="czuZoomDown_Click"/>
-                                </Grid>
-                            <Controls:MetroProgressBar x:Name ="MapLoadBar" Margin="20,0" Visibility="Hidden"/>
+                            <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.3">
+                                <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
+                                <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="1" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
+                                <Button x:Name="czuZoomDown" Style="{StaticResource ZoomOutAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="40" Height="40" Click="czuZoomDown_Click"/>
+                            </Grid>
+                            <Controls:FetchingDataProgrssRing x:Name ="MapLoadBar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <UniformGrid Grid.Row="2" Columns="4" Rows="2">
+                                <MetroControl:ToggleSwitch Content="浮标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
+                                <MetroControl:ToggleSwitch Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
+                                <MetroControl:ToggleSwitch Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
+                                <MetroControl:ToggleSwitch Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
+                                <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BackToCenter">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="18" Text="刷新地图" FontFamily="Microsoft YaHei" />
+                                                <Image Source="/Assets/appbar.refresh.png" Height="30" Width="30" />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </UniformGrid>
                         </Grid>
                     </MetroControl:MetroTabItem>
                     <MetroControl:MetroTabItem x:Name="ThreeDMapTabItem" Header="三维">
 
                     </MetroControl:MetroTabItem>
-                   
+
                 </MetroControl:MetroAnimatedTabControl>
+
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" >
-                
+
             </Grid>
             <!--Brand info at bottom right corner-->
             <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0">

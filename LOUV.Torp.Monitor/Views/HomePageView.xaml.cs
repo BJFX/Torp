@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +20,11 @@ using GMap.NET.WindowsPresentation;
 using GMap.NET;
 using LOUV.Torp.Monitor.Events;
 using System.Windows.Threading;
+using System.IO;
+using LOUV.Torp.MonitorConf;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using LOUV.Torp.Monitor.Helpers;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -26,12 +33,11 @@ namespace LOUV.Torp.Monitor.Views
     /// </summary>
     public partial class HomePageView : Page
     {
-        private Offset mapToGpsOffset ;//地图内部坐标转换为GPS坐标
-        private Offset GpsTomapOffset;//GPS坐标转换为地图内部坐标
+        private PointLatLng mapToGpsOffset;//地图内部坐标转换为GPS坐标
+        private PointLatLng GpsTomapOffset;//GPS坐标转换为地图内部坐标
         private PointLatLng currentClick;//当前点击的位置
-        List<BuoyMarker> buoyMarkers = new List<BuoyMarker>();
-        List<InfoBoard> infoMarkers = new List<InfoBoard>();
-        List<ObjectMarker> objMarkers = new List<ObjectMarker>();
+        private bool maploaded = false;
+        //private bool MouseInMap = false;
         private MapRoute trackRoute;
         public HomePageView()
         {
@@ -39,6 +45,7 @@ namespace LOUV.Torp.Monitor.Views
             try
             {
                 UnitCore.Instance.MainMapCfg = UnitCore.Instance.MonConfigueService.LoadMapCfg();
+                
             }
             catch (Exception ex)
             {
@@ -55,15 +62,17 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.OnTileLoadComplete += new TileLoadComplete(MainMap_OnTileLoadComplete);
             MainMap.OnTileLoadStart += new TileLoadStart(MainMap_OnTileLoadStart);
             MainMap.OnMapTypeChanged += new MapTypeChanged(MainMap_OnMapTypeChanged);
-            //MainMap.MouseMove += new System.Windows.Input.MouseEventHandler(MainMap_MouseMove);
+            MainMap.MouseMove += new System.Windows.Input.MouseEventHandler(MainMap_MouseMove);
             MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
-
+            MainMap.GotFocus+=MainMap_GotFocus;
+            MainMap.LostFocus+=MainMap_LostFocus;
             //
             var test = new Buoy()
             {
-                id = 4
+                id = 4,
+                GpsTime = "14:50:12",
             };
             currentMarker = new GMapMarker(MainMap.Position);
             {
@@ -75,10 +84,14 @@ namespace LOUV.Torp.Monitor.Views
             
         }
 
+        
+
+        
+
         private void RefreshMap(MapCfg cfg)
         {
-            GpsTomapOffset = cfg.MapOffset;
-            mapToGpsOffset = -GpsTomapOffset;
+            GpsTomapOffset = new PointLatLng(cfg.MapOffset.Lat,cfg.MapOffset.Lng);
+            mapToGpsOffset = new PointLatLng(-GpsTomapOffset.Lat,GpsTomapOffset.Lng);
             MainMap.Position = new PointLatLng(cfg.CenterLat,cfg.CenterLng);
             MainMap.Position.Offset(GpsTomapOffset.Lat,GpsTomapOffset.Lng);
             MainMap.MapName = cfg.Title;
@@ -86,6 +99,20 @@ namespace LOUV.Torp.Monitor.Views
         }
 
         #region map event
+        private void MainMap_MouseMove(object sender, MouseEventArgs e)
+        {
+
+                System.Windows.Point p = e.GetPosition(MainMap);
+                var pt = MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
+                pt.Offset(mapToGpsOffset);
+                MainMap.MousePosition = pt;
+           
+        }
+        private void BackToCenter(object sender, RoutedEventArgs e)
+        {
+            Goto(UnitCore.Instance.MainMapCfg.CenterLat, UnitCore.Instance.MainMapCfg.CenterLng);
+            MainMap.ZoomAndCenterMarkers(null);
+        }
         private void MainMap_MouseEnter(object sender, MouseEventArgs e)
         {
             MainMap.Focus();
@@ -93,7 +120,10 @@ namespace LOUV.Torp.Monitor.Views
 
         private void MainMap_Loaded(object sender, RoutedEventArgs e)
         {
-            MainMap.ZoomAndCenterMarkers(null);
+            if (!maploaded)
+            {
+                maploaded=MainMap.ZoomAndCenterMarkers(null);
+            }
         }
 
         private void MainMap_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -215,12 +245,12 @@ namespace LOUV.Torp.Monitor.Views
 
         private void MainMap_GotFocus(object sender, RoutedEventArgs e)
         {
-            ZoomSlide.Opacity = 0.95;
+            ZoomSlide.Opacity = 1;
         }
 
         private void MainMap_LostFocus(object sender, RoutedEventArgs e)
         {
-            ZoomSlide.Opacity = 0.5;
+            ZoomSlide.Opacity = 0.3;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -260,9 +290,12 @@ namespace LOUV.Torp.Monitor.Views
             center.Offset(GpsTomapOffset.Lat, GpsTomapOffset.Lng);
             MainMap.Position = center;
         }
+        
         #endregion
 
         public GMapMarker currentMarker { get; set; }
+
+        
     }
 
 }

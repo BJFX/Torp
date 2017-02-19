@@ -6,16 +6,16 @@
              Background="Transparent" Height="160" Width="180" IsHitTestVisible="False">
     <Grid>
         <Rectangle Stroke="Green" RadiusX="2" RadiusY="2" Fill="AliceBlue"/>
-        <Label Name="BuoyNameLabel" HorizontalAlignment="Left" Width="68" FontSize="16" Foreground="Navy" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Height="40" VerticalAlignment="Top">浮标:</Label>
-        <TextBlock Height="23.64" Margin="66,9.36,5.137,0" Name="BuoyID" VerticalAlignment="Top" Foreground="Red" FontSize="16" FontWeight="Bold" Text="4444"/>
-        <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" Margin="-0.096,26.64,0,0" Name="RangeLabel" VerticalContentAlignment="Center" Width="68.096" HorizontalContentAlignment="Left" Height="36" VerticalAlignment="Top">测距:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="MediumBlue" Margin="66,34.986,3.57,0" Name="Range" Height="24.276" VerticalAlignment="Top" Text="44"/>
-        <Label FontSize="16" Foreground="Navy" Height="32.712" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,104.288,0,0" Name="MemoLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="68">备注:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="66,109.724,2.708,0" Name="Memo" Height="24.276" VerticalAlignment="Top" Text="-" TextWrapping="Wrap"/>
-        <Label FontSize="16" Foreground="Navy" Height="36" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,49.617,0,0" Name="LatLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="68">纬度:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Height="26.355" Margin="66,56.977,6.655,0" Name="Lat" VerticalAlignment="Top" Text="-"></TextBlock>
-        <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,78,0,0" Name="LongLabel" VerticalContentAlignment="Center" Width="68" Height="32.712" VerticalAlignment="Top">经度:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Margin="66,85,46.655,0" Name="Long" Text="-" Height="25.712" VerticalAlignment="Top" />
-        <TextBlock FontSize="14" FontWeight="Normal" Foreground="Black" Height="21" Name="TimeGps" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="63" Text="15:55:55" TextAlignment="Left" Margin="0,0,0,5"/>
+        <Label Name="BuoyNameLabel" HorizontalAlignment="Left" Width="50" FontSize="16" Foreground="Navy" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Height="40" VerticalAlignment="Top">浮标:</Label>
+        <TextBlock Height="23.64" Margin="52,9.36,5.137,0" Name="BuoyID" VerticalAlignment="Top" Foreground="Red" FontSize="16" FontWeight="Bold" Text="4444" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" Margin="0,26.64,0,0" Name="RangeLabel" VerticalContentAlignment="Center" Width="50" HorizontalContentAlignment="Left" Height="36" VerticalAlignment="Top">测距:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="MediumBlue" Margin="52,34.986,3.57,0" Name="Range" Height="24.276" VerticalAlignment="Top" Text="44" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" Height="32.712" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,104.288,0,0" Name="MemoLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">备注:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,110,3,0" Name="Memo" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" Height="36" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,49.617,0,0" Name="LatLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">纬度:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Height="26.355" Margin="52,56.977,6.655,0" Name="Lat" VerticalAlignment="Top" Text="-" Width="124"></TextBlock>
+        <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,78,0,0" Name="LongLabel" VerticalContentAlignment="Center" Width="50" Height="32.712" VerticalAlignment="Top">经度:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Margin="52,85,10,0" Name="Long" Text="-" Height="26" VerticalAlignment="Top" Width="124" />
+        <TextBlock FontSize="14" FontWeight="Normal" Foreground="Black" Height="21" Name="TimeGps" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="63" Text="15:55:55" TextAlignment="Left" Margin="0"/>
     </Grid>
 </UserControl>

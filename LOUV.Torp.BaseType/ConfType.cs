@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GMap.NET;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -57,7 +58,7 @@ namespace LOUV.Torp.BaseType
         public string GpsTime { get; set; }
     }
 
-    public class Object
+    public class Target
     {
 
     }
@@ -65,6 +66,7 @@ namespace LOUV.Torp.BaseType
     [Serializable]
     public class InitialData
     {
-        public Hashtable BuyoArray;
+        public Hashtable buoy;
+        public Hashtable info;
     }
 }

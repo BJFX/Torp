@@ -4,6 +4,8 @@ using System.IO;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows.Controls;
 
@@ -58,7 +60,9 @@ namespace LOUV.Torp.Monitor.Core
         public Model3D BuoyModel { get; set; }//buoy 模型
         public Model3D ObjModel { get; set; }//目标模型
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
-        public Hashtable BuoyArray = new Hashtable();//store buoy objects
+        public Hashtable Buoy = new Hashtable();
+        public Hashtable InfoBoard = new Hashtable();
+        public Target TargetObj = new Target();
         public MapCfg MainMapCfg { get; set; }//map配置
         public MonTraceService MonTraceService
         {
@@ -116,23 +120,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     throw _monConf.ex;
                 }
-                //if (_monConf.GetVelProfileName() != null)
-                //{
-                //    if (File.Exists(_monConf.GetVelProfileName()))
-                //    {
-                //        SoundFile = new SettleSoundFile(_monConf.GetVelProfileName());
-                //    }
-                //    else
-                //    {
-                //        EventAggregator.PublishMessage(new LogEvent("未找到预设声速梯度文件", LogType.Both));
-                //    }
-                //}
-                //else
-                //{
-                //    EventAggregator.PublishMessage(new LogEvent("未配置声速梯度文件", LogType.OnlyLog));
-                //}
                 
-
                 _serviceStarted = true;//if failed never get here
 
                 return _serviceStarted;
@@ -145,8 +133,76 @@ namespace LOUV.Torp.Monitor.Core
             }
             return ret;
         }
+        private void ReadBuoy()
+        {
+            string gridname = MonConf.GetInstance().MyExecPath+ "\\" + "default.ini";
+            Stream stream = null;
+            try
+            {
+                stream = new FileStream(gridname, FileMode.Open, FileAccess.Read, FileShare.Read);
+                IFormatter formatter = new BinaryFormatter();
+                initpara = (InitialData)formatter.Deserialize(stream);
+                stream.Close();
+                Buoy = initpara.buoy;
+                InfoBoard = initpara.info;
 
+            }
+            catch (Exception MyEx)
+            {
+                if (stream!=null)
+                    stream.Close();
+                var by1 = new Buoy()
+                {
+                    id = 1,
+                };
+                Buoy.Add("浮标1",by1);
+                var by2 = new Buoy()
+                {
+                    id = 2,
+                };
+                Buoy.Add("浮标2",by2);
+                var by3 = new Buoy()
+                {
+                    id = 3,
+                };
+                Buoy.Add("浮标3",by3);
+                var by4 = new Buoy()
+                {
+                    id = 4,
+                };
+                Buoy.Add("浮标4",by4);
+                InfoBoard = new Hashtable();
+                var errmsg = new ErrorEvent(MyEx, LogType.Both)
+                {
+                    Message = "浮标信息读取失败，使用默认参数"
+                };
+                UnitCore.Instance.EventAggregator.PublishMessage(errmsg);
+            }
+        }
 
+        private void SaveInitPara()
+        {
+            string gridname = MonConf.GetInstance().MyExecPath + "\\" + "default.conf";
+            Stream stream = new FileStream(gridname, FileMode.Create, FileAccess.Write, FileShare.None);
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                initpara.buoy = Buoy;
+                initpara.info = InfoBoard;
+
+                formatter.Serialize(stream, initpara);
+                stream.Close();
+            }
+            catch (Exception MyEx)
+            {
+                stream.Close();
+                var errmsg = new ErrorEvent(MyEx, LogType.Both)
+                {
+                    Message = "保存浮标信息失败"
+                };
+                UnitCore.Instance.EventAggregator.PublishMessage(errmsg);
+            }
+        }
         public IEventAggregator EventAggregator
         {
             get { return _eventAggregator ?? (_eventAggregator = UnitKernal.Instance.EventAggregator); }
@@ -168,7 +224,7 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkChange.NetworkAvailabilityChanged += new
                 NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
-                
+                ReadBuoy();
                 if(NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();
@@ -209,6 +265,7 @@ namespace LOUV.Torp.Monitor.Core
 
         public void Stop()
         {
+            SaveInitPara();
             if(NetCore==null)
                 return;
             if (NetCore.IsTCPWorking)
@@ -260,5 +317,7 @@ namespace LOUV.Torp.Monitor.Core
 
             });
         }
+
+        public InitialData initpara { get; set; }
     }
 }
