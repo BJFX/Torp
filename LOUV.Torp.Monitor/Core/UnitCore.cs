@@ -216,8 +216,11 @@ namespace LOUV.Torp.Monitor.Core
         {
             get { return _iNetCore ?? (_iNetCore = NetLiveService_Torp.GetInstance(_MonConfInfo, Observer)); }
         }
-      
-        
+
+        public void RefreshBuoy(Buoy buoy)
+        {
+            
+        }
         
         public bool Start()
         {

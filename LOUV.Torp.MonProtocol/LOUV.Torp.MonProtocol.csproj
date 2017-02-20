@@ -71,6 +71,10 @@
       <Project>{405f8ce4-6f62-40fb-8dca-7c6e44c8a1d2}</Project>
       <Name>LOUV.Torp.BaseType</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.Utility\LOUV.Torp.Utility.csproj">
+      <Project>{762a1a94-d438-43d8-8a9f-26e769ae7237}</Project>
+      <Name>LOUV.Torp.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

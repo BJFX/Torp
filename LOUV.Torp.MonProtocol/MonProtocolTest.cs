@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,9 +61,10 @@ namespace LOUV.Torp.MonProtocol
             int i = 0;
             foreach(var buf in GpsArray)
             {
-                
+                var gpsbuf = new byte[1030];
+                Buffer.BlockCopy(buf, 2, gpsbuf, 0, 1030);
                 Console.WriteLine("Process {0} Gps\n",i);
-                var info = MonProtocol.ParseGps(buf);
+                var info = MonProtocol.ParseGps(gpsbuf);
                 Assert.IsNotNull(info);
                 Console.WriteLine("GPS: time:{0};lat:{1};long:{2}\n", info.UTCTime, info.Latitude, info.Longitude);
                 i++;
@@ -71,11 +73,20 @@ namespace LOUV.Torp.MonProtocol
         }
 
         [Test]
-        public void ParseRangeTest()
+        public void ParsePulseRangeTest()
         {
             foreach (var buf in RangeArray)
             {
-                Assert.IsNotNull(MonProtocol.ParseRange(buf));
+                var litebuf = new byte[14];
+                Buffer.BlockCopy(buf,2,litebuf,0,14);
+                var range = MonProtocol.ParsePulseRange(litebuf);
+                Assert.IsNotNull(range);
+                Console.WriteLine("PulseRange: RelativePara:{0};RecvGain:{1};PeakPosition:{2}\n", range.RelativePara, range.RecvGain, range.PeakPosition);
+                var gpsbuf = new byte[1030];
+                Buffer.BlockCopy(buf, 16, gpsbuf, 0, 1032-16);
+                var info = MonProtocol.ParseGps(gpsbuf);
+                Assert.IsNotNull(info);
+                Console.WriteLine("GPS: time:{0};lat:{1};long:{2}\n", info.UTCTime, info.Latitude, info.Longitude);
             }
         }
         [Test]
@@ -83,7 +94,23 @@ namespace LOUV.Torp.MonProtocol
         {
             foreach (var buf in TeleRangeArray)
             {
-                Assert.IsNotNull(MonProtocol.ParseTeleRange(buf));
+                var litebuf = new byte[14];
+                Buffer.BlockCopy(buf, 2, litebuf, 0, 14);
+                var range = MonProtocol.ParsePulseRange(litebuf);
+                Assert.IsNotNull(range);
+                Console.WriteLine("PulseRange: RelativePara:{0};RecvGain:{1};PeakPosition:{2}\n", range.RelativePara, range.RecvGain, range.PeakPosition);
+                var length = BitConverter.ToUInt16(buf, 31);
+                var combuf = new byte[17+length];
+                Buffer.BlockCopy(buf, 16, combuf, 0, 17 + length);
+                var telerange = MonProtocol.ParseTeleRange(combuf,length);
+                Assert.IsNotNull(telerange);
+                Console.WriteLine("Telerange: SamplingStart:{0};RecvDelay:{1};ModemStyle:{2};Dopple:{3},CRC:{4};Message:{5}\n", telerange.SamplingStart,
+                    telerange.RecvDelay, telerange.ModemStyle, telerange.Dopple, telerange.Crc,telerange.Message );
+                var gpsbuf = new byte[1030];
+                Buffer.BlockCopy(buf, 33+length, gpsbuf, 0, 1032 - 33-length);
+                var info = MonProtocol.ParseGps(gpsbuf);
+                Assert.IsNotNull(info);
+                Console.WriteLine("GPS: time:{0};lat:{1};long:{2}\n", info.UTCTime, info.Latitude, info.Longitude);
             }
         }
         [TearDown]
