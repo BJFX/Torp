@@ -53,7 +53,7 @@
                     HorizontalAlignment ="Stretch" OpacityMask="Black" Margin="10,0,0,0"/>
             </Grid>
             <!--Main area-->
-            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="3">
+            <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -62,7 +62,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="13*"/>
                     <ColumnDefinition Width="18*"/>
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="400"/>
                 </Grid.ColumnDefinitions>
                 <MetroControl:MetroAnimatedTabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
                     <MetroControl:MetroTabItem x:Name="TwoDMapTabItem" Header="地图" IsSelected="True">
@@ -71,7 +71,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
-                            <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" />
+                            <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" PreviewMouseMove="MainMap_PreviewMouseMove" />
                             <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.3">
                                 <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
                                 <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="1" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
@@ -101,9 +101,6 @@
                     </MetroControl:MetroTabItem>
 
                 </MetroControl:MetroAnimatedTabControl>
-
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="1" >
 
             </Grid>
             <!--Brand info at bottom right corner-->

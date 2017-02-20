@@ -106,6 +106,7 @@ namespace LOUV.Torp.Monitor.Views
                 var pt = MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
                 pt.Offset(mapToGpsOffset);
                 MainMap.MousePosition = pt;
+                MainMap.InvalidateVisual();
            
         }
         private void BackToCenter(object sender, RoutedEventArgs e)
@@ -295,6 +296,14 @@ namespace LOUV.Torp.Monitor.Views
         #endregion
 
         public GMapMarker currentMarker { get; set; }
+
+        private void MainMap_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            System.Windows.Point p = e.GetPosition(MainMap);
+            var pt = MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
+            pt.Offset(mapToGpsOffset);
+            MainMap.MousePosition = pt;
+        }
 
         
     }

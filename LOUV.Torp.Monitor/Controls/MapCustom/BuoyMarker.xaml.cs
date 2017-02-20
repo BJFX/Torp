@@ -1,4 +1,5 @@
-﻿using GMap.NET.WindowsPresentation;
+﻿using System.Net.PeerToPeer.Collaboration;
+using GMap.NET.WindowsPresentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         Popup Popup;
         BuoyTip Tip;
         GMapMarker Marker;
+        private Buoy _buoy;
         HomePageView MainWindow;
         readonly ScaleTransform scale = new ScaleTransform(1, 1);
         public BuoyMarker(HomePageView window, GMapMarker marker, Buoy buoy)
@@ -55,6 +57,13 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             }
             Popup.Child = Tip;
             CanPopUp = true;
+            _buoy = buoy;
+        }
+
+        public void Refresh(Buoy buoy)
+        {
+            _buoy = buoy;
+            Tip.SetBuoy(_buoy);
         }
         public bool CanPopUp{get;set;}
         private void BuoyMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
