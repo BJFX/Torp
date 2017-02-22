@@ -27,11 +27,18 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         public void SetBuoy(Buoy buoy)
         {
             BuoyID.Text = buoy.Name;
-            Range.Text = buoy.Range.ToString("F2");
-            Lat.Text = buoy.Latitude.ToString("F6");
-            Long.Text = buoy.Longitude.ToString("F6");
-            TimeGps.Text = buoy.GpsTime;
+            Lat.Text = buoy.gps.Latitude.ToString("F6");
+            Long.Text = buoy.gps.Longitude.ToString("F6");
+            TimeGps.Text = buoy.gps.UTCTime.ToLocalTime().ToShortTimeString();
             Memo.Text = buoy.Memo;
+        }
+        public void SetTarget(Target target)
+        {
+            BuoyID.Text = target.Name;
+            Lat.Text = target.Latitude.ToString("F6");
+            Long.Text = target.Longitude.ToString("F6");
+            TimeGps.Text = target.UTCTime.ToLocalTime().ToShortTimeString();
+            Memo.Text = target.Memo;
         }
     }
 }

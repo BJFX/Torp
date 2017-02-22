@@ -105,7 +105,56 @@ namespace LOUV.Torp.MonitorConf
             }
 
         }
+        public Setup GetSetup()
+        {
+            var setup = new Setup();
+            try
+            {
+                setup.UseProfile = GetUseProfile();
+                setup.AcouVel = GetUserAcousVel();
+                setup.Offset = GetOffset();
+                return setup;
+            }
+            catch (Exception e)
+            {
+                ex = e;
+                return null;
+            }
+        }
 
+        private float GetOffset()
+        {
+            string[] str = { "Setup", "FixOffset" };
+            return float.Parse(GetValue(str));
+        }
+
+        private float GetUserAcousVel()
+        {
+            string[] str = { "Setup", "AcousticVel" };
+            return float.Parse(GetValue(str));
+        }
+
+        private int GetUseProfile()
+        {
+            string[] str = { "Setup", "UseProfile" };
+            return int.Parse(GetValue(str));
+        }
+
+        public bool SetOffset(float offset)
+        {
+            string[] str = { "Setup", "FixOffset" };
+            return SetValue(str, offset.ToString());
+        }
+        public bool SetUseProfile(int use)
+        {
+            string[] str = { "Setup", "UseProfile" };
+            return SetValue(str, use.ToString());
+        }
+        public bool SetAcousticVel(float AcousticVel)
+        {
+            string[] str = { "Setup", "AcousticVel" };
+            return SetValue(str, AcousticVel.ToString());
+        }
         public CommNet GetNet()
         {
             var netcomm = new CommNet();

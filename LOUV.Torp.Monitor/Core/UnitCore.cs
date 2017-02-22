@@ -64,6 +64,7 @@ namespace LOUV.Torp.Monitor.Core
         public Hashtable InfoBoard = new Hashtable();
         public Target TargetObj = new Target();
         public MapCfg MainMapCfg { get; set; }//map配置
+        public Setup SetupCfg { get; set; }//计算配置
         InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
         {
@@ -121,7 +122,11 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     throw _monConf.ex;
                 }
-                
+                SetupCfg = _monConf.GetSetup();
+                if (SetupCfg == null)
+                {
+                    throw _monConf.ex;
+                }
                 _serviceStarted = true;//if failed never get here
 
                 return _serviceStarted;
@@ -152,24 +157,35 @@ namespace LOUV.Torp.Monitor.Core
             {
                 if (stream!=null)
                     stream.Close();
+                var gpsinfo = new GpsInfo()
+                {
+                    UTCTime = DateTime.UtcNow,
+                    Latitude = 29.592966F,
+                    Longitude = 118.983188F,
+                };
+
                 var by1 = new Buoy()
                 {
                     id = 1,
+                    gps= gpsinfo,
                 };
                 Buoy.Add("浮标1",by1);
                 var by2 = new Buoy()
                 {
                     id = 2,
+                    gps= gpsinfo,
                 };
                 Buoy.Add("浮标2",by2);
                 var by3 = new Buoy()
                 {
                     id = 3,
+                    gps= gpsinfo,
                 };
                 Buoy.Add("浮标3",by3);
                 var by4 = new Buoy()
                 {
                     id = 4,
+                    gps= gpsinfo,
                 };
                 Buoy.Add("浮标4",by4);
                 InfoBoard = new Hashtable();

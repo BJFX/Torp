@@ -68,11 +68,12 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
             MainMap.GotFocus+=MainMap_GotFocus;
             MainMap.LostFocus+=MainMap_LostFocus;
-            //
+            var gps = new GpsInfo();
+            gps.UTCTime = DateTime.UtcNow;
             var test = new Buoy()
             {
                 id = 4,
-                GpsTime = "14:50:12",
+                gps = gps,
             };
             currentMarker = new GMapMarker(MainMap.Position);
             {
@@ -297,13 +298,6 @@ namespace LOUV.Torp.Monitor.Views
 
         public GMapMarker currentMarker { get; set; }
 
-        private void MainMap_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            System.Windows.Point p = e.GetPosition(MainMap);
-            var pt = MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
-            pt.Offset(mapToGpsOffset);
-            MainMap.MousePosition = pt;
-        }
 
         
     }

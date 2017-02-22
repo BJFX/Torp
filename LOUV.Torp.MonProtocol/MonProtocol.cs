@@ -5,56 +5,10 @@ using System.Linq;
 using System.Text;
 using NMEA0183;
 using LOUV.Torp.Utility;
+using LOUV.Torp.BaseType;
 namespace LOUV.Torp.MonProtocol
 {
-    public class GpsInfo
-    {
-        public DateTime UTCTime;
-        public float Longitude;
-        public float Latitude;
-    }
-
-    public class LiteRange
-    {
-        public double RelativePara;
-        public UInt16 RecvGain;
-        public Int32 PeakPosition;
-    }
-
-    public class TeleRange
-    {
-        public Int32 SamplingStart;
-        public float RecvDelay;
-        public byte ModemStyle;
-        public Int16 Crc;
-        public float Dopple;
-        public UInt16  MsgLength;
-        public byte[] Msg;
-
-        public string Message
-        {
-            get
-            {
-                var da = new DateTime(BitConverter.ToInt64(Msg, 0));
-                var buf = new byte[MsgLength - 4];
-                Buffer.BlockCopy(Msg,4,buf,0,MsgLength - 4);
-                return da.ToShortTimeString()+":"+Util.ConvertCharToHex(buf);
-            }
-        }//utc time +0xFF
-    }
-
-    public class PulseRange
-    {
-        public LiteRange range;
-        public GpsInfo gps;
-    }
-
-    public class CommRange
-    {
-        public LiteRange range;
-        public GpsInfo gps;
-        public TeleRange telerange;
-    }
+    
     public class MonProtocol
     {
         public static GpsInfo ParseGps(byte[] buffer)

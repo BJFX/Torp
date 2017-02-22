@@ -137,6 +137,7 @@
     <Compile Include="Core\SettleSoundFile.cs" />
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
+    <Compile Include="Events\RefreshBuoyInfoEvent.cs" />
     <Compile Include="Events\RefreshLog.cs" />
     <Compile Include="Events\ShowAboutSlide.cs" />
     <Compile Include="Splasher.cs" />
@@ -383,6 +384,10 @@
     <ProjectReference Include="..\LOUV.Torp.MonConf\LOUV.Torp.MonitorConf.csproj">
       <Project>{0cfdd71d-3343-491f-8eed-15d84dd5252c}</Project>
       <Name>LOUV.Torp.MonitorConf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.MonProtocol\LOUV.Torp.MonProtocol.csproj">
+      <Project>{27ecaaa8-d328-4d20-9377-1132e182a2be}</Project>
+      <Name>LOUV.Torp.MonProtocol</Name>
     </ProjectReference>
     <ProjectReference Include="..\LOUV.Torp.MonTrace\LOUV.Torp.MonTrace.csproj">
       <Project>{1eeb4b59-38ba-4e0a-ac94-ecd9f0d8e535}</Project>

@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Torp>
+  <Setup>
+	<UseProfile>0</UseProfile>
+	<AcousticVel>1500</AcousticVel>
+	<FixOffset>2.667</FixOffset>
+  </Setup>
   <Net>
 	<IP>255.255.255.0</IP>
     <DataPort>5555</DataPort>
@@ -15,9 +20,6 @@
     <Buoy>Assets/Ship.3DS</Buoy>
 	<OBJ>Assets/Ship.3DS</OBJ>
   </Asset>
-  <Profile>
-    <Name>D:\work\ioa\Sound_file_negative.txt</Name>
-  </Profile>
   <Map>
 	<Name>千岛湖</Name>
 	<MapType>BingSatellite</MapType>

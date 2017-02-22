@@ -72,7 +72,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
-                            <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" PreviewMouseMove="MainMap_PreviewMouseMove" />
+                            <Custom:Map  Grid.Row="0" x:Name="MainMap" MapType="GoogleSatelliteChina" Zoom="13" MaxZoom="17" MinZoom="1" ShowTileGridLines ="False" />
                             <Grid x:Name ="ZoomSlide" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Opacity="0.3">
                                 <Button x:Name="czuZoomUp" Style="{StaticResource ZoomInAppBarButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" Height="40" Click="czuZoomUp_Click"/>
                                 <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="1" Value="{Binding ElementName=MainMap, Path=Zoom}" TickPlacement="Both" Margin="0,45,0,45" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
@@ -112,6 +112,22 @@
                     </Grid.RowDefinitions>
                     <UniformGrid Rows="3" Columns="3" Grid.Row="0">
                         <Label Content="目标" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="经度:" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="{Binding ObjTarget.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </UniformGrid>
+                    <UniformGrid Rows="3" Columns="3" Grid.Row="1">
+                        <Label Content="浮标1" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
+                    </UniformGrid>
+                    <UniformGrid Rows="3" Columns="3" Grid.Row="2">
+                        <Label Content="浮标2" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
+                    </UniformGrid>
+                    <UniformGrid Rows="3" Columns="3" Grid.Row="3">
+                        <Label Content="浮标3" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
+                    </UniformGrid>
+                    <UniformGrid Rows="3" Columns="3" Grid.Row="4">
+                        <Label Content="浮标4" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
                     </UniformGrid>
                 </Grid>
             </Grid>
