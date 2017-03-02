@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Threading;
 using LOUV.Torp.Monitor.Events;
 using TinyMetroWpfLibrary.ViewModel;
 using TinyMetroWpfLibrary.EventAggregation;
@@ -16,11 +17,52 @@ namespace LOUV.Torp.Monitor.ViewModel
         public override void Initialize()
         {
             ObjTarget = new Target();
+            Buoy1 = new Buoy(1);
+            Buoy2 = new Buoy(2);
+            Buoy3 = new Buoy(3);
+            Buoy4 = new Buoy(4);
         }
 
         public override void InitializePage(object extraData)
         {
             AboutVisibility = false;
+            var t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.DataBind, RefreshTarget,
+                Dispatcher.CurrentDispatcher);
+            t.Start();
+        }
+
+        private void RefreshTarget(object sender, EventArgs e)
+        {
+            Target objTarget = new Target();
+            objTarget.UTCTime = DateTime.UtcNow;
+            objTarget.Longitude = DateTime.Now.Millisecond;
+            objTarget.Latitude = DateTime.Now.Ticks;
+            RefreshTarget(objTarget);
+        }
+
+        private void RefreshTarget(Target target)
+        {
+            ObjTarget = target;
+        }
+        private void RefreshBuoy(int index,Buoy buoy)
+        {
+            switch (index)
+            {
+                case 0:
+                    Buoy1 = buoy;
+                    break;
+                case 1:
+                    Buoy2 = buoy;
+                    break;
+                case 2:
+                    Buoy3 = buoy;
+                    break;
+                case 3:
+                    Buoy4 = buoy;
+                    break;
+                default:
+                    break;
+            }
         }
         public bool AboutVisibility
         {

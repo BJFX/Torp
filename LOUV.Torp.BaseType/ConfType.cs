@@ -60,6 +60,10 @@ namespace LOUV.Torp.BaseType
         {
             get { return "浮标-" + id.ToString("D2"); }
         }
+        public string Time
+        {
+            get { return gps.UTCTime.ToShortTimeString(); }
+        }
         public int id { get; set; }
 
         public GpsInfo gps { get; set; }
@@ -68,6 +72,14 @@ namespace LOUV.Torp.BaseType
         public string Memo { get; set; }
 
         public float Range { get; set; }
+
+        public Buoy(int id)
+        {
+            id = id;
+        }
+        public Buoy()
+        {
+        }
  
     }
     [Serializable]
@@ -110,9 +122,20 @@ namespace LOUV.Torp.BaseType
     {
         public string Name { get; set; }
         public string Memo { get; set; }
+
+        public string Time
+        {
+            get { return UTCTime.ToShortTimeString(); }
+        }
+
         public DateTime UTCTime{ get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
+
+        public Target(string name="目标")
+        {
+            Name = name;
+        }
     }
 
     [Serializable]

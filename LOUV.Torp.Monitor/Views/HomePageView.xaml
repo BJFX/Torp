@@ -110,11 +110,23 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid Rows="3" Columns="3" Grid.Row="0">
-                        <Label Content="目标" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
+                    <UniformGrid Rows="3" Columns="2" Grid.Row="0">
+                        <Label Content="{Binding ObjTarget.Name}" FontSize="22" Foreground="White" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="经度:" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="更新时间:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                            <Label Content="{Binding ObjTarget.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="经度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
                             <Label Content="{Binding ObjTarget.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="纬度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                            <Label Content="{Binding ObjTarget.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="备注:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                            <Label Content="{Binding ObjTarget.Memo}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                     </UniformGrid>
                     <UniformGrid Rows="3" Columns="3" Grid.Row="1">
