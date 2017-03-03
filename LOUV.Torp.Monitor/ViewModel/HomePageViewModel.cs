@@ -26,18 +26,26 @@ namespace LOUV.Torp.Monitor.ViewModel
         public override void InitializePage(object extraData)
         {
             AboutVisibility = false;
-            var t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.DataBind, RefreshTarget,
+            var t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.DataBind, RefreshTest,
                 Dispatcher.CurrentDispatcher);
             t.Start();
         }
 
-        private void RefreshTarget(object sender, EventArgs e)
+        private void RefreshTest(object sender, EventArgs e)
         {
             Target objTarget = new Target();
             objTarget.UTCTime = DateTime.UtcNow;
             objTarget.Longitude = DateTime.Now.Millisecond;
             objTarget.Latitude = DateTime.Now.Ticks;
             RefreshTarget(objTarget);
+            Buoy buoy = new Buoy(1);
+            buoy.gps = new GpsInfo()
+            {
+                UTCTime = DateTime.UtcNow,
+                Longitude = DateTime.Now.Millisecond,
+                Latitude = DateTime.Now.Ticks,
+            };
+            RefreshBuoy(0,buoy);
         }
 
         private void RefreshTarget(Target target)

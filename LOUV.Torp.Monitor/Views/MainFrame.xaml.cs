@@ -55,7 +55,7 @@ namespace LOUV.Torp.Monitor.Views
             Kernel.Instance.Controller.NavigateToPage("Views/HomePageView.xaml");
             LOUV.Torp.Monitor.Helpers.LogHelper.WriteLog("开始工作");
             
-            SwapMouseButton(false);//switch back
+            //SwapMouseButton(false);//switch back
         }
 
         private void MetroWindow_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

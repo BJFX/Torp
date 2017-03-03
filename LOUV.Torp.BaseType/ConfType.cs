@@ -62,23 +62,29 @@ namespace LOUV.Torp.BaseType
         }
         public string Time
         {
-            get { return gps.UTCTime.ToShortTimeString(); }
+            get { return gps.UTCTime.ToLongTimeString(); }
         }
         public int id { get; set; }
+        public string Memo { get; set; }
+        public float Range { get; set; }
 
+//        public float Longitude
+//        {
+//            get { return gps.Longitude; }
+//        }
+//
+//        public float Latitude
+//        {
+//            get { return gps.Latitude; }
+//        }
         public GpsInfo gps { get; set; }
         public LiteRange liteRange { get; set; }
         public TeleRange teleRange { get; set; }
-        public string Memo { get; set; }
+        
 
-        public float Range { get; set; }
-
-        public Buoy(int id)
+        public Buoy(int id=0)
         {
             id = id;
-        }
-        public Buoy()
-        {
         }
  
     }
@@ -86,31 +92,50 @@ namespace LOUV.Torp.BaseType
     public class GpsInfo
     {
         public DateTime UTCTime;
-        public float Longitude;
-        public float Latitude;
+        public float Longitude { get; set; }
+        public float Latitude{ get; set; }
     }
     [Serializable]
     public class LiteRange
     {
-        public double RelativePara;
-        public UInt16 RecvGain;
-        public Int32 PeakPosition;
+        public double RelativePara { get; set; }
+        public UInt16 RecvGain { get; set; }
+        public Int32 PeakPosition { get; set; }
+
+        public LiteRange()
+        {
+            RelativePara = 0;
+            RecvGain = 0;
+            PeakPosition = 0;
+        }
     }
     [Serializable]
     public class TeleRange
     {
-        public Int32 SamplingStart;
-        public float RecvDelay;
-        public byte ModemStyle;
-        public Int16 Crc;
-        public float Dopple;
-        public UInt16 MsgLength;
+        public TeleRange()
+        {
+            SamplingStart = 0;
+            RecvDelay = 0;
+            ModemStyle = 0;
+            Crc = 1;//error
+            Dopple = 0;
+            MsgLength = 19;
+            Msg = null;
+        }
+        public Int32 SamplingStart { get; set; }
+        public float RecvDelay { get; set; }
+        public byte ModemStyle { get; set; }
+        public Int16 Crc { get; set; }
+        public float Dopple { get; set; }
+        public UInt16 MsgLength { get; set; }
         public byte[] Msg;
 
         public string Message
         {
             get
             {
+                if (Msg == null)
+                    return "";
                 var da = new DateTime(BitConverter.ToInt64(Msg, 0));
                 var buf = new byte[MsgLength - 4];
                 Buffer.BlockCopy(Msg, 4, buf, 0, MsgLength - 4);
@@ -125,13 +150,13 @@ namespace LOUV.Torp.BaseType
 
         public string Time
         {
-            get { return UTCTime.ToShortTimeString(); }
+            get { return UTCTime.ToLongTimeString(); }
         }
 
         public DateTime UTCTime{ get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
-
+        public float Depth { get; set; }
         public Target(string name="目标")
         {
             Name = name;

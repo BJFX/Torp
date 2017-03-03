@@ -66,6 +66,7 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
+            MainMap.MouseLeave += MainMap_MouseLeave;
             MainMap.GotFocus+=MainMap_GotFocus;
             MainMap.LostFocus+=MainMap_LostFocus;
             var gps = new GpsInfo();
@@ -83,6 +84,11 @@ namespace LOUV.Torp.Monitor.Views
                 MainMap.Markers.Add(currentMarker);
             }
             
+        }
+
+        void MainMap_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ZoomSlide.Opacity = 0.3;
         }
 
         
