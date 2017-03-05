@@ -166,25 +166,25 @@ namespace LOUV.Torp.Monitor.Core
 
                 var by1 = new Buoy()
                 {
-                    id = 1,
+                    Id = 1,
                     gps= gpsinfo,
                 };
                 Buoy.Add("浮标1",by1);
                 var by2 = new Buoy()
                 {
-                    id = 2,
+                    Id = 2,
                     gps= gpsinfo,
                 };
                 Buoy.Add("浮标2",by2);
                 var by3 = new Buoy()
                 {
-                    id = 3,
+                    Id = 3,
                     gps= gpsinfo,
                 };
                 Buoy.Add("浮标3",by3);
                 var by4 = new Buoy()
                 {
-                    id = 4,
+                    Id = 4,
                     gps= gpsinfo,
                 };
                 Buoy.Add("浮标4",by4);

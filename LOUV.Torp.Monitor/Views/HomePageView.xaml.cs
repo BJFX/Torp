@@ -73,7 +73,7 @@ namespace LOUV.Torp.Monitor.Views
             gps.UTCTime = DateTime.UtcNow;
             var test = new Buoy()
             {
-                id = 4,
+                Id = 4,
                 gps = gps,
             };
             currentMarker = new GMapMarker(MainMap.Position);
@@ -124,6 +124,7 @@ namespace LOUV.Torp.Monitor.Views
         private void MainMap_MouseEnter(object sender, MouseEventArgs e)
         {
             MainMap.Focus();
+            ZoomSlide.Opacity = 1;
         }
 
         private void MainMap_Loaded(object sender, RoutedEventArgs e)

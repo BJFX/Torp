@@ -58,13 +58,13 @@ namespace LOUV.Torp.BaseType
     {
         public string Name
         {
-            get { return "浮标-" + id.ToString("D2"); }
+            get { return "浮标-" + Id.ToString("D2"); }
         }
         public string Time
         {
             get { return gps.UTCTime.ToLongTimeString(); }
         }
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Memo { get; set; }
         public float Range { get; set; }
 
@@ -84,7 +84,7 @@ namespace LOUV.Torp.BaseType
 
         public Buoy(int id=0)
         {
-            id = id;
+            Id = id;
         }
  
     }

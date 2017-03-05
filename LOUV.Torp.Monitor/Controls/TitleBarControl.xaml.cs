@@ -130,6 +130,11 @@ namespace LOUV.Torp.Monitor.Controls
      
         }
 
+        private void SwitchMap(object sender, RoutedEventArgs e)
+        {
+            UnitCore.Instance.EventAggregator.PublishMessage(new SwitchMapModeEvent());
+        }
+
 
     }
 }

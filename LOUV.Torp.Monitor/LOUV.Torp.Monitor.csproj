@@ -140,6 +140,7 @@
     <Compile Include="Events\RefreshBuoyInfoEvent.cs" />
     <Compile Include="Events\RefreshLog.cs" />
     <Compile Include="Events\ShowAboutSlide.cs" />
+    <Compile Include="Events\SwitchMapModeEvent.cs" />
     <Compile Include="Splasher.cs" />
     <Compile Include="SplashWindow.xaml.cs" />
     <Compile Include="ViewModel\GlobalSettingViewModel.cs" />

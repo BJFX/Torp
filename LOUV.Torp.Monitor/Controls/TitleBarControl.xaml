@@ -27,10 +27,11 @@
                     Grid.Column="2"
                     Grid.Row="0"
                     HorizontalAlignment="Right">
+            <Button Margin="0,0,20,0" Style="{StaticResource FloorPlanAppBarButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="2D/3D地图" Click="SwitchMap"/>
             <Button  VerticalAlignment="Center" Margin="0,0,20,0" Style="{StaticResource AssistantAppBarButtonStyle}" Click="ShowAbout"  HorizontalAlignment="Center" ToolTip="地图信息"/>
             <Button  Click="GoToGlobalSettings" Margin="0,0,20,0" VerticalAlignment="Center" Style="{StaticResource SettingsAppBarButtonStyle}"  HorizontalAlignment="Center" ToolTip="全局设置"/>
-            <Button  Click="Minimize"  Margin="0,0,20,0" VerticalAlignment="Center" Style="{StaticResource MinimizeAppBarButtonStyle}" Grid.Column="3" HorizontalAlignment="Center" ToolTip="最小化程序"/>
-            <Button  Click="ExitProgram"  Margin="0,0,10,0" VerticalAlignment="Center" Style="{StaticResource CloseAppBarButtonStyle}" Grid.Column="4" HorizontalAlignment="Center" ToolTip="退出程序"/>
+            <Button  Click="Minimize"  Margin="0,0,20,0" VerticalAlignment="Center" Style="{StaticResource MinimizeAppBarButtonStyle}"  HorizontalAlignment="Center" ToolTip="最小化程序"/>
+            <Button  Click="ExitProgram"  Margin="0,0,10,0" VerticalAlignment="Center" Style="{StaticResource CloseAppBarButtonStyle}"  HorizontalAlignment="Center" ToolTip="退出程序"/>
         </StackPanel>
     </Grid>
    

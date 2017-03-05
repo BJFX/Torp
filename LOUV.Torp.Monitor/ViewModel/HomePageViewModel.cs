@@ -11,8 +11,11 @@ using LOUV.Torp.BaseType;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
-    public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, IHandleMessage<RefreshBuoyGpsInfoEvent>,
-        IHandleMessage<RefreshBuoyRangeInfoEvent>, IHandleMessage<RefreshBuoyTeleRangeEvent>
+    public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
+        IHandleMessage<RefreshBuoyGpsInfoEvent>,
+        IHandleMessage<RefreshBuoyRangeInfoEvent>, 
+        IHandleMessage<RefreshBuoyTeleRangeEvent>,
+        IHandleMessage<SwitchMapModeEvent>
     {
         public override void Initialize()
         {
@@ -26,26 +29,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         public override void InitializePage(object extraData)
         {
             AboutVisibility = false;
-            var t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.DataBind, RefreshTest,
-                Dispatcher.CurrentDispatcher);
-            t.Start();
-        }
-
-        private void RefreshTest(object sender, EventArgs e)
-        {
-            Target objTarget = new Target();
-            objTarget.UTCTime = DateTime.UtcNow;
-            objTarget.Longitude = DateTime.Now.Millisecond;
-            objTarget.Latitude = DateTime.Now.Ticks;
-            RefreshTarget(objTarget);
-            Buoy buoy = new Buoy(1);
-            buoy.gps = new GpsInfo()
-            {
-                UTCTime = DateTime.UtcNow,
-                Longitude = DateTime.Now.Millisecond,
-                Latitude = DateTime.Now.Ticks,
-            };
-            RefreshBuoy(0,buoy);
+            MapMode = 0;
         }
 
         private void RefreshTarget(Target target)
@@ -76,6 +60,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => AboutVisibility); }
             set { SetPropertyValue(() => AboutVisibility, value); }
+        }
+        public int MapMode//0:2D,1:3D
+        {
+            get { return GetPropertyValue(() => MapMode); }
+            set { SetPropertyValue(() => MapMode, value); }
         }
 
         public Target ObjTarget
@@ -129,6 +118,16 @@ namespace LOUV.Torp.Monitor.ViewModel
             if (UnitCore.Instance.Buoy.ContainsKey(message._index))
             {
                 ((Buoy)UnitCore.Instance.Buoy[message._index]).teleRange = message._infoBuoy;
+            }
+        }
+
+        public void Handle(SwitchMapModeEvent message)
+        {
+            if (MapMode == 0)
+                MapMode = 1;
+            else
+            {
+                MapMode = 0;
             }
         }
     }

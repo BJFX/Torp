@@ -1679,7 +1679,6 @@
             <ImageBrush x:Key="Pressed" ImageSource="{DynamicResource ico_floorplan_p}"/>
             <ImageBrush x:Key="Disable" ImageSource="{DynamicResource ico_floorplan_disable}"/>
         </Style.Resources>
-        <Setter Property="AutomationProperties.Name" Value="{Binding AppBarButton_FloorPlans, Source={StaticResource Resources}}"/>
         <Setter Property="adp:AppBarButtonPropertys.NormalBackground" Value="{StaticResource Normal}"/>
         <Setter Property="adp:AppBarButtonPropertys.OverBackground" Value="{StaticResource Over}"/>
         <Setter Property="adp:AppBarButtonPropertys.PressedBackground" Value="{StaticResource Pressed}"/>

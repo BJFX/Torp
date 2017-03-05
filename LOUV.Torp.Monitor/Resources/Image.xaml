@@ -25,4 +25,8 @@
     <BitmapImage x:Key="ZoomoutNormal" UriSource="/Assets/ico_zoomout_n.png"/>
     <BitmapImage x:Key="ZoomoutOver" UriSource="/Assets/ico_zoomout_o.png"/>
     <BitmapImage x:Key="ZoomoutPressed" UriSource="/Assets/ico_zoomout_p.png"/>
+    <BitmapImage x:Key="ico_floorplan_n" UriSource="/Assets/ico_floorplan_n.png"/>
+    <BitmapImage x:Key="ico_floorplan_o" UriSource="/Assets/ico_floorplan_o.png"/>
+    <BitmapImage x:Key="ico_floorplan_p" UriSource="/Assets/ico_floorplan_p.png"/>
+    <BitmapImage x:Key="ico_floorplan_disable" UriSource="/Assets/ico_floorplan_disable.png"/>
 </ResourceDictionary>
