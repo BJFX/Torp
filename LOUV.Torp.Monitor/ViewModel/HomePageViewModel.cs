@@ -103,22 +103,6 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
         }
 
-        public void Handle(RefreshBuoyRangeInfoEvent message)
-        {
-            if (UnitCore.Instance.Buoy.ContainsKey(message._index))
-            {
-                ((Buoy)UnitCore.Instance.Buoy[message._index]).liteRange = message._infoBuoy;
-            }
-        }
-
-        public void Handle(RefreshBuoyTeleRangeEvent message)
-        {
-            if (UnitCore.Instance.Buoy.ContainsKey(message._index))
-            {
-                ((Buoy)UnitCore.Instance.Buoy[message._index]).teleRange = message._infoBuoy;
-            }
-        }
-
         public void Handle(SwitchMapModeEvent message)
         {
             if (MapMode == 0)

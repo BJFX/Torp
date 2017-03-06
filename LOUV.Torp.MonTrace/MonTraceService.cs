@@ -31,162 +31,34 @@ namespace LOUV.Torp.MonTrace
         /// <returns>生成结果</returns>
         public bool CreateService()
         {
-            /*
+            
             if (IsCreate)
                 return true;
-            if (_mode==MonitorMode.SHIP)
-            {
-                if (_traceFile.CreateFile("Chart", TraceType.String, "Chart", "txt", @"\WORD") == false)
-                {
-                    return false;
-                }
-                if (_traceFile.CreateFile("GPS", TraceType.String, "GPS", "gps", @"\GPS") == false)
-                {
-                    return false;
-                }
-                if (_traceFile.CreateFile("USBL", TraceType.String, "Usbl", "pos", @"\USBL") == false)
-                {
-                    return false;
-                }
-                if (_traceFile.CreateFile("FH", TraceType.String, "FH", "fh", @"\FH") == false)
-                {
-                    return false;
-                }
-                //通信数据
-                if (_traceFile.CreateFile("XMTFSK", TraceType.Binary, "Fsk", "xfd", @"\XmtFSK") == false)
-                {
-                    return false;
-                }
 
-                if (_traceFile.CreateFile("RECVFSK", TraceType.Binary, "Fsk", "rfd", @"\RECVFSK") == false)
-                {
-                 
-                    return false;
-                }
-                if (_traceFile.CreateFile("FSKSRC", TraceType.Binary, "Fsk", "src", @"\RECVFSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("RECVPSK", TraceType.Binary, "Psk", "rpd", @"\RECVPSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("PSKSRC", TraceType.Binary, "Psk", "src", @"\RECVPSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("PSKJPC", TraceType.Binary, "Psk", "jpc", @"\RECVPSK") == false)//压缩Jpeg2000
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("IMG", TraceType.Binary, "Img", "jpg", @"\RECVPSK") == false)//图像
-                {
-
-                    return false;
-                }
-                //水声数据
-                if (_traceFile.CreateFile("RECVVOICE", TraceType.SingleBinary, "RecvVoice", "rwav", @"\RecvVoice") == false)
-                {
-                 
-                    return false;
-                }
-                //录音数据
-                if (_traceFile.CreateFile("XMTVOICE", TraceType.SingleBinary, "XmtVoice", "xwav", @"\XmtVoice") == false)
-                {
-                 
-                    return false;
-                }
-                //航控数据
-                if (_traceFile.CreateFile("ACOUSTICTOSAIL", TraceType.SingleBinary, "AcousticData", "ats", @"\AtsData") == false)
-                {
-                 
-                    return false;
-                }
-            }
-            else if (_mode == MonitorMode.SUBMARINE)
-            {
-                if (_traceFile.CreateFile("Chart", TraceType.String, "Chart", "txt", @"\WORD") == false)
-                {
-                    return false;
-                }
-
-                if (_traceFile.CreateFile("BP", TraceType.SingleBinary, "Bp", "bp", @"\BP") == false)
-                {
-                    return false;
-                }
-                if (_traceFile.CreateFile("FH", TraceType.String, "FH", "fh", @"\FH") == false)
-                {
-                    return false;
-                }
-                //通信数据
-                if (_traceFile.CreateFile("XMTFSK", TraceType.Binary, "Fsk", "xfd", @"\XmtFSK") == false)
-                {
-                    return false;
-                }
-
-                if (_traceFile.CreateFile("RECVFSK", TraceType.Binary, "Fsk", "rfd", @"\RECVFSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("FSKSRC", TraceType.Binary, "Fsk", "src", @"\RECVFSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("XMTPSK", TraceType.Binary, "Psk", "xpd", @"\XmtPSK") == false)
-                {
-
-                    return false;
-                }
-                if (_traceFile.CreateFile("XMTIMG", TraceType.Binary, "Psk", "img", @"\XmtPSK") == false)
-                {
-
-                    return false;
-                }
-                //水声数据
-                if (_traceFile.CreateFile("RECVVOICE", TraceType.SingleBinary, "RecvVoice", "rwav", @"\RecvVoice") == false)
-                {
-                    
-                    return false;
-                }
-                //录音数据
-                if (_traceFile.CreateFile("XMTVOICE", TraceType.SingleBinary, "XmtVoice", "xwav", @"\XmtVoice") == false)
-                {
-                    
-                    return false;
-                }
-                //航控数据
-                if (_traceFile.CreateFile("SAILTOACOUSTIC", TraceType.SingleBinary, "SailData", "sta", @"\StaData") == false)
-                {
-                    
-                    return false;
-                }
-                if (_traceFile.CreateFile("ACOUSTICTOSAIL", TraceType.SingleBinary, "AcousticData", "ats", @"\AtsData") == false)
-                {
-                    
-                    return false;
-                }
-                //ADCP
-                if (_traceFile.CreateFile("ADCP", TraceType.SingleBinary, "Adcp", "vlt", @"\ADCP") == false)
-                {
-                    
-                    return false;
-                }
-                if (_traceFile.CreateFile("BSSS", TraceType.SingleBinary, "Bsss", "bsss", @"\BSSS") == false)
-                {
-
-                    return false;
-                }
-            }
-            else//不可能
+            if (_traceFile.CreateFile("Buoy1", TraceType.SingleBinary, "Buoy1", "bin", @"\UDP") == false)
             {
                 return false;
-            }*/
+            }
+
+            if (_traceFile.CreateFile("Buoy2", TraceType.SingleBinary, "Buoy2", "bin", @"\UDP") == false)
+            {
+                return false;
+            }
+            if (_traceFile.CreateFile("Buoy3", TraceType.SingleBinary, "Buoy3", "bin", @"\UDP") == false)
+            {
+                return false;
+            }
+            if (_traceFile.CreateFile("Buoy4", TraceType.SingleBinary, "Buoy4", "bin", @"\UDP") == false)
+            {
+                return false;
+            }
+
+            if (_traceFile.CreateFile("ALL", TraceType.SingleBinary, "All", "bin", @"\UDP") == false)
+            {
+
+                return false;
+            }
+
             IsCreate = true;
             return true;
         }

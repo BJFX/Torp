@@ -176,25 +176,25 @@ namespace LOUV.Torp.Monitor.Core
                     Id = 1,
                     gps= gpsinfo,
                 };
-                Buoy.Add("浮标1",by1);
+                Buoy.Add(0,by1);
                 var by2 = new Buoy()
                 {
                     Id = 2,
                     gps= gpsinfo,
                 };
-                Buoy.Add("浮标2",by2);
+                Buoy.Add(1,by2);
                 var by3 = new Buoy()
                 {
                     Id = 3,
                     gps= gpsinfo,
                 };
-                Buoy.Add("浮标3",by3);
+                Buoy.Add(2,by3);
                 var by4 = new Buoy()
                 {
                     Id = 4,
                     gps= gpsinfo,
                 };
-                Buoy.Add("浮标4",by4);
+                Buoy.Add(3,by4);
                 InfoBoard = new Hashtable();
                 SaveInitPara();
                 var errmsg = new ErrorEvent(MyEx, LogType.Both)
@@ -238,11 +238,6 @@ namespace LOUV.Torp.Monitor.Core
         public IMonNetCore NetCore
         {
             get { return _iNetCore ?? (_iNetCore = NetLiveService_Torp.GetInstance(_MonConfInfo, Observer)); }
-        }
-
-        public void RefreshBuoy(Buoy buoy)
-        {
-            
         }
         
         public bool Start()
