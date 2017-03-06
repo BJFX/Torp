@@ -21,14 +21,10 @@ namespace LOUV.Torp.Monitor.Core
               //
                 try
                 {
-                    int id = 0;
-                    byte[] buffer = null;
-                    
+                   
                     //类型标志
-                    if (e.Mode == CallMode.GPS) //水下航控或ADCP或BP
+                    if (e.Mode == CallMode.GPS) //gps
                     {
-                       
-                            
 
                     }
                     else if (e.Mode == CallMode.Range)
@@ -39,11 +35,6 @@ namespace LOUV.Torp.Monitor.Core
                     {
                         //datatype = "GPS";
                     }
-                    else if (e.Mode == CallMode.DataMode) //payload or ssb
-                    {
-                        
-                    }
-                    //保持数据
                     
                     
                     

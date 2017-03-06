@@ -91,10 +91,6 @@ namespace LOUV.Torp.Monitor.Views
             ZoomSlide.Opacity = 0.3;
         }
 
-        
-
-        
-
         private void RefreshMap(MapCfg cfg)
         {
             GpsTomapOffset = new PointLatLng(cfg.MapOffset.Lat,cfg.MapOffset.Lng);

@@ -150,6 +150,13 @@ namespace LOUV.Torp.Monitor.Core
                 initpara = (InitialData)formatter.Deserialize(stream);
                 stream.Close();
                 Buoy = initpara.buoy;
+                //clean the range info,only need gps location
+                foreach(var buoy in Buoy.Values)
+                {
+                    var b = (Buoy)buoy;
+                    b.liteRange = new LiteRange();
+                    b.teleRange = new TeleRange();
+                }
                 InfoBoard = initpara.info;
 
             }

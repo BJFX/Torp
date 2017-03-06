@@ -12,9 +12,7 @@ using LOUV.Torp.BaseType;
 namespace LOUV.Torp.Monitor.ViewModel
 {
     public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
-        IHandleMessage<RefreshBuoyGpsInfoEvent>,
-        IHandleMessage<RefreshBuoyRangeInfoEvent>, 
-        IHandleMessage<RefreshBuoyTeleRangeEvent>,
+        IHandleMessage<RefreshBuoyInfoEvent>,
         IHandleMessage<SwitchMapModeEvent>
     {
         public override void Initialize()
@@ -97,11 +95,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             AboutVisibility = true;
         }
 
-        public void Handle(RefreshBuoyGpsInfoEvent message)
+        public void Handle(RefreshBuoyInfoEvent message)
         {    
             if(UnitCore.Instance.Buoy.ContainsKey(message._index))
             {
-                ((Buoy)UnitCore.Instance.Buoy[message._index]).gps = message._infoBuoy;
+                RefreshBuoy(message._index, (Buoy)UnitCore.Instance.Buoy[message._index]);
             }
         }
 
