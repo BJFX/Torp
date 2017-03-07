@@ -30,7 +30,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Lat.Text = buoy.gps.Latitude.ToString("F6");
             Long.Text = buoy.gps.Longitude.ToString("F6");
             TimeGps.Text = buoy.gps.UTCTime.ToLocalTime().ToShortTimeString();
-            Memo.Text = buoy.Memo;
+            Range.Text = buoy.Range.ToString("F6");
         }
         public void SetTarget(Target target)
         {
@@ -38,7 +38,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Lat.Text = target.Latitude.ToString("F6");
             Long.Text = target.Longitude.ToString("F6");
             TimeGps.Text = target.UTCTime.ToLocalTime().ToShortTimeString();
-            Memo.Text = target.Memo;
+            Range.Text = target.Status;
         }
     }
 }

@@ -24,6 +24,7 @@ using System.Windows.Media.Media3D;
 using System.Threading.Tasks;
 //using LOUV.Torp.WaveBox;
 using System.Net.NetworkInformation;
+using LOUV.Torp.Monitor.Controls.MapCustom;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -61,10 +62,11 @@ namespace LOUV.Torp.Monitor.Core
         public Model3D ObjModel { get; set; }//目标模型
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
         public Hashtable Buoy = new Hashtable();
-        public Hashtable InfoBoard = new Hashtable();
+        //public Hashtable InfoBoard = new Hashtable();
         public Target TargetObj = new Target();
         public MapCfg MainMapCfg { get; set; }//map配置
         public Setup SetupCfg { get; set; }//计算配置
+        public Map mainMap = null;//指向MainMap
         InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
         {
@@ -139,7 +141,7 @@ namespace LOUV.Torp.Monitor.Core
             }
             return ret;
         }
-        private void ReadBuoy()
+        private void ReadInitPara()
         {
             string gridname = MonConf.GetInstance().MyExecPath+ "\\" + "default.ini";
             Stream stream = null;
@@ -157,7 +159,7 @@ namespace LOUV.Torp.Monitor.Core
                     b.liteRange = new LiteRange();
                     b.teleRange = new TeleRange();
                 }
-                InfoBoard = initpara.info;
+                //InfoBoard = initpara.info;
 
             }
             catch (Exception MyEx)
@@ -195,7 +197,7 @@ namespace LOUV.Torp.Monitor.Core
                     gps= gpsinfo,
                 };
                 Buoy.Add(3,by4);
-                InfoBoard = new Hashtable();
+                //InfoBoard = new Hashtable();
                 SaveInitPara();
                 var errmsg = new ErrorEvent(MyEx, LogType.Both)
                 {
@@ -213,7 +215,7 @@ namespace LOUV.Torp.Monitor.Core
             try
             {
                 initpara.buoy = Buoy;
-                initpara.info = InfoBoard;
+                //initpara.info = InfoBoard;
 
                 formatter.Serialize(stream, initpara);
                 stream.Close();
@@ -247,7 +249,7 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkChange.NetworkAvailabilityChanged += new
                 NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
-                ReadBuoy();
+                ReadInitPara();
                 if(NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();

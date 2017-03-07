@@ -22,7 +22,7 @@ namespace LOUV.Torp.Monitor.ViewModel
     {
         public static MainFrameViewModel pMainFrame { get; set; }
         private IDialogCoordinator _dialogCoordinator { get; set; }
-        private DispatcherTimer t = null;
+        //private DispatcherTimer t = null;
         public override void Initialize()
         {
             base.Initialize();

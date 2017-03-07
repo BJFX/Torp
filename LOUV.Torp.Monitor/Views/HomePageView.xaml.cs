@@ -38,7 +38,7 @@ namespace LOUV.Torp.Monitor.Views
         private PointLatLng currentClick;//当前点击的位置
         private bool maploaded = false;
         //private bool MouseInMap = false;
-        private MapRoute trackRoute;
+        //private MapRoute trackRoute;
         public HomePageView()
         {
             InitializeComponent();
@@ -58,6 +58,8 @@ namespace LOUV.Torp.Monitor.Views
             }
             // config map
             RefreshMap(UnitCore.Instance.MainMapCfg);
+            //add buoy marker to 2D/3D map
+            AddBuoyToMap();
             // map events
             MainMap.OnTileLoadComplete += new TileLoadComplete(MainMap_OnTileLoadComplete);
             MainMap.OnTileLoadStart += new TileLoadStart(MainMap_OnTileLoadStart);
@@ -69,21 +71,30 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.MouseLeave += MainMap_MouseLeave;
             MainMap.GotFocus+=MainMap_GotFocus;
             MainMap.LostFocus+=MainMap_LostFocus;
-            var gps = new GpsInfo();
-            gps.UTCTime = DateTime.UtcNow;
-            var test = new Buoy()
+            UnitCore.Instance.mainMap = MainMap;
+
+
+
+
+        }
+
+        private void AddBuoyToMap()
+        {
+            //2D
+            var it = UnitCore.Instance.Buoy.GetEnumerator();
+            while(it.MoveNext())
             {
-                Id = 4,
-                gps = gps,
-            };
-            currentMarker = new GMapMarker(MainMap.Position);
-            {
-                currentMarker.Shape = new BuoyMarker(this, currentMarker,test);
-                currentMarker.Offset = new System.Windows.Point(-15, -15);
-                currentMarker.ZIndex = int.MaxValue;
-                MainMap.Markers.Add(currentMarker);
+                var buoy = (Buoy)it.Current;
+                var marker = new GMapMarker(new PointLatLng(buoy.gps.Latitude,buoy.gps.Longitude));
+                {
+                    marker.Shape = new BuoyMarker(this, marker, buoy);
+                    marker.Offset = new Point(-15, -15);
+                    marker.ZIndex = int.MaxValue;
+                    marker.Tag = buoy.Id;
+                    MainMap.Markers.Add(marker);
+                }
             }
-            
+            //3D TBD
         }
 
         void MainMap_MouseLeave(object sender, MouseEventArgs e)

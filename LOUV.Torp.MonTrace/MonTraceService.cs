@@ -52,7 +52,11 @@ namespace LOUV.Torp.MonTrace
             {
                 return false;
             }
+            if (_traceFile.CreateFile("Position", TraceType.String, "Pos", "bin", @"\Result") == false)
+            {
 
+                return false;
+            }
             if (_traceFile.CreateFile("ALL", TraceType.SingleBinary, "All", "bin", @"\UDP") == false)
             {
 
@@ -90,7 +94,7 @@ namespace LOUV.Torp.MonTrace
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ret = 0;
             }

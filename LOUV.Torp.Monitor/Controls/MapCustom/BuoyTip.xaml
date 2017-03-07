@@ -8,8 +8,8 @@
         <Rectangle Stroke="Green" RadiusX="2" RadiusY="2" Fill="AliceBlue"/>
         <Label Name="BuoyNameLabel" HorizontalAlignment="Left" Width="50" FontSize="16" Foreground="Navy" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Height="40" VerticalAlignment="Top">名称:</Label>
         <TextBlock Height="23.64" Margin="52,9.36,5.137,0" Name="BuoyID" VerticalAlignment="Top" Foreground="Red" FontSize="16" FontWeight="Bold" Text="4444" Width="124"/>
-        <Label FontSize="16" Foreground="Navy" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,78,0,0" Name="MemoLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">备注:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,84,4,0" Name="Memo" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,78,0,0" Name="RangeLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">测距:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,84,4,0" Name="Range" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
         <Label FontSize="16" Foreground="Navy" Height="36" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,24,0,0" Name="LatLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">纬度:</Label>
         <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Height="26" Margin="52,31,4,0" Name="Lat" VerticalAlignment="Top" Text="-" Width="124"></TextBlock>
         <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,52,0,0" Name="LongLabel" VerticalContentAlignment="Center" Width="50" Height="33" VerticalAlignment="Top">经度:</Label>

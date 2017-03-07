@@ -106,7 +106,9 @@ namespace LOUV.Torp.Monitor.ViewModel
         public void Handle(SwitchMapModeEvent message)
         {
             if (MapMode == 0)
+            {
                 MapMode = 1;
+            }
             else
             {
                 MapMode = 0;

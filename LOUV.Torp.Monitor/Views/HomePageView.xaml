@@ -113,6 +113,7 @@
                     </Grid.RowDefinitions>
                     <UniformGrid Rows="3" Columns="2" Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
                         <Label Content="{Binding ObjTarget.Name}" FontSize="22" Foreground="White" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding ObjTarget.Status}" FontSize="20" Foreground="White" HorizontalAlignment="Left"/>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="更新:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
                             <Label Content="{Binding ObjTarget.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -129,10 +130,7 @@
                             <Label Content="深度(m):" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
                             <Label Content="{Binding ObjTarget.Depth}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="备注:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                            <Label Content="{Binding ObjTarget.Memo}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                        </StackPanel>
+                        
                     </UniformGrid>
                     <UniformGrid Rows="4" Columns="3" Grid.Row="1">
                         <Label Content="{Binding Buoy1.Name}" FontSize="18" Foreground="Black" HorizontalAlignment="Left"/>
@@ -141,8 +139,8 @@
                             <Label Content="{Binding Buoy1.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="备注:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
-                            <Label Content="{Binding Buoy1.Memo, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                            <Label Content="{Binding Buoy1.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
@@ -188,8 +186,8 @@
                             <Label Content="{Binding Buoy2.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="备注:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
-                            <Label Content="{Binding Buoy2.Memo, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                            <Label Content="{Binding Buoy2.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
@@ -235,8 +233,8 @@
                             <Label Content="{Binding Buoy3.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="备注:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
-                            <Label Content="{Binding Buoy3.Memo, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                            <Label Content="{Binding Buoy3.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
@@ -282,8 +280,8 @@
                             <Label Content="{Binding Buoy4.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="备注:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
-                            <Label Content="{Binding Buoy4.Memo, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                            <Label Content="{Binding Buoy4.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>

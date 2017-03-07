@@ -65,7 +65,7 @@ namespace LOUV.Torp.BaseType
             get { return gps.UTCTime.ToLongTimeString(); }
         }
         public int Id { get; set; }
-        public string Memo { get; set; }
+        //public string Memo { get; set; }
         public float Range { get; set; }
 
 //        public float Longitude
@@ -146,7 +146,7 @@ namespace LOUV.Torp.BaseType
     public class Target
     {
         public string Name { get; set; }
-        public string Memo { get; set; }
+        public string Status { get; set; }
 
         public string Time
         {
@@ -160,6 +160,7 @@ namespace LOUV.Torp.BaseType
         public Target(string name="目标")
         {
             Name = name;
+            Status = "无定位";
         }
     }
 
@@ -167,6 +168,6 @@ namespace LOUV.Torp.BaseType
     public class InitialData
     {
         public Hashtable buoy;
-        public Hashtable info;
+        //public Hashtable info;
     }
 }
