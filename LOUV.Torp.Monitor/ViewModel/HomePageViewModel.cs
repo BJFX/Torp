@@ -13,7 +13,8 @@ namespace LOUV.Torp.Monitor.ViewModel
 {
     public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
         IHandleMessage<RefreshBuoyInfoEvent>,
-        IHandleMessage<SwitchMapModeEvent>
+        IHandleMessage<SwitchMapModeEvent>,
+        IHandleMessage<RefreshTargetEvent>
     {
         public override void Initialize()
         {
@@ -96,11 +97,13 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
 
         public void Handle(RefreshBuoyInfoEvent message)
-        {    
-            if(UnitCore.Instance.Buoy.ContainsKey(message._index))
+        {
+            UnitCore.Instance.BuoyLock.WaitOne();
+            if (UnitCore.Instance.Buoy.ContainsKey(message._index))
             {
                 RefreshBuoy(message._index, (Buoy)UnitCore.Instance.Buoy[message._index]);
             }
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
         }
 
         public void Handle(SwitchMapModeEvent message)
@@ -112,6 +115,14 @@ namespace LOUV.Torp.Monitor.ViewModel
             else
             {
                 MapMode = 0;
+            }
+        }
+
+        public void Handle(RefreshTargetEvent message)
+        {
+            if(message.TargetPos!=null)
+            {
+                RefreshTarget(message.TargetPos);
             }
         }
     }

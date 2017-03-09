@@ -154,9 +154,9 @@ namespace LOUV.Torp.BaseType
         }
 
         public DateTime UTCTime{ get; set; }
-        public float Longitude { get; set; }
-        public float Latitude { get; set; }
-        public float Depth { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Depth { get; set; }
         public Target(string name="目标")
         {
             Name = name;
@@ -169,5 +169,20 @@ namespace LOUV.Torp.BaseType
     {
         public Hashtable buoy;
         //public Hashtable info;
+    }
+
+    public class Locate3D
+    {
+        public DateTime Time;
+        public double X;
+        public double Y;
+        public double Z;//Positive, Depth;  
+        public Locate3D(DateTime time, double x =0, double y =0, double z =0)
+        {
+            Time = time;
+            X = x;
+            Y = y;
+            X = z;
+        }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using System.Threading;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Controls.MapCustom;
+using System.Windows;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -50,6 +51,9 @@ namespace LOUV.Torp.Monitor.Core
                         }
                     }
                     Buoy buoy = null;
+                    ObjectMarker target = null;
+                    UnitCore.Instance.BuoyLock.WaitOne();
+                    { }
                     if (UnitCore.Instance.Buoy.ContainsKey(id - 1))
                     {
                         buoy = ((Buoy)UnitCore.Instance.Buoy[id - 1]);
@@ -76,6 +80,7 @@ namespace LOUV.Torp.Monitor.Core
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
                         buoy.liteRange = range;
                         buoy.gps = info;
+                        buoy.Range = MonProtocol.MonProtocol.CalDistanceByLite(range);
                     }
                     else if (e.Mode == CallMode.TeleRange)
                     {
@@ -94,14 +99,26 @@ namespace LOUV.Torp.Monitor.Core
                         buoy.teleRange = telerange;
                         buoy.liteRange = range;
                         buoy.gps = info;
+                        buoy.Range = MonProtocol.MonProtocol.CalDistanceByTele(range,telerange);
                     }
+                    
                     UnitCore.Instance.EventAggregator.PublishMessage(new RefreshBuoyInfoEvent(id - 1));
                     if (UnitCore.Instance.mainMap != null)
                     {
+                        MonProtocol.TriangleLocate.Init();
                         var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
-                        if (itor.MoveNext())
+                        while (itor.MoveNext())
                         {
                             var marker = itor.Current;
+                            double x, y, z;
+                            UnitCore.Instance.mainMap.Projection.FromGeodeticToCartesian(marker.Position.Lat,
+                                marker.Position.Lng, 0, out x, out y, out z);
+                            var point = new Locate3D(buoy.gps.UTCTime, x, y, z);
+                            MonProtocol.TriangleLocate.Buoys.Add(point);
+                            if(MonProtocol.TriangleLocate.Buoys.Count==4)//reserve latest 3 
+                            {
+                                MonProtocol.TriangleLocate.Buoys.RemoveAt(0);
+                            }
                             if ((int)marker.Tag == id)
                             {
                                 if (marker.Shape is BuoyMarker buoymarker)
@@ -113,12 +130,46 @@ namespace LOUV.Torp.Monitor.Core
                                     
                                 }
                             }
+                            if((int)marker.Tag==901)//900+1,2,3,4...
+                            {
+                                if (marker.Shape is ObjectMarker obj)
+                                {
+                                    target = obj;
+
+                                }
+                            }
+                            
                         }
-                        
+                        var targetpos = MonProtocol.TriangleLocate.CalTargetLocation();
+                        if(targetpos!=null)
+                        {
+                            double lng, lat;
+                            UnitCore.Instance.mainMap.Projection.FromCartesianTGeodetic(targetpos.X, targetpos.Y, targetpos.Z,
+                                out lat,out lng);
+                            UnitCore.Instance.TargetObj = new Target()
+                            {
+                                Status = "已定位",
+                                UTCTime = targetpos.Time,
+                                Longitude = lng,
+                                Latitude = lat,
+                                Depth = targetpos.Z,
+                            };
+                            UnitCore.Instance.EventAggregator.PublishMessage(new RefreshTargetEvent(UnitCore.Instance.TargetObj));
+
+                            UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
+                            {
+                                target.Refresh(UnitCore.Instance.TargetObj);
+                            }));
+                        }
+
+
                     }
+                    UnitCore.Instance.BuoyLock.ReleaseMutex();
                 }
                 catch (Exception ex)
                 {
+                    if(UnitCore.Instance.BuoyLock.WaitOne(100)==true)
+                        UnitCore.Instance.BuoyLock.ReleaseMutex();
                     App.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         UnitCore.Instance.EventAggregator.PublishMessage(new ErrorEvent(ex, LogType.Both));

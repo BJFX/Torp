@@ -129,6 +129,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     throw _monConf.ex;
                 }
+                MonProtocol.MonProtocol.Velocity = SetupCfg.AcouVel;
                 _serviceStarted = true;//if failed never get here
 
                 return _serviceStarted;

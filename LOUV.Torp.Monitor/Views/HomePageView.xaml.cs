@@ -80,6 +80,7 @@ namespace LOUV.Torp.Monitor.Views
 
         private void AddBuoyToMap()
         {
+            UnitCore.Instance.BuoyLock.WaitOne();
             //2D
             var it = UnitCore.Instance.Buoy.GetEnumerator();
             while(it.MoveNext())
@@ -94,6 +95,7 @@ namespace LOUV.Torp.Monitor.Views
                     MainMap.Markers.Add(marker);
                 }
             }
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
             //3D TBD
         }
 
