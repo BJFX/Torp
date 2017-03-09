@@ -8,7 +8,6 @@ using LOUV.Torp.Utility;
 using LOUV.Torp.BaseType;
 namespace LOUV.Torp.MonProtocol
 {
-
     public class MonProtocol
     {
         public static float Velocity{ get; set; }

@@ -8,14 +8,41 @@ using TinyMetroWpfLibrary.ViewModel;
 using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.BaseType;
+using LOUV.Torp.Monitor.Controls.MapCustom;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
     public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
         IHandleMessage<RefreshBuoyInfoEvent>,
-        IHandleMessage<SwitchMapModeEvent>,
-        IHandleMessage<RefreshTargetEvent>
+        IHandleMessage<SwitchMapModeEvent>
     {
+        private DispatcherTimer Dt;
+
+        private void CalTargetLocateCallBack(object sender, EventArgs e)
+        {
+            UnitCore.Instance.BuoyLock.WaitOne();
+            var valid = MonProtocol.TriangleLocate.Valid(10);
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
+            if (valid == false)
+                return;
+            var targetpos = MonProtocol.TriangleLocate.CalTargetLocation();
+            if (targetpos != null)
+            {
+                double lng, lat;
+                UnitCore.Instance.mainMap.Projection.FromCartesianTGeodetic(targetpos.X, targetpos.Y, targetpos.Z,
+                    out lat, out lng);
+                UnitCore.Instance.TargetObj = new Target()
+                {
+                    Status = "已定位",
+                    UTCTime = targetpos.Time,
+                    Longitude = lng,
+                    Latitude = lat,
+                    Depth = targetpos.Z,
+                };
+                RefreshTarget();
+            }
+            
+        }
         public override void Initialize()
         {
             ObjTarget = new Target();
@@ -23,17 +50,50 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy2 = new Buoy(2);
             Buoy3 = new Buoy(3);
             Buoy4 = new Buoy(4);
+            Dt = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
         }
 
         public override void InitializePage(object extraData)
         {
             AboutVisibility = false;
             MapMode = 0;
+            if(Dt.IsEnabled==false)
+                Dt.Start();
         }
 
-        private void RefreshTarget(Target target)
+        private void RefreshTarget()
         {
-            ObjTarget = target;
+            ObjectMarker targetMarker = null;
+            //refresh 2D target
+            if(MapMode==0)
+            {
+                if (UnitCore.Instance.mainMap != null)
+                {
+                    var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
+                    while (itor.MoveNext())
+                    {
+                        var marker = itor.Current;
+
+                        if ((int)marker.Tag == 901)//900+1,2,3,4...
+                        {
+                            if (marker.Shape is ObjectMarker obj)
+                            {
+                                targetMarker = obj;
+
+                            }
+                            break;
+                        }
+                    }
+                }
+                UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
+                {
+                    targetMarker.Refresh(UnitCore.Instance.TargetObj);
+                }));
+            }
+            else//3D
+            {
+
+            }
         }
         private void RefreshBuoy(int index,Buoy buoy)
         {
@@ -118,12 +178,6 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
         }
 
-        public void Handle(RefreshTargetEvent message)
-        {
-            if(message.TargetPos!=null)
-            {
-                RefreshTarget(message.TargetPos);
-            }
-        }
+        
     }
 }
