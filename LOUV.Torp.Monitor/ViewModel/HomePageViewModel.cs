@@ -9,6 +9,9 @@ using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Controls.MapCustom;
+using GMap.NET.WindowsPresentation;
+using GMap.NET;
+using System.Windows;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -25,8 +28,8 @@ namespace LOUV.Torp.Monitor.ViewModel
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
-            var targetpos = MonProtocol.TriangleLocate.CalTargetLocation();
-            if (targetpos != null)
+            Locate3D targetpos;
+            if (MonProtocol.TriangleLocate.CalTargetLocation(out targetpos))
             {
                 double lng, lat;
                 UnitCore.Instance.mainMap.Projection.FromCartesianTGeodetic(targetpos.X, targetpos.Y, targetpos.Z,
@@ -64,6 +67,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         private void RefreshTarget()
         {
             ObjectMarker targetMarker = null;
+            GMapMarker target = null;
             //refresh 2D target
             if(MapMode==0)
             {
@@ -79,15 +83,22 @@ namespace LOUV.Torp.Monitor.ViewModel
                             if (marker.Shape is ObjectMarker obj)
                             {
                                 targetMarker = obj;
-
+                                target = marker;
                             }
                             break;
                         }
                     }
                 }
+                if (target == null || targetMarker == null)
+                    return;
                 UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
                 {
                     targetMarker.Refresh(UnitCore.Instance.TargetObj);
+                    var point = new PointLatLng(UnitCore.Instance.TargetObj.Latitude, 
+                        UnitCore.Instance.TargetObj.Longitude);
+                    point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
+                        UnitCore.Instance.MainMapCfg.MapOffset.Lng);
+                    target.Position = point;
                 }));
             }
             else//3D

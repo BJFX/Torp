@@ -94,7 +94,17 @@ namespace LOUV.Torp.Monitor.Views
                     marker.Tag = buoy.Id;
                     MainMap.Markers.Add(marker);
                 }
+                marker.Position.Offset(GpsTomapOffset);
             }
+            var targetmarker = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
+            {
+                targetmarker.Shape = new ObjectMarker(this, targetmarker, UnitCore.Instance.TargetObj);
+                targetmarker.Offset = new Point(-15, -15);
+                targetmarker.ZIndex = int.MaxValue;
+                targetmarker.Tag = 901;
+                MainMap.Markers.Add(targetmarker);
+            }
+            //targetmarker.Position.Offset(GpsTomapOffset);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             //3D TBD
         }

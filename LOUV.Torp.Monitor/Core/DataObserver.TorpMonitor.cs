@@ -11,7 +11,7 @@ using System.Threading;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Controls.MapCustom;
 using System.Windows;
-
+using GMap.NET;
 namespace LOUV.Torp.Monitor.Core
 {
     public class MonitorDataObserver:Observer<CustomEventArgs>
@@ -103,32 +103,45 @@ namespace LOUV.Torp.Monitor.Core
                     }
                     
                     UnitCore.Instance.EventAggregator.PublishMessage(new RefreshBuoyInfoEvent(id - 1));
+                    
                     if (UnitCore.Instance.mainMap != null)
                     {
                         var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
                         while (itor.MoveNext())
                         {
                             var marker = itor.Current;
-                            double x, y, z;
-                            UnitCore.Instance.mainMap.Projection.FromGeodeticToCartesian(marker.Position.Lat,
-                                marker.Position.Lng, 0, out x, out y, out z);
-                            var point = new Locate3D(buoy.gps.UTCTime, x, y, z);
-                            //remove possible duplicate data
-                            MonProtocol.TriangleLocate.Buoys.Remove(id);
-                            MonProtocol.TriangleLocate.Buoys.Add(id, point);
-
                             if ((int)marker.Tag == id)
                             {
+                                double x, y, z;
+                                UnitCore.Instance.mainMap.Projection.FromGeodeticToCartesian(buoy.gps.Latitude,
+                                    buoy.gps.Longitude, 0, out x, out y, out z);
+                                var lpoint = new Locate3D(buoy.gps.UTCTime, x, y, z);
+                                //remove possible duplicate data
+                                MonProtocol.TriangleLocate.Buoys.Remove(id);
+                                MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
                                 if (marker.Shape is BuoyMarker buoymarker)
                                 {
                                     UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
                                     {
                                         buoymarker.Refresh(buoy);
                                     }));
-                                    
                                 }
+                                var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
+                                point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
+                                    UnitCore.Instance.MainMapCfg.MapOffset.Lng);
+                                marker.Position = point;
+                                
                             }
 
+                        }
+                        if(MonProtocol.TriangleLocate.Valid(10))
+                        {
+                            Locate3D locatep;
+                            var ret = MonProtocol.TriangleLocate.CalTargetLocation(out locatep);
+                            if(ret)
+                            {
+
+                            }
                         }
                     }
                     UnitCore.Instance.BuoyLock.ReleaseMutex();
