@@ -176,13 +176,15 @@ namespace LOUV.Torp.BaseType
         public DateTime Time;
         public double X;
         public double Y;
-        public double Z;//Positive, Depth;  
-        public Locate3D(DateTime time, double x =0, double y =0, double z =0)
+        public double Z;//Positive, Depth; 
+        public double Range;
+        public Locate3D(DateTime time, double x =0, double y =0, double z =0, double range = 0)
         {
             Time = time;
             X = x;
             Y = y;
             X = z;
+            Range = range;
         }
     }
 }

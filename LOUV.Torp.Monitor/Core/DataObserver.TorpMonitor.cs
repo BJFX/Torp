@@ -134,15 +134,6 @@ namespace LOUV.Torp.Monitor.Core
                             }
 
                         }
-                        if(MonProtocol.TriangleLocate.Valid(10))
-                        {
-                            Locate3D locatep;
-                            var ret = MonProtocol.TriangleLocate.CalTargetLocation(out locatep);
-                            if(ret)
-                            {
-
-                            }
-                        }
                     }
                     UnitCore.Instance.BuoyLock.ReleaseMutex();
                 }
