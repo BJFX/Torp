@@ -25,6 +25,7 @@ using LOUV.Torp.MonitorConf;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using LOUV.Torp.Monitor.Helpers;
+using System.Threading.Tasks;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -147,7 +148,8 @@ namespace LOUV.Torp.Monitor.Views
             if (!maploaded)
             {
                 maploaded=MainMap.ZoomAndCenterMarkers(null);
-            }  
+            }
+            
         }
 
         private void MainMap_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -201,7 +203,7 @@ namespace LOUV.Torp.Monitor.Views
             {
             }
         }
-
+        
         private void czuZoomUp_Click(object sender, RoutedEventArgs e)
         {
             MainMap.Zoom = ((int) MainMap.Zoom) + 1;
@@ -222,7 +224,7 @@ namespace LOUV.Torp.Monitor.Views
         {
 
         }
-
+        
         private void HomePageView_OnKeyUp(object sender, KeyEventArgs e)
         {
             int offset = 22;
@@ -278,9 +280,12 @@ namespace LOUV.Torp.Monitor.Views
             ZoomSlide.Opacity = 0.3;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            Task<bool> ret = null;
+            ret = UnitCore.Instance.LoadAssets();
+            await ret;
+            UnitCore.Instance.ThreeDEnable = ret.Result;
             Splasher.CloseSplash();
         }
         #endregion

@@ -56,7 +56,7 @@ namespace LOUV.Torp.Monitor.Core
         public SettleSoundFile SoundFile = null;
         public string Error { get; private set; }
 
-        //public Mutex ACMMutex { get; set; }//全局解析锁
+        public bool ThreeDEnable { get; set; }//全局解析锁
 
         public Model3D BuoyModel { get; set; }//buoy 模型
         public Model3D ObjModel { get; set; }//目标模型
@@ -91,28 +91,36 @@ namespace LOUV.Torp.Monitor.Core
             PostMsgEvent_Tick =new AutoResetEvent(true);//定时器
 
         }
-        private async Task<bool> LoadAssets()
+        public async Task<bool> LoadAssets()
         {
             if(_monConf==null)
             {
                 EventAggregator.PublishMessage(new LogEvent("配置没有初始化", LogType.Both));
                 return false;
             }
-            var buoypath = _monConf.GetBuoyModel();
-            if (buoypath == null)
-                throw new Exception("未找到3D组件！");
-            buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
-            BuoyModel = await LoadAsync(buoypath, false);
-            if (BuoyModel == null)
-                throw new Exception("加载浮标组件失败！");
-            var objpath = _monConf.GetObjModel();
-            if (objpath == null)
-                throw new Exception("未找到3D组件！");
-            objpath = _monConf.MyExecPath + "\\" + objpath;//found
-            ObjModel = await LoadAsync(objpath, false);
-            if (ObjModel == null)
-                throw new Exception("加载模型组件失败！");
-            return true;
+            try
+            {
+                var buoypath = _monConf.GetBuoyModel();
+                if (buoypath == null)
+                    throw new Exception("未找到3D组件！");
+                buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
+                BuoyModel = await LoadAsync(buoypath, false);
+                if (BuoyModel == null)
+                    throw new Exception("加载浮标组件失败！");
+                var objpath = _monConf.GetObjModel();
+                if (objpath == null)
+                    throw new Exception("未找到3D组件！");
+                objpath = _monConf.MyExecPath + "\\" + objpath;//found
+                ObjModel = await LoadAsync(objpath, false);
+                if (ObjModel == null)
+                    throw new Exception("加载模型组件失败！");
+                return true;
+            }
+            catch(Exception ex)
+            {
+                EventAggregator.PublishMessage(new ErrorEvent(ex, LogType.Both));
+                return false;
+            }
         }
         public bool LoadConfiguration()
         {

@@ -43,10 +43,9 @@ namespace LOUV.Torp.Monitor
         {
             if (mSplash != null)
             {
-                mSplash.Close();
+                mSplash.Hide();
 
-                if (mSplash is IDisposable)
-                    (mSplash as IDisposable).Dispose();
+                
             }
             ExitNo = exit;
         }
