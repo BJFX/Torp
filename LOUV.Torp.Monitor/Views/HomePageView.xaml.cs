@@ -58,6 +58,7 @@ namespace LOUV.Torp.Monitor.Views
             }
             // config map
             RefreshMap(UnitCore.Instance.MainMapCfg);
+            UnitCore.Instance.mainMap = MainMap;
             //add buoy marker to 2D/3D map
             AddBuoyToMap();
             // map events
@@ -69,20 +70,15 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
             MainMap.MouseLeave += MainMap_MouseLeave;
-            MainMap.GotFocus+=MainMap_GotFocus;
-            MainMap.LostFocus+=MainMap_LostFocus;
-            UnitCore.Instance.mainMap = MainMap;
-
-
-
-
+            MainMap.GotFocus += MainMap_GotFocus;
+            MainMap.LostFocus += MainMap_LostFocus;
         }
 
         private void AddBuoyToMap()
         {
             UnitCore.Instance.BuoyLock.WaitOne();
             //2D
-            var it = UnitCore.Instance.Buoy.GetEnumerator();
+            var it = UnitCore.Instance.Buoy.Values.GetEnumerator();
             while(it.MoveNext())
             {
                 var buoy = (Buoy)it.Current;
@@ -151,7 +147,7 @@ namespace LOUV.Torp.Monitor.Views
             if (!maploaded)
             {
                 maploaded=MainMap.ZoomAndCenterMarkers(null);
-            }
+            }  
         }
 
         private void MainMap_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

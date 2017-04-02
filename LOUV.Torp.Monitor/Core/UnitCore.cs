@@ -56,7 +56,7 @@ namespace LOUV.Torp.Monitor.Core
         public SettleSoundFile SoundFile = null;
         public string Error { get; private set; }
 
-        public Mutex ACMMutex { get; set; }//全局解析锁
+        //public Mutex ACMMutex { get; set; }//全局解析锁
 
         public Model3D BuoyModel { get; set; }//buoy 模型
         public Model3D ObjModel { get; set; }//目标模型
@@ -86,8 +86,9 @@ namespace LOUV.Torp.Monitor.Core
         protected UnitCore()
         {
             
-            ACMMutex = new Mutex();
-            PostMsgEvent_Tick=new AutoResetEvent(true);//定时器
+            //ACMMutex = new Mutex();
+            BuoyLock = new Mutex();
+            PostMsgEvent_Tick =new AutoResetEvent(true);//定时器
 
         }
         private async Task<bool> LoadAssets()

@@ -62,7 +62,12 @@ namespace LOUV.Torp.BaseType
         }
         public string Time
         {
-            get { return gps.UTCTime.ToLongTimeString(); }
+            get
+            {
+                if (gps == null)
+                    return DateTime.UtcNow.ToLongTimeString();
+                return gps.UTCTime.ToLongTimeString();
+            }
         }
         public int Id { get; set; }
         //public string Memo { get; set; }

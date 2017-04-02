@@ -23,7 +23,7 @@ namespace LOUV.Torp.MonProtocol
                 x = 0,
                 y = 0,
                 z = 1,
-                r = 1.414,
+                r = 1.714,
             };
              i2 = new Input()
             {
