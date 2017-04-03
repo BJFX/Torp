@@ -119,6 +119,9 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.Position.Offset(GpsTomapOffset.Lat,GpsTomapOffset.Lng);
             MainMap.MapName = cfg.Title;
             MainMap.MapType = (MapType)Enum.Parse(typeof(MapType), cfg.MapType);
+            MapTypeBox.ItemsSource = Enum.GetNames(typeof(MapType));
+            MapTypeBox.SelectedItem = cfg.MapType;
+            
         }
 
         #region map event
@@ -325,8 +328,25 @@ namespace LOUV.Torp.Monitor.Views
 
         public GMapMarker currentMarker { get; set; }
 
+        private void ShowBuoyInfo_IsCheckedChanged(object sender, EventArgs e)
+        {
 
-        
+                var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
+                while (itor.MoveNext())
+                {
+                    var marker = itor.Current;
+
+                    if ((int)marker.Tag < 900)
+                    {
+                        if (marker.Shape is BuoyMarker buoy)
+                        {
+                            buoy.ShowTip(ShowBuoyInfo.IsChecked==true);
+                        }
+                        break;
+                    }
+                }
+
+        }
     }
 
 }

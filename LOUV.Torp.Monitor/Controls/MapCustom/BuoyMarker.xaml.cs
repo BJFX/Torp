@@ -25,8 +25,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
     /// </summary>
     public partial class BuoyMarker
     {
-        Popup Popup;
-        BuoyTip Tip;
+        //Popup Popup;
         GMapMarker Marker;
         private Buoy _buoy;
         HomePageView MainWindow;
@@ -38,8 +37,6 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             this.MainWindow = window;
             this.Marker = marker;
 
-            Popup = new Popup();
-            Tip = new BuoyTip();
             RenderTransform = scale;
             this.Loaded += new RoutedEventHandler(BuoyMarker_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(BuoyMarker_SizeChanged);
@@ -48,22 +45,21 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             //this.MouseMove += new MouseEventHandler(BuoyMarker_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonDown);
-            Popup.PlacementTarget = icon;
-            Popup.HorizontalOffset = 30;
-            Popup.VerticalOffset = -120;
-            Popup.Placement = PlacementMode.Relative;
-            {
-                Tip.SetBuoy(buoy);
-            }
-            Popup.Child = Tip;
+            
             CanPopUp = true;
+            BuoyToolTip.SetBuoy(buoy);
+            BuoyToolTip.Opacity = 0;
             _buoy = buoy;
         }
 
         public void Refresh(Buoy buoy)
         {
             _buoy = buoy;
-            Tip.SetBuoy(_buoy);
+            BuoyToolTip.SetBuoy(_buoy);
+        }
+        public void ShowTip(bool bShow)
+        {
+            BuoyToolTip.Opacity = (bShow)?1:0;
         }
         public bool CanPopUp{get;set;}
         private void BuoyMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -91,7 +87,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             scale.ScaleY = 1;
             scale.ScaleX = 1;
             if (CanPopUp)
-                Popup.IsOpen = false;
+                BuoyToolTip.Opacity = 0;
         }
 
         private void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
@@ -100,10 +96,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Cursor = Cursors.Hand;
             this.Effect = ShadowEffect;
 
-            scale.ScaleY = 1.2;
-            scale.ScaleX = 1.2;
+            scale.ScaleY = 1;
+            scale.ScaleX = 1;
             if (CanPopUp)
-                Popup.IsOpen = true;
+                BuoyToolTip.Opacity = 1;
         }
 
         private void BuoyMarker_SizeChanged(object sender, SizeChangedEventArgs e)

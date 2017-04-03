@@ -44,7 +44,7 @@
                 </Grid.RowDefinitions>
                 <ViewControls:TitleBarControl 
                     Foreground="White"
-                    Title="{Binding Home_Title_ApplicationName, Mode=OneWay, Source={StaticResource Resources}}"
+                    Title="{Binding Home_Brand, Mode=OneWay, Source={StaticResource Resources}}"
                     Grid.Row ="0"
                     TitleImageSource="/Assets/UWA.png"
                     BackButtonVisibility="Collapsed"
@@ -81,15 +81,15 @@
                             </Grid>
                             <Controls:FetchingDataProgrssRing x:Name ="MapLoadBar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <UniformGrid Grid.Row="2" Columns="5" Rows="2">
-                                <MetroControl:ToggleSwitch Content="浮标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
-                                <MetroControl:ToggleSwitch Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
-                                <MetroControl:ToggleSwitch Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
-                                <MetroControl:ToggleSwitch Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei"/>
-                                <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Click="BackToCenter">
+                                <MetroControl:ToggleSwitch x:Name="ShowBuoyInfo" Content="浮标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示浮标具体信息" IsCheckedChanged="ShowBuoyInfo_IsCheckedChanged"/>
+                                <MetroControl:ToggleSwitch x:Name="ShowObjInfo" Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标具体信息"/>
+                                <MetroControl:ToggleSwitch x:Name="ShowTrace" Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标点轨迹"/>
+                                <MetroControl:ToggleSwitch x:Name="AutoTrace" Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="地图将跟随目标点移动"/>
+                                <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Click="BackToCenter" ToolTip="回到设定的地图中心点">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="18" Text="刷新地图" FontFamily="Microsoft YaHei" />
+                                                <TextBlock FontSize="18" Text="回到原点" FontFamily="Microsoft YaHei" />
                                                 <Image Source="/Assets/appbar.refresh.png" Height="30" Width="30" />
                                             </StackPanel>
                                         </ControlTemplate>
@@ -323,10 +323,10 @@
                 </Grid>
             </Grid>
             <!--Brand info at bottom right corner-->
-            <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0">
-                <TextBlock Text="{Binding Home_Brand, Mode=OneWay, Source={StaticResource Resources}}" FontSize="26" Foreground="White" HorizontalAlignment="Right"/>
-                <Rectangle Height="3" Fill="WhiteSmoke" HorizontalAlignment="Right" Width="220"/>
-                <TextBlock Text="{Binding Home_Brand_LOAT, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Right" FontSize="16" Foreground="White"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0">
+                <TextBlock Text="{Binding Home_Brand_LOAT, Mode=OneWay, Source={StaticResource Resources}}" FontSize="24" Foreground="White" HorizontalAlignment="Right"/>
+                <Rectangle Height="3" Fill="WhiteSmoke" HorizontalAlignment="Right" Width="360"/>
+                <TextBlock Text="{Binding Home_Brand_LOAT_E, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Right" FontSize="14" Foreground="White"/>
             </StackPanel>
             <Controls:AnimationSlide  Grid.RowSpan="3" Grid.ColumnSpan="4"
             Panel.ZIndex="90"
@@ -362,17 +362,10 @@
                                    Width="250"
                                    Margin="0,0,20,0" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBlock />
-                        <TextBlock />
-
-                        <TextBlock Text="{Binding NetworkStatus}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                        <TextBlock />
-                        <TextBlock Text="{Binding CommStatus}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                        <TextBlock />
-                        <TextBlock Text="{Binding GPSLastUpdateTime}" TextWrapping="Wrap" HorizontalAlignment="Left"/>
-                        <TextBlock />
-
-                        <TextBlock />
+                        <UniformGrid Rows="6" Columns="2">
+                            <Label Foreground="White" Content="地图类型"/>
+                            <Controls:MetroComboBox x:Name="MapTypeBox" FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
+                        </UniformGrid>
                     </StackPanel>
 
                 </Grid>

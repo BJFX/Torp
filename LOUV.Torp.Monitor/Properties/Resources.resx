@@ -144,6 +144,9 @@
   <data name="Home_Brand_LOAT" xml:space="preserve">
     <value>水下航行器信息技术重点实验室</value>
   </data>
+  <data name="Home_Brand_LOAT_E" xml:space="preserve">
+    <value>Key Laboratory of Information Technoloogy for AUVs,CAS</value>
+  </data>
   <data name="Home_Tile_Console" xml:space="preserve">
     <value>命令行模式</value>
   </data>
