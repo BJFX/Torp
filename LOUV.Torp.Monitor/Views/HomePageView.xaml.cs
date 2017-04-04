@@ -118,10 +118,17 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.Position = new PointLatLng(cfg.CenterLat,cfg.CenterLng);
             MainMap.Position.Offset(GpsTomapOffset.Lat,GpsTomapOffset.Lng);
             MainMap.MapName = cfg.Title;
+            Mapnamebox.Text = cfg.Title;
+            CenterLngBox.Text = cfg.CenterLng.ToString();
+            CenterLatBox.Text = cfg.CenterLat.ToString();
+            OffsetLngBox.Text = cfg.MapOffset.Lng.ToString();
+            OffsetLatBox.Text = cfg.MapOffset.Lat.ToString();
+            MainMap.Manager.Mode = (AccessMode)Enum.Parse(typeof(AccessMode), cfg.AccessMode);
             MainMap.MapType = (MapType)Enum.Parse(typeof(MapType), cfg.MapType);
             MapTypeBox.ItemsSource = Enum.GetNames(typeof(MapType));
             MapTypeBox.SelectedItem = cfg.MapType;
-            
+            CacheMode.ItemsSource = Enum.GetNames(typeof(AccessMode));
+            CacheMode.SelectedItem = cfg.AccessMode;
         }
 
         #region map event
@@ -346,6 +353,55 @@ namespace LOUV.Torp.Monitor.Views
                     }
                 }
 
+        }
+
+        private void CancelCfg_Click(object sender, RoutedEventArgs e)
+        {
+            var cfg = UnitCore.Instance.MainMapCfg;
+            Mapnamebox.Text = cfg.Title;
+            CenterLngBox.Text = cfg.CenterLng.ToString();
+            CenterLatBox.Text = cfg.CenterLat.ToString();
+            OffsetLngBox.Text = cfg.MapOffset.Lng.ToString();
+            OffsetLatBox.Text = cfg.MapOffset.Lat.ToString();
+            MapTypeBox.ItemsSource = Enum.GetNames(typeof(MapType));
+            MapTypeBox.SelectedItem = cfg.MapType;
+            CacheMode.ItemsSource = Enum.GetNames(typeof(AccessMode));
+            CacheMode.SelectedItem = cfg.AccessMode;
+            UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(false));
+        }
+
+        private void SaveMapCfg_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                if (double.Parse(CenterLngBox.Text) > 180 || double.Parse(CenterLngBox.Text) < -180)
+                {
+                    UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent("经度格式不正确", LogType.OnlyInfo));
+                    return;
+                }
+                if (double.Parse(CenterLatBox.Text) > 180 || double.Parse(CenterLatBox.Text) < -180)
+                {
+                    UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent("纬度格式不正确", LogType.OnlyInfo));
+                    return;
+                }
+                MonConf.GetInstance().SetCenLat(double.Parse(CenterLatBox.Text));
+                MonConf.GetInstance().SetCenLng(double.Parse(CenterLngBox.Text));
+                MonConf.GetInstance().SetAccessMode(CacheMode.SelectedItem.ToString());
+                MonConf.GetInstance().SetMapName(Mapnamebox.Text);
+                MonConf.GetInstance().SetMapType(MapTypeBox.SelectedItem.ToString());
+                var point = new Offset();
+                point.Lng = double.Parse(OffsetLngBox.Text);
+                point.Lat = double.Parse(OffsetLatBox.Text);
+                MonConf.GetInstance().SetMapOffset(point);
+                UnitCore.Instance.MainMapCfg = UnitCore.Instance.MonConfigueService.LoadMapCfg();
+                RefreshMap(UnitCore.Instance.MainMapCfg);
+                UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(false));
+            }
+            catch(Exception ex)
+            {
+                UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent(ex.Message, LogType.OnlyInfo));
+            }
         }
     }
 

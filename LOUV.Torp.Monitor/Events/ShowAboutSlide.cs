@@ -7,5 +7,10 @@ namespace LOUV.Torp.Monitor.Events
 {
     public class ShowAboutSlide
     {
+        public bool showslide;
+        public ShowAboutSlide(bool bShow)
+        {
+            showslide = bShow;
+        }
     }
 }

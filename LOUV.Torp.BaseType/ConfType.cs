@@ -48,7 +48,7 @@ namespace LOUV.Torp.BaseType
         public double CenterLat { get; set; }
         public double CenterLng { get; set; }
         public string Title { get; set; }
-        //public string AccessMode { get; set; }
+        public string AccessMode { get; set; }
         public string MapType { get; set; }
         public Offset MapOffset { get; set; } 
 

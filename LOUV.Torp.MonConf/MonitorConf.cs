@@ -198,11 +198,21 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Profile", "Name" };
             return SetValue(str, filename);
         }
-
+        public string GetAccessMode()
+        {
+            string[] str = { "Map", "AccessMode" };
+            return GetValue(str);
+        }
+        public bool SetAccessMode(string mode)
+        {
+            string[] str = { "Map", "AccessMode" };
+            return SetValue(str, mode);
+        }
         public MapCfg LoadMapCfg()
         {
             var mapcfg = new MapCfg();
             mapcfg.Title = GetMapName();
+            mapcfg.AccessMode = GetAccessMode();
             mapcfg.CenterLat = GetCenLat();
             mapcfg.CenterLng = GetCenLng();
             mapcfg.MapType = GetMapType();

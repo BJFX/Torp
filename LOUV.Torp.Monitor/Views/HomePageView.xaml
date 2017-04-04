@@ -331,7 +331,7 @@
             <Controls:AnimationSlide  Grid.RowSpan="3" Grid.ColumnSpan="4"
             Panel.ZIndex="90"
                                      x:Name="AboutPanel" 
-                                     IsAutoClose="True"   
+                                     IsAutoClose="False"   
                                      Width="350" 
                                      VerticalAlignment="Stretch"
                                      Visibility= "Visible"
@@ -362,12 +362,31 @@
                                    Width="250"
                                    Margin="0,0,20,0" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <UniformGrid Rows="6" Columns="2">
+                        <UniformGrid Rows="8" Columns="2">
+                            <Label Foreground="White" Content="地图名称"/>
+                            <TextBox x:Name="Mapnamebox" Background="Gray"/>
                             <Label Foreground="White" Content="地图类型"/>
                             <Controls:MetroComboBox x:Name="MapTypeBox" FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
+                            <Label Foreground="White" Content="缓存模式"/>
+                            <Controls:MetroComboBox x:Name="CacheMode"  FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
+                            <Label Foreground="White" Content="中心点经度"/>
+                            <TextBox x:Name="CenterLngBox" Background="Gray"/>
+                            <Label Foreground="White" Content="中心点纬度"/>
+                            <TextBox x:Name="CenterLatBox" Background="Gray"/>
+                            <Label Foreground="White" Content="经度偏移"/>
+                            <TextBox x:Name="OffsetLngBox" Background="Gray"/>
+                            <Label Foreground="White" Content="纬度偏移"/>
+                            <TextBox x:Name="OffsetLatBox" Background="Gray"/>
+                            
                         </UniformGrid>
                     </StackPanel>
 
+                    <StackPanel VerticalAlignment="Bottom">
+                        <UniformGrid>
+                            <Button x:Name="SaveMapCfg" Style="{StaticResource ChromeButtonStyle}" FontFamily="Microsoft YaHei" FontSize="22" Content="保存" Click="SaveMapCfg_Click"/>
+                            <Button x:Name="CancelCfg" Style="{StaticResource ChromeButtonStyle}" FontFamily="Microsoft YaHei" FontSize="22" Content="取消" Click="CancelCfg_Click"/>
+                        </UniformGrid>
+                    </StackPanel>
                 </Grid>
             </Controls:AnimationSlide>
             <Border Name="Overlay" Grid.RowSpan="3" Grid.ColumnSpan="3" Panel.ZIndex="100" HorizontalAlignment="Stretch"  Visibility="Collapsed" VerticalAlignment="Stretch" Background="{DynamicResource GrayBrush}" Opacity="0.7" />

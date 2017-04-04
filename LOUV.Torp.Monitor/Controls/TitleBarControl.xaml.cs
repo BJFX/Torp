@@ -65,7 +65,7 @@ namespace LOUV.Torp.Monitor.Controls
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
-            UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide());
+            UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(true));
         }
         private void GoBack(object sender, RoutedEventArgs e)
         {

@@ -164,7 +164,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         public void Handle(ShowAboutSlide message)
         {
-            AboutVisibility = true;
+            AboutVisibility = message.showslide;
         }
 
         public void Handle(RefreshBuoyInfoEvent message)
