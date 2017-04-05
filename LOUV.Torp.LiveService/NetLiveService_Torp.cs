@@ -25,7 +25,7 @@ namespace LOUV.Torp.LiveService
         private TcpClient _datatcpClient;
 
         //udp网络
-        private UdpClient _udpTraceClient;
+        private UdpClient _udpListClient;
         private UdpClient _udpBroadClient;
         private IUDPService _udpTraceService;
         private UDPBaseComm _udpBroadCaster;
@@ -144,16 +144,17 @@ namespace LOUV.Torp.LiveService
             {
                 throw new Exception("服务已初始化");
             }
+            /*
             _cmdtcpClient = new TcpClient { SendTimeout = 1000 };
             _datatcpClient = new TcpClient { SendTimeout = 1000 };
-            if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(_commConf.IP), _commConf.CmdPort) ||
+            if (!TCPShellService.Init(_cmdtcpClient, IPAddress.Parse(IPAddress.Any), _commConf.CmdPort) ||
                 (!TCPDataService.Init(_datatcpClient, IPAddress.Parse(_commConf.IP), _commConf.DataPort)))
                 throw new Exception("网络初始化失败,请检查网络连接状态并重启程序");
-         
-                _udpTraceClient = new UdpClient(_commConf.RecvPort);
-            if (!UDPDataService.Init(_udpTraceClient)) throw new Exception("消息广播网络初始化失败");
+         */
+            _udpListClient = new UdpClient(_commConf.RecvPort);
+            if (!UDPDataService.Init(_udpListClient)) throw new Exception("UDP网络绑定失败");
            
-                _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
+            _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
             _udpBroadClient.EnableBroadcast = true;
             IsInitialize = true;
         }
@@ -163,7 +164,7 @@ namespace LOUV.Torp.LiveService
             if (IsInitialize)
             {
 
-                StopTCpService();
+                //StopTCpService();
                 StopUDPService();
 
 
@@ -177,7 +178,7 @@ namespace LOUV.Torp.LiveService
             
             if (_commConf == null || _DataObserver == null)
                 throw new Exception("网络通信无法设置");
-            if (!StartTCPService()) throw new Exception("网络服务无法启动");
+            //if (!StartTCPService()) throw new Exception("网络服务无法启动");
             if (!StartUDPService()) throw new Exception("启动广播网络失败");
  
         }
@@ -272,18 +273,17 @@ namespace LOUV.Torp.LiveService
 
 
         public bool IsTCPWorking { get; set; }
-
-
         public bool IsWorking
         {
             get
             {
-                throw new NotImplementedException();
+                return IsUDPWorking;
             }
             set
             {
                 throw new NotImplementedException();
             }
+
         }
     }
 }

@@ -16,7 +16,7 @@ namespace LOUV.Torp.BaseType
 
     public class CommNet
     {
-        public string IP { get; set; }
+        public List<string> IP { get; set; }
         public int CmdPort { get; set; }
         public int DataPort { get; set; }
         public int BroadPort { get; set; }
@@ -85,7 +85,7 @@ namespace LOUV.Torp.BaseType
         public GpsInfo gps { get; set; }
         public LiteRange liteRange { get; set; }
         public TeleRange teleRange { get; set; }
-        
+        public string IP { get; set; }
 
         public Buoy(int id=0)
         {
@@ -126,6 +126,7 @@ namespace LOUV.Torp.BaseType
             Dopple = 0;
             MsgLength = 19;
             Msg = null;
+            ba = null;
         }
         public Int32 SamplingStart { get; set; }
         public float RecvDelay { get; set; }
@@ -134,19 +135,59 @@ namespace LOUV.Torp.BaseType
         public float Dopple { get; set; }
         public UInt16 MsgLength { get; set; }
         public byte[] Msg;
+        public BitArray ba;
 
+        public string MessageType
+        {
+            get
+            {
+                if (ba == null)
+                    return "";
+                if(Util.GetIntValueFromBit(ba,0,3)==2)
+                {
+                    return "AUV->浮标";
+                }
+                if(Util.GetIntValueFromBit(ba, 0, 3) == 6)
+                {
+                    return "AUV->回应浮标";
+                }
+                return "不支持的消息类型";
+            }
+        }
+        public string MessageTime
+        {
+            get
+            {
+                if (ba == null)
+                    return "";
+                var secs = Util.GetIntValueFromBit(ba, 3, 17);
+                var time = DateTime.UtcNow.Date.AddSeconds(secs);
+                return time.ToShortTimeString();
+            }
+        }
+        public string Presure
+        {
+            get
+            {
+                if (ba == null)
+                    return "";
+
+                var presure = Util.GetIntValueFromBit(ba, 20, 12);
+                
+                return presure.ToString();
+            }
+        }
         public string Message
         {
             get
             {
                 if (Msg == null)
                     return "";
-                var da = new DateTime(BitConverter.ToInt64(Msg, 0));
                 var buf = new byte[MsgLength - 4];
                 Buffer.BlockCopy(Msg, 4, buf, 0, MsgLength - 4);
-                return da.ToShortTimeString() + ":" + Util.ConvertCharToHex(buf);
+                return Util.ConvertCharToHex(buf);
             }
-        }//utc time +0xFF
+        }
     }
     public class Target
     {

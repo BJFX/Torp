@@ -79,10 +79,18 @@ namespace LOUV.Torp.MonitorConf
             return int.Parse(GetValue(str));
         }
 
-        protected string GetNetIP()
+        protected List<string> GetNetIP()
         {
-            string[] str = { "Net", "IP" };
-            return GetValue(str);
+            List<string> IpAddress = new List<string>(4);
+            string[] str0 = { "Net", "IP0" };
+            IpAddress.Add(GetValue(str0));
+            string[] str1 = { "Net", "IP1" };
+            IpAddress.Add(GetValue(str1));
+            string[] str2 = { "Net", "IP2" };
+            IpAddress.Add(GetValue(str2));
+            string[] str3 = { "Net", "IP3" };
+            IpAddress.Add(GetValue(str3));
+            return IpAddress;
         }
         public bool SetNetIP(string newip)
         {

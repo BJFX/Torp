@@ -6,6 +6,8 @@ using System.Text;
 using NMEA0183;
 using LOUV.Torp.Utility;
 using LOUV.Torp.BaseType;
+using System.Collections;
+
 namespace LOUV.Torp.MonProtocol
 {
     public class MonProtocol
@@ -49,6 +51,9 @@ namespace LOUV.Torp.MonProtocol
                 Msg = new byte[msglength]
             };
             Buffer.BlockCopy(buffer,13,range.Msg,0,msglength);
+            byte[] msghead = new byte[4];
+            Buffer.BlockCopy(range.Msg, 0, msghead, 0, 4);
+            range.ba = new BitArray(msghead);
             return range;
         }
         //

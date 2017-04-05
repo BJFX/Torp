@@ -37,8 +37,6 @@ namespace LOUV.Torp.Monitor.Core
         //静态接口，用于在程序域中任意位置操作UnitCore中的成员
         private static UnitCore _instance;
 
-        public AutoResetEvent PostMsgEvent_Tick;//同步事件,是否允许定时检测器录音
-
         //事件绑定接口，用于事件广播
         private IEventAggregator _eventAggregator;
         //网络服务接口
@@ -88,7 +86,6 @@ namespace LOUV.Torp.Monitor.Core
             
             //ACMMutex = new Mutex();
             BuoyLock = new Mutex();
-            PostMsgEvent_Tick =new AutoResetEvent(true);//定时器
 
         }
         public async Task<bool> LoadAssets()
@@ -186,25 +183,29 @@ namespace LOUV.Torp.Monitor.Core
                 var by1 = new Buoy()
                 {
                     Id = 1,
-                    gps= gpsinfo,
+                    gps = gpsinfo,
+                    //IP = "192.168.2.101",
                 };
                 Buoy.Add(0,by1);
                 var by2 = new Buoy()
                 {
                     Id = 2,
                     gps= gpsinfo,
+                    //IP = "192.168.2.102",
                 };
                 Buoy.Add(1,by2);
                 var by3 = new Buoy()
                 {
                     Id = 3,
                     gps= gpsinfo,
+                    //IP = "192.168.2.103",
                 };
                 Buoy.Add(2,by3);
                 var by4 = new Buoy()
                 {
                     Id = 4,
                     gps= gpsinfo,
+                    //IP = "192.168.2.104",
                 };
                 Buoy.Add(3,by4);
                 //InfoBoard = new Hashtable();
@@ -260,7 +261,15 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
                 ReadInitPara();
-                if(NetCore.IsInitialize)
+
+                foreach (var buoy in Buoy.Values)
+                {
+                    int i = 0;
+                    var b = (Buoy)buoy;
+                    b.IP = _MonConfInfo.IP[i];
+                    i++;
+                }
+                if (NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();
                 if(!NetCore.StartUDPService())//只启动udp服务，tcp服务单独启动
