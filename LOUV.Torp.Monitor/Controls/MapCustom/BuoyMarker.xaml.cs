@@ -17,6 +17,7 @@ using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Views;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Effects;
+using System.Globalization;
 
 namespace LOUV.Torp.Monitor.Controls.MapCustom
 {
@@ -113,6 +114,16 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             {
                 icon.Source.Freeze();
             }
+        }
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+             Typeface tf = new Typeface("GenericSansSerif");
+             System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
+            base.OnRender(drawingContext);
+            FormattedText ft = new FormattedText("TTTTTTTTTTTTTTTTTTT", CultureInfo.CurrentUICulture, fd, tf, 24, Brushes.White);
+            drawingContext.DrawText(ft, new Point(20, ActualHeight - 20));
+            
+            
         }
     }
 }
