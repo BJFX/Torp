@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Torp>
   <Setup>
-	<UseProfile>0</UseProfile>
-	<AcousticVel>1500</AcousticVel>
-	<FixOffset>2.667</FixOffset>
+    <UseProfile>0</UseProfile>
+    <AcousticVel>1500</AcousticVel>
+    <FixOffset>2.667</FixOffset>
   </Setup>
   <Net>
-	<IP>255.255.255.0</IP>
+    <IP0>192.168.2.101</IP0>
+	<IP1>192.168.2.101</IP1>
+	<IP2>192.168.2.101</IP2>
+	<IP3>192.168.2.101</IP3>
     <DataPort>5555</DataPort>
     <CmdPort>5556</CmdPort>
     <BroadPort>80</BroadPort>
-	<RecvPort>8080</RecvPort>
+    <RecvPort>8080</RecvPort>
   </Net>
   <GPS>
     <ComPort>COM3</ComPort>
@@ -18,18 +21,19 @@
   </GPS>
   <Asset>
     <Buoy>Assets/Ship.3DS</Buoy>
-	<OBJ>Assets/Ship.3DS</OBJ>
+    <OBJ>Assets/Ship.3DS</OBJ>
   </Asset>
   <Map>
-	<Name>千岛湖</Name>
-	<MapType>BingSatellite</MapType>
-	<Center>
-		<Long>118.983188</Long>
-		<Lat>29.592966</Lat>
-	</Center>
-	<Offset>
-		<Long>-0.000</Long>
-		<Lat>0.0000</Lat>
-	</Offset>
+    <Name>千岛湖实验图</Name>
+    <MapType>GoogleSatelliteChina</MapType>
+    <AccessMode>ServerAndCache</AccessMode>
+    <Center>
+      <Long>118.983188</Long>
+      <Lat>29.59296688</Lat>
+    </Center>
+    <Offset>
+      <Long>0.000102</Long>
+      <Lat>-0.0000011</Lat>
+    </Offset>
   </Map>
 </Torp>
