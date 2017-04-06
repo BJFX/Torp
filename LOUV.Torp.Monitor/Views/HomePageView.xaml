@@ -46,7 +46,7 @@
                     Foreground="White"
                     Title="{Binding Home_Brand, Mode=OneWay, Source={StaticResource Resources}}"
                     Grid.Row ="0"
-                    TitleImageSource="/Assets/UWA.png"
+                    TitleImageSource="/Assets/3935.png"
                     BackButtonVisibility="Collapsed"
                     Grid.Column ="1"
                     Grid.ColumnSpan ="2"
@@ -133,239 +133,239 @@
                             </StackPanel>
 
                         </UniformGrid>
-                        <UniformGrid Rows="5" Columns="3" Grid.Row="1">
-                            <Label Content="{Binding Buoy1.Name}" FontSize="18" Foreground="Black" HorizontalAlignment="Left"/>
+                        <UniformGrid Rows="5" Columns="3" Grid.Row="1" >
+                            <Label Content="{Binding Buoy1.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="纬度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="纬度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.gps.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="CRC:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="CRC:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.Crc}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关系数:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="增益:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.liteRange.RecvGain}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关峰:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关峰:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.liteRange.PeakPosition}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="延时:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="延时:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.RecvDelay}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="多普勒:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="多普勒:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
                         <UniformGrid Rows="5" Columns="3" Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                            <Label Content="{Binding Buoy2.Name}" FontSize="18" Foreground="Black" HorizontalAlignment="Left"/>
+                            <Label Content="{Binding Buoy2.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="纬度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="纬度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.gps.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="CRC:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="CRC:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.Crc}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关系数:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="增益:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.liteRange.RecvGain}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关峰:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关峰:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.liteRange.PeakPosition}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="延时:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="延时:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.RecvDelay}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="多普勒:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="多普勒:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
                         <UniformGrid Rows="5" Columns="3" Grid.Row="3">
-                            <Label Content="{Binding Buoy3.Name}" FontSize="18" Foreground="Black" HorizontalAlignment="Left"/>
+                            <Label Content="{Binding Buoy3.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="纬度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="纬度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.gps.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="CRC:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="CRC:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.Crc}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关系数:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="增益:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.liteRange.RecvGain}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关峰:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关峰:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.liteRange.PeakPosition}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="延时:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="延时:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.RecvDelay}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="多普勒:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="多普勒:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
                         <UniformGrid Rows="5" Columns="3" Grid.Row="4" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                            <Label Content="{Binding Buoy4.Name}" FontSize="18" Foreground="Black" HorizontalAlignment="Left"/>
+                            <Label Content="{Binding Buoy4.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="经度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="纬度:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="纬度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.gps.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="CRC:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="CRC:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.Crc}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关系数:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="增益:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.liteRange.RecvGain}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="相关峰:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="相关峰:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.liteRange.PeakPosition}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="延时:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="延时:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.RecvDelay}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="多普勒:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="多普勒:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息:" Foreground="Black" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="消息:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
@@ -418,7 +418,7 @@
                             <Label Foreground="White" Content="地图类型"/>
                             <Controls:MetroComboBox x:Name="MapTypeBox" FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
                             <Label Foreground="White" Content="缓存模式"/>
-                            <Controls:MetroComboBox x:Name="CacheMode"  FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
+                            <Controls:MetroComboBox x:Name="CacheModeBox"  FontSize="16" FontFamily="Microsoft YaHei" IsReadOnly="True"/>
                             <Label Foreground="White" Content="中心点经度"/>
                             <TextBox x:Name="CenterLngBox" Background="Gray"/>
                             <Label Foreground="White" Content="中心点纬度"/>

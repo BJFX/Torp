@@ -46,12 +46,12 @@ namespace LOUV.Torp.Monitor.Views
             Kernel.Instance.Controller.SetRootFrame(ContentFrame);
         }
 
-        private  void ContentFrame_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private async void ContentFrame_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             
             Application.Current.MainWindow = this;
             
-            TaskEx.Run(()=>UnitCore.Instance.Start());
+            await TaskEx.Run(()=>UnitCore.Instance.Start());
             Kernel.Instance.Controller.NavigateToPage("Views/HomePageView.xaml");
             LOUV.Torp.Monitor.Helpers.LogHelper.WriteLog("开始工作");
             

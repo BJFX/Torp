@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              Height="60" Width="60">
     <Grid>
-        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/Satellite.png" />
+        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/IACAS_NBG.bmp" />
     </Grid>
 </UserControl>

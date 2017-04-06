@@ -187,6 +187,12 @@ namespace LOUV.Torp.Monitor.Core
                     //IP = "192.168.2.101",
                 };
                 Buoy.Add(0,by1);
+                gpsinfo = new GpsInfo()
+                {
+                    UTCTime = DateTime.UtcNow,
+                    Latitude = 29.502966F,
+                    Longitude = 118.903188F,
+                };
                 var by2 = new Buoy()
                 {
                     Id = 2,
@@ -194,6 +200,12 @@ namespace LOUV.Torp.Monitor.Core
                     //IP = "192.168.2.102",
                 };
                 Buoy.Add(1,by2);
+                gpsinfo = new GpsInfo()
+                {
+                    UTCTime = DateTime.UtcNow,
+                    Latitude = 29.512966F,
+                    Longitude = 118.913188F,
+                };
                 var by3 = new Buoy()
                 {
                     Id = 3,
@@ -201,6 +213,12 @@ namespace LOUV.Torp.Monitor.Core
                     //IP = "192.168.2.103",
                 };
                 Buoy.Add(2,by3);
+                gpsinfo = new GpsInfo()
+                {
+                    UTCTime = DateTime.UtcNow,
+                    Latitude = 29.542966F,
+                    Longitude = 118.943188F,
+                };
                 var by4 = new Buoy()
                 {
                     Id = 4,

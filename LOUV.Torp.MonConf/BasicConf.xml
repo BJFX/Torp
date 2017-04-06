@@ -7,9 +7,9 @@
   </Setup>
   <Net>
     <IP0>192.168.2.101</IP0>
-	<IP1>192.168.2.101</IP1>
-	<IP2>192.168.2.101</IP2>
-	<IP3>192.168.2.101</IP3>
+	<IP1>192.168.2.102</IP1>
+	<IP2>192.168.2.103</IP2>
+	<IP3>192.168.2.104</IP3>
     <DataPort>5555</DataPort>
     <CmdPort>5556</CmdPort>
     <BroadPort>80</BroadPort>

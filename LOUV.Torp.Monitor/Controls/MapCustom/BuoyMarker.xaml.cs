@@ -24,11 +24,12 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
     /// <summary>
     /// BuoyMarker.xaml 的交互逻辑
     /// </summary>
-    public partial class BuoyMarker
+    public partial class BuoyMarker:UserControl
     {
         //Popup Popup;
         GMapMarker Marker;
         private Buoy _buoy;
+        bool _popup;
         HomePageView MainWindow;
         readonly ScaleTransform scale = new ScaleTransform(1, 1);
         public BuoyMarker(HomePageView window, GMapMarker marker, Buoy buoy)
@@ -46,23 +47,30 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             //this.MouseMove += new MouseEventHandler(BuoyMarker_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(BuoyMarker_MouseLeftButtonDown);
-            
-            CanPopUp = true;
-            BuoyToolTip.SetBuoy(buoy);
-            BuoyToolTip.Opacity = 0;
+
+            _popup = false;
             _buoy = buoy;
         }
 
         public void Refresh(Buoy buoy)
         {
             _buoy = buoy;
-            BuoyToolTip.SetBuoy(_buoy);
+            InvalidateVisual();
         }
-        public void ShowTip(bool bShow)
+
+        public bool PopUp
         {
-            BuoyToolTip.Opacity = (bShow)?1:0;
+            get
+            {
+                return _popup;
+            }
+            set
+            {
+                _popup = value;
+                InvalidateVisual();
+            }
         }
-        public bool CanPopUp{get;set;}
+        private bool MouseOver = false;
         private void BuoyMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsMouseCaptured)
@@ -87,8 +95,8 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
 
             scale.ScaleY = 1;
             scale.ScaleX = 1;
-            if (CanPopUp)
-                BuoyToolTip.Opacity = 0;
+            MouseOver = false;
+            InvalidateVisual();
         }
 
         private void MarkerControl_MouseEnter(object sender, MouseEventArgs e)
@@ -97,10 +105,11 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Cursor = Cursors.Hand;
             this.Effect = ShadowEffect;
 
-            scale.ScaleY = 1;
-            scale.ScaleX = 1;
-            if (CanPopUp)
-                BuoyToolTip.Opacity = 1;
+            scale.ScaleY = 1.1;
+            scale.ScaleX = 1.1;
+            MouseOver = true;
+            InvalidateVisual();
+
         }
 
         private void BuoyMarker_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -117,13 +126,19 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         }
         protected override void OnRender(DrawingContext drawingContext)
         {
-             Typeface tf = new Typeface("GenericSansSerif");
-             System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
             base.OnRender(drawingContext);
-            FormattedText ft = new FormattedText("TTTTTTTTTTTTTTTTTTT", CultureInfo.CurrentUICulture, fd, tf, 24, Brushes.White);
-            drawingContext.DrawText(ft, new Point(20, ActualHeight - 20));
-            
-            
+            ShowTooltip(drawingContext);
+        }
+        protected void ShowTooltip(DrawingContext drawingContext)
+        {
+            if (PopUp || MouseOver)
+            {
+                Typeface tf = new Typeface("GenericSansSerif");
+                System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
+
+                FormattedText ft = new FormattedText(_buoy.Name, CultureInfo.CurrentUICulture, fd, tf, 24, Brushes.Red);
+                drawingContext.DrawText(ft, new Point(20, ActualHeight - 20));
+            }
         }
     }
 }
