@@ -27,6 +27,8 @@ using System.Net.NetworkInformation;
 using LOUV.Torp.Monitor.Controls.MapCustom;
 using System.Collections.Generic;
 using System.Drawing;
+using GMap.NET;
+using GMap.NET.WindowsPresentation;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -67,7 +69,8 @@ namespace LOUV.Torp.Monitor.Core
         public MapCfg MainMapCfg { get; set; }//map配置
         public Setup SetupCfg { get; set; }//计算配置
         public Map mainMap = null;//指向MainMap
-        public List<Point> TargetTrace;
+        public GMapMarker TargetRoute = new GMapMarker();
+        public bool AutoTrace = false;
         InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
         {
@@ -86,7 +89,7 @@ namespace LOUV.Torp.Monitor.Core
 
         protected UnitCore()
         {
-            
+            TargetRoute.Tag = 101;
             //ACMMutex = new Mutex();
             BuoyLock = new Mutex();
 

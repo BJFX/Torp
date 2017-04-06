@@ -104,6 +104,7 @@ namespace LOUV.Torp.Monitor.Views
             //targetmarker.Position.Offset(GpsTomapOffset);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             //3D TBD
+            //Route
         }
 
         void MainMap_MouseLeave(object sender, MouseEventArgs e)
@@ -309,7 +310,7 @@ namespace LOUV.Torp.Monitor.Views
                 {
                     var marker = itor.Current;
 
-                    if ((int)marker.Tag < 900)
+                    if ((int)marker.Tag < 100)//buoy:<100 100<route<200 obj=901,902
                     {
                         if (marker.Shape is BuoyMarker buoy)
                         {
@@ -385,12 +386,17 @@ namespace LOUV.Torp.Monitor.Views
         }
         private void ShowTrace_IsCheckedChanged(object sender, EventArgs e)
         {
-
+            if(ShowTrace.IsChecked==true)
+            {
+                UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
+            }
+            else
+                UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
         }
 
         private void AutoTrace_IsCheckedChanged(object sender, EventArgs e)
         {
-
+            UnitCore.Instance.AutoTrace = (AutoTrace.IsChecked == true);
         }
         #endregion
 

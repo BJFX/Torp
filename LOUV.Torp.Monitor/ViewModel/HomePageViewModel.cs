@@ -29,6 +29,12 @@ namespace LOUV.Torp.Monitor.ViewModel
             if (valid == false)
                 return;
             Locate3D targetpos;
+            var itor = MonProtocol.TriangleLocate.Buoys.GetEnumerator();
+            string log = "";
+            while (itor.MoveNext())
+            {
+                log += itor.Current.Key.ToString() + ":" + itor.Current.Value.ToString()+"  ";
+            }
             if (MonProtocol.TriangleLocate.CalTargetLocation(out targetpos))
             {
                 double lng, lat;
@@ -42,9 +48,15 @@ namespace LOUV.Torp.Monitor.ViewModel
                     Latitude = lat,
                     Depth = targetpos.Z,
                 };
+                log +="定位结果=" + UnitCore.Instance.TargetObj.Status + "lng:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
+                
                 RefreshTarget();
             }
-            
+            else
+            {
+                log += "定位结果= 未成功定位";
+            }
+            UnitCore.Instance.MonTraceService.Save("Position", log);
         }
         public override void Initialize()
         {
@@ -99,6 +111,18 @@ namespace LOUV.Torp.Monitor.ViewModel
                     point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                         UnitCore.Instance.MainMapCfg.MapOffset.Lng);
                     target.Position = point;
+                    //remove legacy route
+                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute);
+                    UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+                    UnitCore.Instance.TargetRoute.Route.Add(point);
+                    if (UnitCore.Instance.TargetRoute.Route.Count > 300)
+                        UnitCore.Instance.TargetRoute.Route.RemoveAt(0);
+                    UnitCore.Instance.TargetRoute.RegenerateRouteShape(UnitCore.Instance.mainMap);
+                    if(isExist)
+                        UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
+
+                    if (UnitCore.Instance.AutoTrace)
+                        UnitCore.Instance.mainMap.Position = point;
                 }));
             }
             else//3D
