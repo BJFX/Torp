@@ -147,7 +147,7 @@ namespace LOUV.Torp.Monitor.Views
         private void BackToCenter(object sender, RoutedEventArgs e)
         {
             Goto(UnitCore.Instance.MainMapCfg.CenterLat, UnitCore.Instance.MainMapCfg.CenterLng);
-            MainMap.ZoomAndCenterMarkers(null);
+            //MainMap.ZoomAndCenterMarkers(null);
         }
         private void MainMap_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -353,7 +353,7 @@ namespace LOUV.Torp.Monitor.Views
 
         private void SaveMapCfg_Click(object sender, RoutedEventArgs e)
         {
-            try
+            //try
             {
 
                 if (double.Parse(CenterLngBox.Text) > 180 || double.Parse(CenterLngBox.Text) < -180)
@@ -378,11 +378,11 @@ namespace LOUV.Torp.Monitor.Views
                 UnitCore.Instance.MainMapCfg = UnitCore.Instance.MonConfigueService.LoadMapCfg();
                 RefreshMap(UnitCore.Instance.MainMapCfg);
                 UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(false));
-            }
+            }/*
             catch(Exception ex)
             {
                 UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent(ex.Message, LogType.OnlyInfo));
-            }
+            }*/
         }
         private void ShowTrace_IsCheckedChanged(object sender, EventArgs e)
         {

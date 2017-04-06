@@ -19,7 +19,6 @@
       d:DesignHeight="768" d:DesignWidth="1366" KeyUp="HomePageView_OnKeyUp" PreviewKeyDown ="HomePageView_PreviewKeyDown"
 	Title="MainPage" Loaded="Page_Loaded">
     <Page.Resources>
-        <Converters:HideZeroConverter x:Key="HideZeroConverter"/>
         <ImageBrush x:Key="LiveImageBrush" ImageSource="{StaticResource LiveImageBackground}"/>
         <ImageBrush x:Key="AnalyseBrush" ImageSource="{StaticResource AnalyseBackground}"/>
     </Page.Resources>
