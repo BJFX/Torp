@@ -17,6 +17,7 @@ using GMap.NET.WindowsPresentation;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Views;
 using System.Globalization;
+using System.Windows.Media.Animation;
 
 namespace LOUV.Torp.Monitor.Controls.MapCustom
 {
@@ -31,6 +32,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         bool _popup;
         HomePageView MainWindow;
         readonly ScaleTransform scale = new ScaleTransform(1, 1);
+        bool needAni = false;// set back to false after animation done!!
         public ObjectMarker(HomePageView window, GMapMarker marker, Target target)
         {
             this.InitializeComponent();
@@ -55,6 +57,12 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             _target = target;
             InvalidateVisual();
         }
+        public void StartAnimation()
+        {
+            needAni = true;
+            InvalidateVisual();
+        }
+        public string Text { get; set; }
         public bool PopUp
         {
             get
@@ -123,6 +131,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
+            BroadCastAni(drawingContext, 100, TimeSpan.FromMilliseconds(5000));
             ShowTooltip(drawingContext);
         }
         protected void ShowTooltip(DrawingContext drawingContext)
@@ -143,5 +152,29 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
                 drawingContext.DrawText(ft, new Point(40, 0));
             }
         }
-    }
+        protected void BroadCastAni(DrawingContext drawingContext, float radius, TimeSpan ts)
+        {
+            if (needAni)
+            {
+                needAni = false;
+
+                Pen Stroke = new Pen(Brushes.Blue, 2.0);
+                Pen myPen = new Pen(Brushes.Blue, 2.0);
+                Typeface Font = new Typeface(new FontFamily("GenericSansSerif"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
+                FormattedText FText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Font, FontSize, Foreground);
+                DoubleAnimationUsingKeyFrames myAnimation = new DoubleAnimationUsingKeyFrames();
+                var keyFrames = myAnimation.KeyFrames;
+                keyFrames.Add(new SplineDoubleKeyFrame(0, TimeSpan.FromSeconds(0)));
+                keyFrames.Add(new SplineDoubleKeyFrame(radius, TimeSpan.FromSeconds(0.5), new KeySpline(0, 0, 1, 1)));
+                keyFrames.Add(new SplineDoubleKeyFrame(0, TimeSpan.FromSeconds(0.5)));
+                myAnimation.RepeatBehavior = new RepeatBehavior(ts);
+
+                // Create a clock the for the animation.
+                AnimationClock myClock = myAnimation.CreateClock();
+
+                drawingContext.DrawEllipse(null, myPen, new Point(Width / 2, Height / 2), null, Width / 2, myClock, Height / 2, myClock);
+                drawingContext.DrawText(FText, new Point(-FText.Width / 2, -FText.Height));
+            }
+        }
+        }
 }

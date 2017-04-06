@@ -383,6 +383,15 @@ namespace LOUV.Torp.Monitor.Views
                 UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent(ex.Message, LogType.OnlyInfo));
             }
         }
+        private void ShowTrace_IsCheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AutoTrace_IsCheckedChanged(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         #region method
@@ -408,7 +417,7 @@ namespace LOUV.Torp.Monitor.Views
                 MessageBox.Show(ex.Message);
             }
         }
-
+        
         private void Goto(double lat, double lng)
         {
             var center = new PointLatLng(lat, lng);

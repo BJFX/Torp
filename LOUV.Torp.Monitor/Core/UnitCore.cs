@@ -25,6 +25,8 @@ using System.Threading.Tasks;
 //using LOUV.Torp.WaveBox;
 using System.Net.NetworkInformation;
 using LOUV.Torp.Monitor.Controls.MapCustom;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -65,6 +67,7 @@ namespace LOUV.Torp.Monitor.Core
         public MapCfg MainMapCfg { get; set; }//map配置
         public Setup SetupCfg { get; set; }//计算配置
         public Map mainMap = null;//指向MainMap
+        public List<Point> TargetTrace;
         InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
         {
