@@ -82,7 +82,7 @@
                             <Controls:FetchingDataProgrssRing x:Name ="MapLoadBar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <UniformGrid Grid.Row="2" Columns="5" Rows="2">
                                 <MetroControl:ToggleSwitch x:Name="ShowBuoyInfo" Content="浮标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示浮标具体信息" IsCheckedChanged="ShowBuoyInfo_IsCheckedChanged"/>
-                                <MetroControl:ToggleSwitch x:Name="ShowObjInfo" Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标具体信息"/>
+                                <MetroControl:ToggleSwitch x:Name="ShowObjInfo" Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标具体信息" IsCheckedChanged="ShowObjInfo_IsCheckedChanged"/>
                                 <MetroControl:ToggleSwitch x:Name="ShowTrace" Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标点轨迹"/>
                                 <MetroControl:ToggleSwitch x:Name="AutoTrace" Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="地图将跟随目标点移动"/>
                                 <Button Style="{StaticResource ChromeButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Click="BackToCenter" ToolTip="回到设定的地图中心点">

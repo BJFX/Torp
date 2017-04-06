@@ -319,7 +319,22 @@ namespace LOUV.Torp.Monitor.Views
                 }
 
         }
+        private void ShowObjInfo_IsCheckedChanged(object sender, EventArgs e)
+        {
+            var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
+            while (itor.MoveNext())
+            {
+                var marker = itor.Current;
 
+                if ((int)marker.Tag > 900)
+                {
+                    if (marker.Shape is ObjectMarker obj)
+                    {
+                        obj.PopUp = (ShowObjInfo.IsChecked == true);
+                    }
+                }
+            }
+        }
         private void CancelCfg_Click(object sender, RoutedEventArgs e)
         {
             var cfg = UnitCore.Instance.MainMapCfg;

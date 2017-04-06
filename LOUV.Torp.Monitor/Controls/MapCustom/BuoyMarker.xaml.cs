@@ -136,8 +136,13 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
                 Typeface tf = new Typeface("GenericSansSerif");
                 System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
 
-                FormattedText ft = new FormattedText(_buoy.Name, CultureInfo.CurrentUICulture, fd, tf, 24, Brushes.Red);
-                drawingContext.DrawText(ft, new Point(20, ActualHeight - 20));
+                FormattedText ft = new FormattedText(_buoy.Name +"   "+ _buoy.Time + "(UTC)", CultureInfo.CurrentUICulture, fd, tf, 18, Brushes.Red);
+                drawingContext.DrawText(ft, new Point(40, -40));
+                string latlngstr = "经度:" + _buoy.gps.Longitude.ToString("F06") + "\r纬度:" + _buoy.gps.Latitude.ToString("F06");
+                ft = new FormattedText(latlngstr, CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, -20));
+                ft = new FormattedText("测距:"+_buoy.Range.ToString("F02"), CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, 20));
             }
         }
     }

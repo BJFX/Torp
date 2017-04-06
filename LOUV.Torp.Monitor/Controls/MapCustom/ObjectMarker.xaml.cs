@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using GMap.NET.WindowsPresentation;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Views;
+using System.Globalization;
 
 namespace LOUV.Torp.Monitor.Controls.MapCustom
 {
@@ -24,10 +25,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
     /// </summary>
     public partial class ObjectMarker
     {
-        Popup Popup;
-        BuoyTip Tip;
-        GMapMarker Marker;
+        
         private Target _target;
+        GMapMarker Marker;
+        bool _popup;
         HomePageView MainWindow;
         readonly ScaleTransform scale = new ScaleTransform(1, 1);
         public ObjectMarker(HomePageView window, GMapMarker marker, Target target)
@@ -36,9 +37,6 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
 
             this.MainWindow = window;
             this.Marker = marker;
-
-            Popup = new Popup();
-            Tip = new BuoyTip();
             RenderTransform = scale;
             this.Loaded += new RoutedEventHandler(ObjectMarker_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(ObjectMarker_SizeChanged);
@@ -47,24 +45,29 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
 
             this.MouseLeftButtonUp += new MouseButtonEventHandler(ObjectMarker_MouseLeftButtonUp);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ObjectMarker_MouseLeftButtonDown);
-            Popup.PlacementTarget = icon;
-            Popup.HorizontalOffset = 30;
-            Popup.VerticalOffset = -120;
-            Popup.Placement = PlacementMode.Relative;
-            {
-                Tip.SetTarget(target);
-            }
-            Popup.Child = Tip;
-            CanPopUp = true;
+
+            _popup = false;
             _target = target;
         }
 
         public void Refresh(Target target)
         {
             _target = target;
-            Tip.SetTarget(_target);
+            InvalidateVisual();
         }
-        public bool CanPopUp{get;set;}
+        public bool PopUp
+        {
+            get
+            {
+                return _popup;
+            }
+            set
+            {
+                _popup = value;
+                InvalidateVisual();
+            }
+        }
+        private bool MouseOver = false;
         private void ObjectMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsMouseCaptured)
@@ -89,8 +92,8 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
 
             scale.ScaleY = 1;
             scale.ScaleX = 1;
-            if (CanPopUp)
-                Popup.IsOpen = false;
+            MouseOver = false;
+            InvalidateVisual();
         }
 
         private void ObjectMarker_MouseEnter(object sender, MouseEventArgs e)
@@ -99,10 +102,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Cursor = Cursors.Hand;
             this.Effect = ShadowEffect;
 
-            scale.ScaleY = 1.2;
-            scale.ScaleX = 1.2;
-            if (CanPopUp)
-                Popup.IsOpen = true;
+            scale.ScaleY = 1.1;
+            scale.ScaleX = 1.1;
+            MouseOver = true;
+            InvalidateVisual();
         }
 
         private void ObjectMarker_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -115,6 +118,29 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             if (icon.Source.CanFreeze)
             {
                 icon.Source.Freeze();
+            }
+        }
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            ShowTooltip(drawingContext);
+        }
+        protected void ShowTooltip(DrawingContext drawingContext)
+        {
+            if (PopUp || MouseOver)
+            {
+                Typeface tf = new Typeface("GenericSansSerif");
+                System.Windows.FlowDirection fd = new System.Windows.FlowDirection();
+
+                FormattedText ft = new FormattedText(_target.Name + "    " + _target.Time+"(UTC)", CultureInfo.CurrentUICulture, fd, tf, 18, Brushes.Red);
+                drawingContext.DrawText(ft, new Point(40, -60));
+                string latlngstr = "经度:" + _target.Longitude.ToString("F06") + " | 纬度:" + _target.Latitude.ToString("F06");
+                ft = new FormattedText(latlngstr, CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, -40));
+                ft = new FormattedText("测算深度:" + _target.Depth.ToString("F02"), CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, -20));
+                ft = new FormattedText("测距状态:" + _target.Status, CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, 0));
             }
         }
     }
