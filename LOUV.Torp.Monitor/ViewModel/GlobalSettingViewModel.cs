@@ -22,198 +22,57 @@ namespace LOUV.Torp.Monitor.ViewModel
         public override void Initialize()
         {
             
-            LinkCheckCommand = RegisterCommand(ExecuteLinkCheckCommand, CanExecuteLinkCheckCommand, true);
-            LinkUnCheckCommand = RegisterCommand(ExecuteLinkUnCheckCommand, CanExecuteLinkUnCheckCommand, true);
             SaveConfig = RegisterCommand(ExecuteSaveConfig, CanExecuteSaveConfig, true);
-            IsFetching = false;
-            Version = "0.0.0"; 
-            RefreshVisble = Visibility.Visible;
-            IsUpdating = false;
-            UpdatePercentange = 0;
-            XmtIndex = 0;
-            XMTValue = 0.1F;
-            Gain = 39;
         }
         public override void InitializePage(object extraData)
         {
-            bInitial = false;
             if(!UnitCore.Instance.LoadConfiguration())
                 return;
             var conf = UnitCore.Instance.MonConfigueService.GetNet();
-            
-            if (conf != null)
-            {
-                
-            }
-            if (UnitCore.Instance.NetCore.IsTCPWorking)
-            {
-                
-                
-            }
-            else
-            {
-                ShipConnected = false;
-                UWVConnected = false;
-            }
-            bInitial = true;
-        }
-        public string ShipIpAddr
-        {
-            get { return GetPropertyValue(() => ShipIpAddr); }
-            set { SetPropertyValue(() => ShipIpAddr, value); }
-        }
-        public string UWVIpAddr
-        {
-            get { return GetPropertyValue(() => UWVIpAddr); }
-            set { SetPropertyValue(() => UWVIpAddr, value); }
-        }
-        public int SelectMode
-        {
-            get { return GetPropertyValue(() => SelectMode); }
-            set
-            {
-                if (SelectMode != value && bInitial==true)
-                {
-                    EventAggregator.PublishMessage(new LogEvent("新的模式需在保存设置后生效！", LogType.OnlyInfo));
-                }
-                SetPropertyValue(() => SelectMode, value);
-            }
-        }
+            Buoy01IpAddr = conf.IP[0];
+            Buoy02IpAddr = conf.IP[1];
+            Buoy03IpAddr = conf.IP[2];
+            Buoy04IpAddr = conf.IP[3];
+            BuoyPort = conf.BroadPort;
+            ListenPort = conf.RecvPort;
+            Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
 
-        public int SelectGMode
-        {
-            get { return GetPropertyValue(() => SelectGMode); }
-            set
-            {
-                SetPropertyValue(() => SelectGMode, value);
-            }
         }
-        public string Version
+        public string Buoy01IpAddr
         {
-            get { return GetPropertyValue(() => Version); }
-            set { SetPropertyValue(() => Version, value); }
+            get { return GetPropertyValue(() => Buoy01IpAddr); }
+            set { SetPropertyValue(() => Buoy01IpAddr, value); }
         }
-        public bool IsFetching
+        public string Buoy02IpAddr
         {
-            get { return GetPropertyValue(() => IsFetching); }
-            set { SetPropertyValue(() => IsFetching, value); }
+            get { return GetPropertyValue(() => Buoy02IpAddr); }
+            set { SetPropertyValue(() => Buoy02IpAddr, value); }
         }
-        public Visibility RefreshVisble
+        public string Buoy03IpAddr
         {
-            get { return GetPropertyValue(() => RefreshVisble); }
-            set { SetPropertyValue(() => RefreshVisble, value); }
+            get { return GetPropertyValue(() => Buoy03IpAddr); }
+            set { SetPropertyValue(() => Buoy03IpAddr, value); }
         }
-        public bool ShipConnected
+        public string Buoy04IpAddr
         {
-            get { return GetPropertyValue(() => ShipConnected); }
-            set { SetPropertyValue(() => ShipConnected, value); }
+            get { return GetPropertyValue(() => Buoy04IpAddr); }
+            set { SetPropertyValue(() => Buoy04IpAddr, value); }
         }
-        public bool UWVConnected
+        public int BuoyPort
         {
-            get { return GetPropertyValue(() => UWVConnected); }
-            set { SetPropertyValue(() => UWVConnected, value); }
+            get { return GetPropertyValue(() => BuoyPort); }
+            set { SetPropertyValue(() => BuoyPort, value); }
         }
-        public bool IsUpdating
+        public int ListenPort
         {
-            get { return GetPropertyValue(() => IsUpdating); }
-            set { SetPropertyValue(() => IsUpdating, value); }
+            get { return GetPropertyValue(() => ListenPort); }
+            set { SetPropertyValue(() => ListenPort, value); }
         }
-        public int UpdatePercentange
+        public float Velocity
         {
-            get { return GetPropertyValue(() => UpdatePercentange); }
-            set { SetPropertyValue(() => UpdatePercentange, value); }
+            get { return GetPropertyValue(() => Velocity); }
+            set { SetPropertyValue(() => Velocity, value); }
         }
-        public int XmtIndex
-        {
-            get { return GetPropertyValue(() => XmtIndex); }
-            set { SetPropertyValue(() => XmtIndex, value); }
-        }
-        public float XMTValue
-        {
-            get { return GetPropertyValue(() => XMTValue); }
-            set { SetPropertyValue(() => XMTValue, value); }
-        }
-
-        public int Gain
-        {
-            get { return GetPropertyValue(() => Gain); }
-            set { SetPropertyValue(() => Gain, value); }
-        }
-        //// command
-        public ICommand LinkCheckCommand
-        {
-            get { return GetPropertyValue(() => LinkCheckCommand); }
-            set { SetPropertyValue(() => LinkCheckCommand, value); }
-        }
-
-
-        public void CanExecuteLinkCheckCommand(object sender, CanExecuteRoutedEventArgs eventArgs)
-        {
-            eventArgs.CanExecute = true;
-        }
-
-
-        public void ExecuteLinkCheckCommand(object sender, ExecutedRoutedEventArgs eventArgs)
-        {
-            LogHelper.WriteLog("开始连接");
-            if (UnitCore.Instance.NetCore.IsTCPWorking)
-                return;
-            else
-            {
-                try
-                {
-                    Save();
-                    UnitCore.Instance.NetCore.StartTCPService();
-                }
-                catch (Exception e)
-                {
-                    EventAggregator.PublishMessage(new LogEvent(e.Message, LogType.OnlyInfo));
-                }
-
-                if (UnitCore.Instance.NetCore.IsTCPWorking)
-                {
-                    if (SelectMode == 0)
-                    {
-                        ShipConnected = true;
-                        UWVConnected = false;
-                    }
-                    else
-                    {
-                        UWVConnected = true;
-                        ShipConnected = false;
-                    }
-                }
-                else
-                {
-                    LogHelper.WriteLog("连接失败！");
-                    EventAggregator.PublishMessage(new LogEvent("网络连接失败！", LogType.OnlyInfo));
-                    UWVConnected = false;
-                    ShipConnected = false;
-                }
-
-            }
-        }
-        public ICommand LinkUnCheckCommand
-        {
-            get { return GetPropertyValue(() => LinkUnCheckCommand); }
-            set { SetPropertyValue(() => LinkUnCheckCommand, value); }
-        }
-
-
-        public void CanExecuteLinkUnCheckCommand(object sender, CanExecuteRoutedEventArgs eventArgs)
-        {
-            eventArgs.CanExecute = true;
-        }
-
-
-        public void ExecuteLinkUnCheckCommand(object sender, ExecutedRoutedEventArgs eventArgs)
-        {
-            if(UnitCore.Instance.NetCore.IsTCPWorking)
-                UnitCore.Instance.NetCore.StopTCpService();
-            UWVConnected = false;
-            ShipConnected = false;
-        }
-       
         public ICommand SaveConfig
         {
             get { return GetPropertyValue(() => SaveConfig); }
@@ -229,51 +88,90 @@ namespace LOUV.Torp.Monitor.ViewModel
 
         public async void ExecuteSaveConfig(object sender, ExecutedRoutedEventArgs eventArgs)
         {
-            Save();
-            
-            UnitCore.Instance.LoadConfiguration();
-            var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
-            dialog.Title = "设置";
-            await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
-                dialog);
-            var textBlock = dialog.FindChild<TextBlock>("MessageTextBlock");
-            textBlock.Text = "修改成功！";
-            await TaskEx.Delay(1000);
-            await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame, dialog);
-            
+            if(Save()&& ReConnect())
+            {
+                var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
+                dialog.Title = "设置";
+                await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                    dialog);
+                var textBlock = dialog.FindChild<TextBlock>("MessageTextBlock");
+                textBlock.Text = "修改成功！";
+                await TaskEx.Delay(1000);
+                await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame, dialog);
+
+            }
         }
 
-        private void Save()
+        private bool Save()
         {
-            if (UnitCore.Instance.NetCore.IsTCPWorking)//修改参数前先断开连接
+
+            if (UnitCore.Instance.LoadConfiguration() == false)
             {
-                if (UnitCore.Instance.LoadConfiguration() == false)
-                {
-                    EventAggregator.PublishMessage(new LogEvent("读取配置出错！", LogType.Both));
-                    return;
-                }
-                
+                EventAggregator.PublishMessage(new LogEvent("访问配置文件出错！", LogType.Both));
+                return false; 
+            }
+            IPAddress ip01, ip02, ip03, ip04;
+            if (IPAddress.TryParse(Buoy01IpAddr, out ip01) == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("浮标01网络地址非法！", LogType.OnlyInfo));
+                return false;
+            }
+            if (IPAddress.TryParse(Buoy02IpAddr, out ip02) == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("浮标02网络地址非法！", LogType.OnlyInfo));
+                return false;
+            }
+            if (IPAddress.TryParse(Buoy03IpAddr, out ip03) == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("浮标03网络地址非法！", LogType.OnlyInfo));
+                return false;
+            }
+            if (IPAddress.TryParse(Buoy04IpAddr, out ip04) == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("浮标04网络地址非法！", LogType.OnlyInfo));
+                return false;
             }
             
-            
+            bool result = (UnitCore.Instance.MonConfigueService.SetNetIP(0, Buoy01IpAddr) &&
+                   UnitCore.Instance.MonConfigueService.SetNetIP(1, Buoy02IpAddr)&&
+                   UnitCore.Instance.MonConfigueService.SetNetIP(2, Buoy03IpAddr)&&
+                   UnitCore.Instance.MonConfigueService.SetNetIP(3, Buoy04IpAddr));
+            if (result == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存浮标地址出错", LogType.Both));
+                return false;
+            }
+            var ans = (UnitCore.Instance.MonConfigueService.SetNetBroadPort(BuoyPort) &&
+                  UnitCore.Instance.MonConfigueService.SetNetRecvPort(ListenPort));
+            if (ans == false)
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存端口参数出错", LogType.Both));
+                return false;
+            }
+            if(!UnitCore.Instance.MonConfigueService.SetAcousticVel(Velocity))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存默认声速出错", LogType.Both));
+                return false;
+            }
+            return true;
         }
 
-        private void ReConnectToDSP()
+        private bool ReConnect()
         {
-            if (UnitCore.Instance.NetCore.IsTCPWorking)
+            if (UnitCore.Instance.NetCore.IsUDPWorking)
             {
                 if(UnitCore.Instance.NetCore.IsInitialize)
-                    UnitCore.Instance.NetCore.StopTCpService();
+                    UnitCore.Instance.NetCore.StopUDPService();
             }
             try
             {
-                if (!UnitCore.Instance.LoadConfiguration()) throw new Exception("无法读取网络配置");
-                UnitCore.Instance.NetCore.StartTCPService();
+                if (!UnitCore.Instance.LoadConfiguration()) throw new Exception("无法读取配置");
+                return UnitCore.Instance.NetCore.StartUDPService();
             }
             catch (Exception e)
             {
                 EventAggregator.PublishMessage(new LogEvent(UnitCore.Instance.NetCore.Error, LogType.OnlyInfo));
-                return;
+                return false;
             }
         }
     }

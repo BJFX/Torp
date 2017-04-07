@@ -78,7 +78,16 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Net", "RecvPort" };
             return int.Parse(GetValue(str));
         }
-
+        public bool SetNetBroadPort(int port)
+        {
+            string[] str = { "Net", "BroadPort" };
+            return SetValue(str,port.ToString());
+        }
+        public bool SetNetRecvPort(int port)
+        {
+            string[] str = { "Net", "RecvPort" };
+            return SetValue(str,port.ToString());
+        }
         protected List<string> GetNetIP()
         {
             List<string> IpAddress = new List<string>(4);
@@ -92,9 +101,9 @@ namespace LOUV.Torp.MonitorConf
             IpAddress.Add(GetValue(str3));
             return IpAddress;
         }
-        public bool SetNetIP(string newip)
+        public bool SetNetIP(int index,string newip)
         {
-            string[] str = { "Net", "IP" };
+            string[] str = { "Net", "IP" + index.ToString() };
             return SetValue(str, newip);
         }
         public CommGPS GetGPS()

@@ -136,10 +136,10 @@
     <value>串口服务正常</value>
   </data>
   <data name="GLOBALSETTING_Title_Top" xml:space="preserve">
-    <value>多点水声监控平台设置</value>
+    <value>浮标水声通信平台参数</value>
   </data>
   <data name="Home_Brand" xml:space="preserve">
-    <value>多点水声监控平台</value>
+    <value>浮标水声通信平台</value>
   </data>
   <data name="Home_Brand_LOAT" xml:space="preserve">
     <value>水下航行器信息技术重点实验室</value>
@@ -193,7 +193,7 @@
     <value> © 2017 中国科学院声学研究所 </value>
   </data>
   <data name="SPLASH_PRODUCT_NAME" xml:space="preserve">
-    <value>水声监控主控程序</value>
+    <value>浮标水声通信主控程序</value>
   </data>
   <data name="SPLASH_RIGHT_RESERVER" xml:space="preserve">
     <value>版权所有</value>

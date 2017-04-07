@@ -11,6 +11,7 @@ namespace LOUV.Torp.CommLib.UDP
     {
         protected UdpClient _udpClient;
         private Thread UdpReceiver;
+        protected bool flag = false;
         public static event EventHandler<CustomEventArgs> DoParse;
         private List<byte> _recvQueue = new List<byte>();
         public bool Init(UdpClient udpClient)
@@ -41,9 +42,18 @@ namespace LOUV.Torp.CommLib.UDP
         public void Stop()
         {
             if (_udpClient != null)
-                _udpClient.Close();
+            {
+                StopReceive();
+                //Thread.Sleep(1000);
+                //_udpClient.Close();
+            }
         }
-
+        void StopReceive()
+        {
+            byte[] datagram = new byte[] { 0x00 };
+            flag = false;
+            _udpClient.Send(datagram, datagram.Length, new IPEndPoint(IPAddress.Loopback, ((IPEndPoint)_udpClient.Client.LocalEndPoint).Port));
+        }
         public UdpClient ReturnUdpClient()
         {
             return _udpClient;
@@ -73,7 +83,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag = true;
+            flag = true;
             string returnData = string.Empty;
             string error = string.Empty;
             while (flag)
@@ -81,7 +91,6 @@ namespace LOUV.Torp.CommLib.UDP
                 try
                 {
                     var receiveBytes = _udpClient.Receive(ref remoteIpEndPoint);
-
                     returnData = Encoding.Default.GetString(receiveBytes);
                 }
                 catch (SocketException exception)
@@ -104,7 +113,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag =true;
+            flag =true;
             var buffer = new byte[4096*2];
             string error = string.Empty;
             var numberOfBytesRead = 0;
@@ -169,7 +178,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag = true;
+            flag = true;
             byte[] buffer = null;
             string error = string.Empty;
             var mode = CallMode.Sail;
@@ -221,7 +230,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag = true;
+            flag = true;
             byte[] buffer = null;
             string error = string.Empty;
             var mode = CallMode.USBL;
@@ -272,7 +281,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag = true;
+            flag = true;
             byte[] buffer = null;
             string error = string.Empty;
             var mode = CallMode.GPS;
@@ -325,7 +334,7 @@ namespace LOUV.Torp.CommLib.UDP
         protected override void ListensenUDP()
         {
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            var flag = true;
+            flag = true;
             _recvQueue.Clear();
             byte[] buffer = null;
             string error = string.Empty;
@@ -353,6 +362,14 @@ namespace LOUV.Torp.CommLib.UDP
                         return;
                     }
 
+                }
+                catch(Exception ex)
+                {
+                    if(ex!=null)
+                    {
+                        flag = false;
+                        return;
+                    }
                 }
             }
         }

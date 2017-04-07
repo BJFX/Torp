@@ -115,7 +115,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 多点水声监控平台设置.
+        ///   Looks up a localized string similar to 浮标水声通信平台参数.
         /// </summary>
         public static string GLOBALSETTING_Title_Top {
             get {
@@ -124,7 +124,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 多点水声监控平台.
+        ///   Looks up a localized string similar to 浮标水声通信平台.
         /// </summary>
         public static string Home_Brand {
             get {
@@ -286,7 +286,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 水声监控主控程序.
+        ///   Looks up a localized string similar to 浮标水声通信主控程序.
         /// </summary>
         public static string SPLASH_PRODUCT_NAME {
             get {
