@@ -190,7 +190,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     Id = 1,
                     gps = gpsinfo,
-                    //IP = "192.168.2.101",
+                    IP = "192.168.2.101",
                 };
                 Buoy.Add(0,by1);
                 gpsinfo = new GpsInfo()
@@ -203,7 +203,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     Id = 2,
                     gps= gpsinfo,
-                    //IP = "192.168.2.102",
+                    IP = "192.168.2.102",
                 };
                 Buoy.Add(1,by2);
                 gpsinfo = new GpsInfo()
@@ -216,7 +216,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     Id = 3,
                     gps= gpsinfo,
-                    //IP = "192.168.2.103",
+                    IP = "192.168.2.103",
                 };
                 Buoy.Add(2,by3);
                 gpsinfo = new GpsInfo()
@@ -229,7 +229,7 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     Id = 4,
                     gps= gpsinfo,
-                    //IP = "192.168.2.104",
+                    IP = "192.168.2.104",
                 };
                 Buoy.Add(3,by4);
                 //InfoBoard = new Hashtable();
@@ -286,13 +286,15 @@ namespace LOUV.Torp.Monitor.Core
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
                 ReadInitPara();
 
-                foreach (var buoy in Buoy.Values)
-                {
-                    int i = 0;
-                    var b = (Buoy)buoy;
-                    b.IP = _MonConfInfo.IP[i];
-                    i++;
-                }
+                var b = (Buoy)Buoy[0];
+                b.IP = _MonConfInfo.IP[0];
+                b = (Buoy)Buoy[1];
+                b.IP = _MonConfInfo.IP[1];
+                b = (Buoy)Buoy[2];
+                b.IP = _MonConfInfo.IP[2];
+                b = (Buoy)Buoy[3];
+                b.IP = _MonConfInfo.IP[3];
+
                 if (NetCore.IsInitialize)
                     NetCore.Stop();
                 NetCore.Initialize();

@@ -30,6 +30,7 @@
         //Torp
         TeleRange = 11, //通信遥测信号
         Range = 12,//仅脉冲信号
+        UDPAns = 13,//发送水声结束应答包
     }
 
     public enum ACNCommandMode

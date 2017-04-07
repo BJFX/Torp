@@ -8,6 +8,8 @@ using TinyMetroWpfLibrary.Controller;
 using MahApps.Metro.Controls.Dialogs;
 using LOUV.Torp.Monitor.Core;
 using LOUV.Torp.Monitor.ViewModel;
+using System;
+using LOUV.Torp.BaseType;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -71,12 +73,52 @@ namespace LOUV.Torp.Monitor.Views
                         newdialog);
         }
 
-        private void SendCMD_Click(object sender, RoutedEventArgs e)
+        private async void SendCMD_Click(object sender, RoutedEventArgs e)
         {
             var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
             var id = int.Parse(newdialog.Title.Substring(3, 1));
+            var CmdTypeBox = newdialog.FindChild<ComboBox>("CmdTypeBox");
+            var XmtValue3DBox = newdialog.FindChild<NumericUpDown>("XmtValue3DBox");
+            var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValueBox");
+            byte[] cmd = new byte[1032];
+            Array.Clear(cmd, 0,1032);
+            cmd[0] = 0x2B;
+            cmd[1] = 0x00;
+            Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValueBox.Value.Value), 0, cmd, 2,2);
+            byte[] tinycmd = new byte[19];
+            if(CmdTypeBox.SelectedIndex==0)
+            {
+                tinycmd[0] = 0x09;
+                Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValue3DBox.Value.Value), 0, tinycmd, 1, 2);
+            }
+            if(CmdTypeBox.SelectedIndex==1)
+            {
+                tinycmd[0] = 0x11;
+            }
+            Buffer.BlockCopy(tinycmd, 0, cmd, 8, 19);
             //send cmd
-            UnitCore.Instance.NetCore.UDPSend(UnitCore.Instance.MonConfigueService.GetNet().IP[id-1],);
+            Buoy b =  (Buoy)UnitCore.Instance.Buoy[id - 1];
+            UnitCore.Instance.NetCore.UDPSend(b.IP, cmd);
+            await TaskEx.Delay(500);
+            await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                        newdialog);
+        }
+
+        private void XmtValue3DBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
+            if (newdialog == null)
+                return;
+            var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValue3DBox");
+            var XmtValuelabel = newdialog.FindChild<Label>("XmlAmp3DLabel");
+            if (XmtValueBox.Value == 0)
+            {
+                XmtValuelabel.Content = "0%";
+            }
+            else if (XmtValueBox.Value.HasValue)
+            {
+                XmtValuelabel.Content = ((int)XmtValueBox.Value.Value * 100 / 32767) + "%";
+            }
         }
     }
 }

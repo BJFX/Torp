@@ -12,12 +12,17 @@ using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Controls.MapCustom;
 using System.Windows;
 using GMap.NET;
+using LOUV.Torp.Monitor.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+
 namespace LOUV.Torp.Monitor.Core
 {
     public class MonitorDataObserver:Observer<CustomEventArgs>
     {
   
-        public void Handle(object sender, CustomEventArgs e)
+        public async void Handle(object sender, CustomEventArgs e)
         {
             if (e.ParseOK)
             {
@@ -61,7 +66,21 @@ namespace LOUV.Torp.Monitor.Core
                     if (buoy == null)
                         return;
                     //类型标志
-                    if (e.Mode == CallMode.GPS) //gps
+                    if(e.Mode == CallMode.UDPAns)
+                    {
+
+                        var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
+                        dialog.Title = "浮标消息";
+                        await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                            dialog);
+                        var textBlock = dialog.FindChild<TextBlock>("MessageTextBlock");
+                        textBlock.Text = "已成功发送水声命令！";
+                        await TaskEx.Delay(1000);
+                        await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame, dialog);
+
+                        return;
+                    }
+                    else if (e.Mode == CallMode.GPS) //gps
                     {
                         var gpsbuf = new byte[1030];
                         Buffer.BlockCopy(e.DataBuffer, 2, gpsbuf, 0, 1030);

@@ -381,7 +381,7 @@ namespace LOUV.Torp.CommLib.UDP
             while (queue.Count >= 1032)//够一次数据
             {
                 
-                if (queue[1] == 0x01 && (queue[0] == 0x28) || (queue[0] == 0x29) || (queue[0] == 0x2A))//find head
+                if (queue[1] == 0x01 && (queue[0] == 0x28) || (queue[0] == 0x29) || (queue[0] == 0x2A)|| (queue[0] == 0x2B))//find head
                 {
                     queue.CopyTo(0,bytes,0,1032);
                     queue.RemoveRange(0,1032);
@@ -403,6 +403,9 @@ namespace LOUV.Torp.CommLib.UDP
                         break;
                     case 0x012A:
                         mode = CallMode.GPS;
+                        break;
+                    case 0x012B:
+                        mode = CallMode.UDPAns;
                         break;
                         
                 }

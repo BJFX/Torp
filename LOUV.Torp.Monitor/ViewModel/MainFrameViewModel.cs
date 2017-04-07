@@ -58,7 +58,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return _dialogCoordinator; }
             set { _dialogCoordinator = value; }
         }
-
+        public int SelectCmdIndex//
+        {
+            get { return GetPropertyValue(() => SelectCmdIndex); }
+            set { SetPropertyValue(() => SelectCmdIndex, value); }
+        }
 
         #endregion
 
