@@ -78,7 +78,7 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
                 InvalidateVisual();
             }
         }
-        private bool MouseOver = false;
+        public bool MouseOver = false;
         private void BuoyMarker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsMouseCaptured)

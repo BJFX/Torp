@@ -34,6 +34,22 @@
             <TextBlock Height="30" Text=".。。。" x:Name="MessageTextBlock"
                                Foreground="{DynamicResource AccentColorBrush}" />
         </dialogs:CustomDialog>
+        <dialogs:CustomDialog x:Key="BuoyCMDDialog"
+                                 Title=""
+                                 x:Name="BuoyCMDDialog">
+            <Grid>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Height="30" Text="发射幅度：" Foreground="{DynamicResource AccentColorBrush}" />
+                    <metroControl:NumericUpDown x:Name="XmtValueBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValueBox_ValueChanged"/>
+                    <Label x:Name="XmlAmpLabel" Margin="5,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                </StackPanel>
+                <UniformGrid Columns="2">
+                    <Button x:Name="SendCMD" Style="{DynamicResource SquareButtonStyle}" Content="确定" Click="SendCMD_Click"/>
+                    <Button x:Name="CloseCMD" Style="{DynamicResource SquareButtonStyle}" Content="取消" Click="CloseCMD_Click"/>
+                </UniformGrid>
+            </Grid>
+                    
+        </dialogs:CustomDialog>
     </metroControl:MetroWindow.Resources>
 
     <Grid x:Name="FirstGrid">

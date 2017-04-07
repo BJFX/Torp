@@ -1,31 +1,21 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using LOUV.Torp.BaseType;
 using LOUV.Torp.Monitor.Controls.MapCustom;
 using LOUV.Torp.Monitor.Core;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GMap.NET.WindowsPresentation;
 using GMap.NET;
 using LOUV.Torp.Monitor.Events;
 using System.Windows.Threading;
-using System.IO;
 using LOUV.Torp.MonitorConf;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using LOUV.Torp.Monitor.Helpers;
-using System.Threading.Tasks;
+using LOUV.Torp.Monitor.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -73,6 +63,20 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.MouseLeave += MainMap_MouseLeave;
             MainMap.GotFocus += MainMap_GotFocus;
             MainMap.LostFocus += MainMap_LostFocus;
+            MainMap.MouseDoubleClick += MainMap_MouseDoubleClick;
+        }
+
+        private void MainMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(FindClickMarker()&& currentMarker!=null)
+            {
+                var id = Convert.ToInt16(currentMarker.Tag);
+
+                var newdialog = (BaseMetroDialog)App.Current.MainWindow.Resources["BuoyCMDDialog"];
+                newdialog.Title = "向浮标" + id.ToString() + "发送命令";
+                MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                    newdialog);
+            }
         }
 
         private void AddBuoyToMap()
@@ -168,12 +172,25 @@ namespace LOUV.Torp.Monitor.Views
         {
              System.Windows.Point p = e.GetPosition(MainMap);
              currentClick = MainMap.FromLocalToLatLng((int)p.X, (int)p.Y);
-             FindClickMarker();
+             //FindClickMarker();
         }
 
-        private void FindClickMarker()
+        private bool FindClickMarker()
         {
-
+            var itor = MainMap.Markers.Where(p => p != null &&
+            (int)p.Tag < 100 && p.Shape is BuoyMarker buoy &&
+            buoy.IsMouseCaptured);
+            if(itor.Count()>0)
+            {
+                currentMarker = itor.First();
+            }
+            else
+            {
+                currentMarker = null;
+            }
+            if (currentMarker != null)
+                return true;
+            return false;
         }
 
 

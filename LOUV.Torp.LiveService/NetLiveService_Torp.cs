@@ -156,6 +156,7 @@ namespace LOUV.Torp.LiveService
            
             _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
             _udpBroadClient.EnableBroadcast = true;
+            //UDPBroadCaster = _udpBroadClient;
             IsInitialize = true;
         }
 
@@ -265,9 +266,10 @@ namespace LOUV.Torp.LiveService
             return UDPBroadCaster.Send(buf, buf.Length, IPAddress.Broadcast.ToString(), _commConf.BroadPort);
         }
 
-        
-
-       
+        public int UDPSend(string ip, byte[] buf)
+        {
+            return _udpBroadClient.Send(buf, buf.Length, ip, _commConf.BroadPort);
+        }
 
         public bool IsUDPWorking { get; set; }
 

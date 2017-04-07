@@ -75,11 +75,11 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
                             <TextBlock FontSize="18" VerticalAlignment="Center" Text="浮标端口："/>
-                            <MetroControl:NumericUpDown Name="BuoyPortBox" Maximum="65535" Minimum="1" Margin="15,4,4,4" Width="100" Value="{Binding BuoyPort}" Background="{x:Null}" Foreground="White"/>
+                            <MetroControl:NumericUpDown Name="BuoyPortBox" Maximum="65535" Minimum="1" Margin="72,4,4,4" Width="100" Value="{Binding BuoyPort}" Background="{x:Null}" Foreground="White"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
                             <TextBlock FontSize="18" VerticalAlignment="Center" Text="监听端口："/>
-                            <MetroControl:NumericUpDown Name="ListenPortBox" Maximum="65535" Minimum="1" Margin="15,4,4,4" Width="100" Value="{Binding ListenPort}" Background="{x:Null}" Foreground="White"/>
+                            <MetroControl:NumericUpDown Name="ListenPortBox" Maximum="65535" Minimum="1" Margin="72,4,4,4" Width="100" Value="{Binding ListenPort}" Background="{x:Null}" Foreground="White"/>
                         </StackPanel>
                     </StackPanel>
                     <ToggleButton x:Name="ConfigButton" Background="#99119EDA"

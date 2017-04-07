@@ -6,6 +6,8 @@ using TinyMetroWpfLibrary.EventAggregation;
 using LOUV.Torp.BaseType;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
+
 namespace LOUV.Torp.ICore
 {
     public enum DownLoadFileType
@@ -42,6 +44,7 @@ namespace LOUV.Torp.ICore
         Task<bool> SendCMD(byte[] buf);
         Task<bool> DownloadFile(Stream file, DownLoadFileType type);
         int BroadCast(byte[] buf);
+        int UDPSend(string ip, byte[] buf);
         int SendBytes { get; }
         Observer<CustomEventArgs> NetDataObserver { get; }
         bool StartUDPService();
