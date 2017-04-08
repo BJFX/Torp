@@ -219,20 +219,37 @@ namespace LOUV.Torp.BaseType
         //public Hashtable info;
     }
 
+    public class Locate2D
+    {
+        public DateTime Time;
+        public double Lng;
+        public double Lat;
+        //public double Z;//Positive, Depth; 
+        public double Range;
+        public Locate2D(DateTime time, double lng =0, double lat =0,  double range = 0)
+        {
+            Time = time;
+            Lng = lng;
+            Lat = lat;
+            //Z = z;
+            Range = range;
+        }
+    }
     public class Locate3D
     {
         public DateTime Time;
+        public double centerLng;
+        public double centerLat;
         public double X;
         public double Y;
         public double Z;//Positive, Depth; 
-        public double Range;
-        public Locate3D(DateTime time, double x =0, double y =0, double z =0, double range = 0)
+        //public double Range;
+        public Locate3D(DateTime time, double x = 0, double y = 0, double z = 0)
         {
             Time = time;
             X = x;
             Y = y;
-            X = z;
-            Range = range;
+            Z = z;
         }
     }
 }

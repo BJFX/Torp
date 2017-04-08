@@ -87,6 +87,14 @@ namespace LOUV.Torp.Monitor.Views
             while(it.MoveNext())
             {
                 var buoy = (Buoy)it.Current;
+                if(buoy.gps==null)
+                {
+                    buoy.gps = new GpsInfo()
+                    {
+                        UTCTime = DateTime.UtcNow,
+                    };
+                    
+                }
                 var marker = new GMapMarker(new PointLatLng(buoy.gps.Latitude,buoy.gps.Longitude));
                 {
                     marker.Shape = new BuoyMarker(this, marker, buoy);

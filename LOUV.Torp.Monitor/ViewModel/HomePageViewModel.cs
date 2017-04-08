@@ -12,6 +12,7 @@ using LOUV.Torp.Monitor.Controls.MapCustom;
 using GMap.NET.WindowsPresentation;
 using GMap.NET;
 using System.Windows;
+using LOUV.Torp.Utility;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -23,6 +24,13 @@ namespace LOUV.Torp.Monitor.ViewModel
 
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
+            
+            var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 41.09);
+            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
+            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98542, 45.23);
+            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
+            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98556, 22.64);
+            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint3);
             UnitCore.Instance.BuoyLock.WaitOne();
             var valid = MonProtocol.TriangleLocate.Valid(10000);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
@@ -33,28 +41,25 @@ namespace LOUV.Torp.Monitor.ViewModel
             string log = "";
             while (itor.MoveNext())
             {
-                log += itor.Current.Key.ToString() + ":" + itor.Current.Value.ToString()+"  ";
+                log += itor.Current.Key.ToString() + ":" +"Lat"+ itor.Current.Value.Lat.ToString()+"  Long"+ itor.Current.Value.Lng.ToString();
             }
             if (MonProtocol.TriangleLocate.CalTargetLocation(out targetpos))
             {
-                double lng, lat;
-                UnitCore.Instance.mainMap.Projection.FromCartesianTGeodetic(targetpos.X, targetpos.Y, targetpos.Z,
-                    out lat, out lng);
                 UnitCore.Instance.TargetObj = new Target()
                 {
                     Status = "已定位",
                     UTCTime = targetpos.Time,
-                    Longitude = lng,
-                    Latitude = lat,
+                    Longitude = Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
+                    Latitude = Util.LatOffset(targetpos.centerLat,targetpos.Y),
                     Depth = targetpos.Z,
                 };
-                log +="定位结果=" + UnitCore.Instance.TargetObj.Status + "lng:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
+                log +="定位结果:" +  "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
                 
                 RefreshTarget();
             }
             else
             {
-                log += "定位结果= 未成功定位";
+                log += "定位结果:未成功定位";
             }
             UnitCore.Instance.MonTraceService.Save("Position", log);
         }
@@ -103,6 +108,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                 }
                 if (target == null || targetMarker == null)
                     return;
+                ObjTarget = null;
+                ObjTarget = UnitCore.Instance.TargetObj;
                 UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
                 {
                     targetMarker.Refresh(UnitCore.Instance.TargetObj);

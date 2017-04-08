@@ -52,7 +52,7 @@ namespace LOUV.Torp.MonTrace
             {
                 return false;
             }
-            if (_traceFile.CreateFile("Position", TraceType.String, "Pos", "bin", @"\Result") == false)
+            if (_traceFile.CreateFile("Position", TraceType.String, "Pos", "txt", @"\Result") == false)
             {
 
                 return false;

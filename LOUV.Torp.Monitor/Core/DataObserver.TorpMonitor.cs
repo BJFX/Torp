@@ -118,7 +118,8 @@ namespace LOUV.Torp.Monitor.Core
                         buoy.gps = info;
                         buoy.Range = MonProtocol.MonProtocol.CalDistanceByTele(range,telerange);
                     }
-                    
+                    if (buoy.gps == null)
+                        return;
                     UnitCore.Instance.EventAggregator.PublishMessage(new RefreshBuoyInfoEvent(id - 1));
                     
                     if (UnitCore.Instance.mainMap != null)
@@ -129,10 +130,7 @@ namespace LOUV.Torp.Monitor.Core
                             var marker = itor.Current;
                             if ((int)marker.Tag == id)
                             {
-                                double x, y, z;
-                                UnitCore.Instance.mainMap.Projection.FromGeodeticToCartesian(buoy.gps.Latitude,
-                                    buoy.gps.Longitude, 0, out x, out y, out z);
-                                var lpoint = new Locate3D(buoy.gps.UTCTime, x, y, z);
+                                var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
                                 //remove possible duplicate data
                                 UnitCore.Instance.BuoyLock.WaitOne();
                                 MonProtocol.TriangleLocate.Buoys.Remove(id);

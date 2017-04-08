@@ -400,6 +400,10 @@
       <Project>{1eeb4b59-38ba-4e0a-ac94-ecd9f0d8e535}</Project>
       <Name>LOUV.Torp.MonTrace</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LOUV.Torp.Utility\LOUV.Torp.Utility.csproj">
+      <Project>{762A1A94-D438-43D8-8A9F-26E769AE7237}</Project>
+      <Name>LOUV.Torp.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\buoy.png" />
