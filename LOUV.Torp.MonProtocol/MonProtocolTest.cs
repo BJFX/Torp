@@ -81,7 +81,7 @@ namespace LOUV.Torp.MonProtocol
                 Buffer.BlockCopy(buf,2,litebuf,0,14);
                 var range = MonProtocol.ParsePulseRange(litebuf);
                 Assert.IsNotNull(range);
-                Console.WriteLine("PulseRange: RelativePara:{0};RecvGain:{1};PeakPosition:{2}\n", range.RelativePara, range.RecvGain, range.PeakPosition);
+                Console.WriteLine("PulseRange: RelativePara1:{0};RelativePara2:{1};RecvGain:{2};PeakPosition:{3}\n", range.RelativePara1, range.RelativePara2, range.RecvGain, range.PeakPosition);
                 var gpsbuf = new byte[1030];
                 Buffer.BlockCopy(buf, 16, gpsbuf, 0, 1032-16);
                 var info = MonProtocol.ParseGps(gpsbuf);
@@ -98,7 +98,7 @@ namespace LOUV.Torp.MonProtocol
                 Buffer.BlockCopy(buf, 2, litebuf, 0, 14);
                 var range = MonProtocol.ParsePulseRange(litebuf);
                 Assert.IsNotNull(range);
-                Console.WriteLine("PulseRange: RelativePara:{0};RecvGain:{1};PeakPosition:{2}\n", range.RelativePara, range.RecvGain, range.PeakPosition);
+                Console.WriteLine("PulseRange: RelativePara1:{0};RelativePara2:{1};RecvGain:{2};PeakPosition:{3}\n", range.RelativePara1, range.RelativePara1, range.RecvGain, range.PeakPosition);
                 var length = BitConverter.ToUInt16(buf, 31);
                 var combuf = new byte[17+length];
                 Buffer.BlockCopy(buf, 16, combuf, 0, 17 + length);

@@ -56,9 +56,7 @@ namespace LOUV.Torp.Monitor.Core
                         }
                     }
                     Buoy buoy = null;
-                    
-                    UnitCore.Instance.BuoyLock.WaitOne();
-                    { }
+
                     if (UnitCore.Instance.Buoy.ContainsKey(id - 1))
                     {
                         buoy = ((Buoy)UnitCore.Instance.Buoy[id - 1]);
@@ -136,25 +134,30 @@ namespace LOUV.Torp.Monitor.Core
                                     buoy.gps.Longitude, 0, out x, out y, out z);
                                 var lpoint = new Locate3D(buoy.gps.UTCTime, x, y, z);
                                 //remove possible duplicate data
+                                UnitCore.Instance.BuoyLock.WaitOne();
                                 MonProtocol.TriangleLocate.Buoys.Remove(id);
                                 MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
-                                if (marker.Shape is BuoyMarker buoymarker)
-                                {
-                                    UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        buoymarker.Refresh(buoy);
-                                    }));
-                                }
+                                UnitCore.Instance.BuoyLock.ReleaseMutex();
                                 var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
                                 point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                                     UnitCore.Instance.MainMapCfg.MapOffset.Lng);
-                                marker.Position = point;
+                                if (marker.Shape is BuoyMarker buoymarker)
+                                {
+                                    
+                                    App.Current.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        buoymarker.Refresh(buoy);
+                                        marker.Position = point;
+                                    }));
+                                }
+                                
+                                
                                 
                             }
 
                         }
                     }
-                    UnitCore.Instance.BuoyLock.ReleaseMutex();
+                    
                 }
                 catch (Exception ex)
                 {

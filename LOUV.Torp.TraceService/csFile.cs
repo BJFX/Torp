@@ -47,7 +47,7 @@ namespace LOUV.Torp.TraceService
 	    {
             string timestring = CreateNonBlankTimeString();
 
-            return Di.FullName +"\\"+ header + timestring + "." + ext;
+            return Di.FullName +"\\"+ header+"_"+ timestring + "." + ext;
 	    }
 
 	    public string CreateNonBlankTimeString()

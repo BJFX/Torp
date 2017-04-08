@@ -299,8 +299,8 @@ namespace LOUV.Torp.Monitor.Core
                     NetCore.Stop();
                 NetCore.Initialize();
                 if(!NetCore.StartUDPService())//只启动udp服务，tcp服务单独启动
-                   
-                if(!MonTraceService.CreateService()) throw new Exception("数据服务启动失败");
+                    throw new Exception("UDP服务启动失败");
+                if (!MonTraceService.CreateService()) throw new Exception("数据服务启动失败");
                 _serviceStarted = true;
                 Error = NetCore.Error;
                 return ServiceStarted;

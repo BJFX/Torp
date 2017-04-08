@@ -25,9 +25,9 @@ namespace LOUV.Torp.Utility
         {
             int[] value = new int[1];
             BitArray ba = new BitArray(bitlen);
-            for (int i = startindex; i < startindex+bitlen; i++)
+            for (int i = 0; i < bitlen; i++)
             {
-                ba[i] = data[i];
+                ba[i] = data[startindex+i];
             }
 
             ba.CopyTo(value, 0);

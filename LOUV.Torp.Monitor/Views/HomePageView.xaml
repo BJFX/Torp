@@ -63,7 +63,7 @@
                     <ColumnDefinition Width="13*"/>
                     <ColumnDefinition Width="18*"/>
                     <ColumnDefinition Width="153"/>
-                    <ColumnDefinition Width="247"/>
+                    <ColumnDefinition Width="280"/>
                 </Grid.ColumnDefinitions>
                 <MetroControl:MetroAnimatedTabControl  Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="2" Margin="3" SelectedIndex="{Binding MapMode}">
                     <MetroControl:MetroTabItem x:Name="TwoDMapTabItem">
@@ -156,7 +156,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy1.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Buoy1.liteRange.RelativePara1, StringFormat=\{0:F3\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
@@ -175,15 +175,15 @@
                                 <Label Content="{Binding Buoy1.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -215,7 +215,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy2.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Buoy2.liteRange.RelativePara1, StringFormat=\{0:F3\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
@@ -234,15 +234,15 @@
                                 <Label Content="{Binding Buoy2.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -274,7 +274,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy3.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Buoy3.liteRange.RelativePara1, StringFormat=\{0:F3\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
@@ -293,15 +293,15 @@
                                 <Label Content="{Binding Buoy3.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -333,7 +333,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="相关系数:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy4.liteRange.RelativePara, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Buoy4.liteRange.RelativePara1, StringFormat=\{0:F3\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="增益:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
@@ -352,15 +352,15 @@
                                 <Label Content="{Binding Buoy4.teleRange.Dopple}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(类型):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.MessageType}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(时间):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.MessageTime}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="消息(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                <Label Content="(压力):" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.teleRange.Presure}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">

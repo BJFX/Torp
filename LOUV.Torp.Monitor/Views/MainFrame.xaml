@@ -39,25 +39,25 @@
                                  Title=""
                                  x:Name="BuoyCMDDialog">
             <Grid>
-                <StackPanel HorizontalAlignment="Center">
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Stretch">
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="发射幅度：" Foreground="{DynamicResource AccentColorBrush}" />
                         <metroControl:NumericUpDown x:Name="XmtValueBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValueBox_ValueChanged"/>
-                        <Label x:Name="XmlAmpLabel" Margin="5,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                        <Label x:Name="XmlAmpLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="命令类型：" Foreground="{DynamicResource AccentColorBrush}" />
-                        <ComboBox x:Name="CmdTypeBox" SelectedIndex="{Binding SelectCmdIndex}" Foreground="{DynamicResource AccentColorBrush}">
+                        <ComboBox x:Name="CmdTypeBox" Width="200" SelectedIndex="{Binding SelectCmdIndex}" Foreground="{DynamicResource AccentColorBrush}">
                             <ComboBoxItem Content="3D段启动"/>
                             <ComboBoxItem Content="3D段关闭"/>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex, Converter={StaticResource ZeroToVisibleConverter}}">
-                        <TextBlock Height="30" Text="启动后发射幅度：：" Foreground="{DynamicResource AccentColorBrush}" />
+                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex, Converter={StaticResource ZeroToVisibleConverter}}">
+                        <TextBlock Height="30" Text="3D幅度：" Foreground="{DynamicResource AccentColorBrush}" />
                         <metroControl:NumericUpDown x:Name="XmtValue3DBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValue3DBox_ValueChanged"/>
-                        <Label x:Name="XmlAmp3DLabel" Margin="5,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                        <Label x:Name="XmlAmp3DLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
                     </StackPanel>
-                    <UniformGrid Columns="2">
+                    <UniformGrid Columns="1" HorizontalAlignment="Stretch">
                         <Button x:Name="SendCMD" Style="{DynamicResource SquareButtonStyle}" Content="确定" Click="SendCMD_Click"/>
                         <Button x:Name="CloseCMD" Style="{DynamicResource SquareButtonStyle}" Content="取消" Click="CloseCMD_Click"/>
                     </UniformGrid>

@@ -26,11 +26,11 @@ namespace LOUV.Torp.MonProtocol
             if (Buoys.Count < 3)
                 return false;
             var nowtime = DateTime.UtcNow;
-            for(int i= Buoys.Count-1; i>=0; i--)
+            for(int i= Buoys.Count; i>0; i--)
             {
                 if(Math.Abs(nowtime.Subtract(Buoys[i].Time).TotalSeconds)>timeout)
                 {
-                    Buoys.RemoveAt(i);
+                    Buoys.Remove(i);
                 }
                 
             }
@@ -39,9 +39,9 @@ namespace LOUV.Torp.MonProtocol
             //find latest 3 data
             if(Buoys.Count==4)
             {
-                int indexOld = 0;
+                int indexOld = 1;
                 DateTime oldtime = Buoys[indexOld].Time;
-                for(int i=1;i<Buoys.Count;i++)
+                for(int i=1;i<=Buoys.Count;i++)
                 {
                     if (Buoys[i].Time < oldtime)
                     {
@@ -49,20 +49,20 @@ namespace LOUV.Torp.MonProtocol
                         indexOld = i;
                     }
                 }
-                Buoys.RemoveAt(indexOld);
+                Buoys.Remove(indexOld);
             }
-            x1 = Buoys[0].X;
-            y1 = Buoys[0].Y;
-            z1 = Buoys[0].Z;
-            x2 = Buoys[1].X;
-            y2 = Buoys[1].Y;
-            z2 = Buoys[1].Z;
-            x3 = Buoys[2].X;
-            y3 = Buoys[2].Y;
-            z3 = Buoys[2].Z;
-            range1 = Buoys[0].Range;
-            range2 = Buoys[1].Range;
-            range3 = Buoys[2].Range;
+            x1 = Buoys.Values[0].X;
+            y1 = Buoys.Values[0].Y;
+            z1 = Buoys.Values[0].Z;
+            x2 = Buoys.Values[1].X;
+            y2 = Buoys.Values[1].Y;
+            z2 = Buoys.Values[1].Z;
+            x3 = Buoys.Values[2].X;
+            y3 = Buoys.Values[2].Y;
+            z3 = Buoys.Values[2].Z;
+            range1 = Buoys.Values[0].Range;
+            range2 = Buoys.Values[1].Range;
+            range3 = Buoys.Values[2].Range;
             return true;
         }
         public static bool CalTargetLocation(out Locate3D position)

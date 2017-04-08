@@ -103,13 +103,15 @@ namespace LOUV.Torp.BaseType
     [Serializable]
     public class LiteRange
     {
-        public double RelativePara { get; set; }
+        public float RelativePara1 { get; set; }
+        public float RelativePara2 { get; set; }
         public UInt16 RecvGain { get; set; }
         public Int32 PeakPosition { get; set; }
 
         public LiteRange()
         {
-            RelativePara = 0;
+            RelativePara1 = 0;
+            RelativePara2 = 0;
             RecvGain = 0;
             PeakPosition = 0;
         }
@@ -162,7 +164,7 @@ namespace LOUV.Torp.BaseType
                     return "";
                 var secs = Util.GetIntValueFromBit(ba, 3, 17);
                 var time = DateTime.UtcNow.Date.AddSeconds(secs);
-                return time.ToShortTimeString();
+                return time.ToLongTimeString();
             }
         }
         public string Presure

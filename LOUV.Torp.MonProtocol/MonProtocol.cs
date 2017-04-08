@@ -32,7 +32,8 @@ namespace LOUV.Torp.MonProtocol
         {
             var range = new LiteRange()
             {
-                RelativePara = BitConverter.ToDouble(buffer, 0),
+                RelativePara1 = BitConverter.ToSingle(buffer, 0),
+                RelativePara2 = BitConverter.ToSingle(buffer, 4),
                 RecvGain = BitConverter.ToUInt16(buffer, 8),
                 PeakPosition = BitConverter.ToInt32(buffer, 10)
             };
@@ -50,7 +51,7 @@ namespace LOUV.Torp.MonProtocol
                 MsgLength = msglength,
                 Msg = new byte[msglength]
             };
-            Buffer.BlockCopy(buffer,13,range.Msg,0,msglength);
+            Buffer.BlockCopy(buffer,17,range.Msg,0,msglength);
             byte[] msghead = new byte[4];
             Buffer.BlockCopy(range.Msg, 0, msghead, 0, 4);
             range.ba = new BitArray(msghead);

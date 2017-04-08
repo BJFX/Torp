@@ -24,7 +24,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
             UnitCore.Instance.BuoyLock.WaitOne();
-            var valid = MonProtocol.TriangleLocate.Valid(10);
+            var valid = MonProtocol.TriangleLocate.Valid(10000);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
@@ -135,15 +135,19 @@ namespace LOUV.Torp.Monitor.ViewModel
             switch (index)
             {
                 case 0:
+                    Buoy1 = null;
                     Buoy1 = buoy;
                     break;
                 case 1:
+                    Buoy2 = null;
                     Buoy2 = buoy;
                     break;
                 case 2:
+                    Buoy3 = null;
                     Buoy3 = buoy;
                     break;
                 case 3:
+                    Buoy4 = null;
                     Buoy4 = buoy;
                     break;
                 default:
