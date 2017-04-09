@@ -23,7 +23,7 @@ namespace LOUV.Torp.MonProtocol
         //return true when data is updated and assign them to local viarable.
         //need add lock when call this function
         //if count of buoy less then 3, return false and do nothing
-        public static bool Valid(int timeout)
+        public static bool Valid(int timeout,ref PointLatLng center)
         {
             if (Buoys.Count < 3)
                 return false;
@@ -53,7 +53,7 @@ namespace LOUV.Torp.MonProtocol
                 }
                 Buoys.Remove(indexOld);
             }
-            var center = new PointLatLng((Buoys.Values[0].Lat + Buoys.Values[1].Lat + Buoys.Values[2].Lat) / 3,
+            center = new PointLatLng((Buoys.Values[0].Lat + Buoys.Values[1].Lat + Buoys.Values[2].Lat) / 3,
                 (Buoys.Values[0].Lng + Buoys.Values[1].Lng + Buoys.Values[2].Lng) / 3);
             var buoy1 = new PointLatLng(Buoys.Values[0].Lat, Buoys.Values[0].Lng);
             Utility.Util.GetReltXY(buoy1,center,out x1,out y1);
@@ -98,13 +98,15 @@ namespace LOUV.Torp.MonProtocol
             };
             double[] D = new double[3];
             MatrixLocate.InitMatrix(ref m, i1, i2, i3, ref D);
-            if(MatrixLocate.locate(m, D, out x, out y)!=1)
+            position = new Locate3D(DateTime.Now);
+            if (MatrixLocate.locate(m, D, out x, out y)!=1)
             {
-                position = new Locate3D(DateTime.Now);
                 return false;
             }
-
-            double z = Math.Sqrt(range1 * range1 - (y - y1) * (y - y1) - (x - x1) * (x - x1));
+            var diff = range1 * range1 - (y - y1) * (y - y1) - (x - x1) * (x - x1);
+            if (diff < 0)
+                return false;
+            double z = Math.Sqrt(diff);
             position = new Locate3D(DateTime.Now, x, y, z);
             return true;
         }

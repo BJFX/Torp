@@ -13,6 +13,8 @@ using GMap.NET.WindowsPresentation;
 using GMap.NET;
 using System.Windows;
 using LOUV.Torp.Utility;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -24,15 +26,13 @@ namespace LOUV.Torp.Monitor.ViewModel
 
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
-            
-            var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 41.09);
-            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
-            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98542, 45.23);
-            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
-            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98556, 22.64);
-            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint3);
+            //UnitCore.Instance.TargetObj.Longitude += 0.1f;
+            //UnitCore.Instance.TargetObj.Latitude += 0.1f;
+            //RefreshTarget();
+            //return;
             UnitCore.Instance.BuoyLock.WaitOne();
-            var valid = MonProtocol.TriangleLocate.Valid(10000);
+            PointLatLng center = PointLatLng.Zero;
+            var valid = MonProtocol.TriangleLocate.Valid(10, ref center);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
@@ -45,13 +45,15 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
             if (MonProtocol.TriangleLocate.CalTargetLocation(out targetpos))
             {
+                targetpos.centerLat = center.Lat;
+                targetpos.centerLng = center.Lng;
                 UnitCore.Instance.TargetObj = new Target()
                 {
                     Status = "已定位",
                     UTCTime = targetpos.Time,
-                    Longitude = Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
-                    Latitude = Util.LatOffset(targetpos.centerLat,targetpos.Y),
-                    Depth = targetpos.Z,
+                    Longitude = (float)Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
+                    Latitude = (float)Util.LatOffset(targetpos.centerLat,targetpos.Y),
+                    Depth = (float)targetpos.Z,
                 };
                 log +="定位结果:" +  "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
                 
@@ -71,6 +73,20 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy3 = new Buoy(3);
             Buoy4 = new Buoy(4);
             Dt = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
+            /*UnitCore.Instance.TargetObj = new Target()
+            {
+                Status = "已定位",
+                UTCTime = DateTime.UtcNow,
+                Longitude = 116.3187f,
+                Latitude = 39.98543f,
+                Depth = 18.2334454f,
+            };*/
+            /*var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 41.09);
+            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
+            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98542, 22.23);
+            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
+            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98556, 23.64);
+            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint3);*/
         }
 
         public override void InitializePage(object extraData)
@@ -110,7 +126,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                     return;
                 ObjTarget = null;
                 ObjTarget = UnitCore.Instance.TargetObj;
-                UnitCore.Instance.mainMap.Dispatcher.Invoke(new Action(() =>
+                App.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     targetMarker.Refresh(UnitCore.Instance.TargetObj);
                     var point = new PointLatLng(UnitCore.Instance.TargetObj.Latitude, 
@@ -121,10 +137,17 @@ namespace LOUV.Torp.Monitor.ViewModel
                     //remove legacy route
                     var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute);
                     UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
-                    UnitCore.Instance.TargetRoute.Route.Add(point);
-                    if (UnitCore.Instance.TargetRoute.Route.Count > 300)
-                        UnitCore.Instance.TargetRoute.Route.RemoveAt(0);
-                    UnitCore.Instance.TargetRoute.RegenerateRouteShape(UnitCore.Instance.mainMap);
+                    UnitCore.Instance.routePoint.Remove(PointLatLng.Zero);
+                    UnitCore.Instance.routePoint.Add(point);
+                    if (UnitCore.Instance.routePoint.Count > 300)
+                        UnitCore.Instance.routePoint.RemoveAt(0);
+                    UnitCore.Instance.TargetRoute = new GMapMarker(UnitCore.Instance.routePoint[0]);
+                    {
+                        UnitCore.Instance.TargetRoute.Route.AddRange(UnitCore.Instance.routePoint);
+                        UnitCore.Instance.TargetRoute.RegenerateRouteShape(UnitCore.Instance.mainMap);
+
+                        UnitCore.Instance.TargetRoute.ZIndex = -1;
+                    }
                     if(isExist)
                         UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
 

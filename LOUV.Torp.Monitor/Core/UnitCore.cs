@@ -70,6 +70,7 @@ namespace LOUV.Torp.Monitor.Core
         public Setup SetupCfg { get; set; }//计算配置
         public Map mainMap = null;//指向MainMap
         public GMapMarker TargetRoute = new GMapMarker();
+        public List<PointLatLng> routePoint = new List<PointLatLng>(300);
         public bool AutoTrace = false;
         InitialData initpara = new InitialData();
         public MonTraceService MonTraceService
