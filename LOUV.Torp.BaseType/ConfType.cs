@@ -90,6 +90,7 @@ namespace LOUV.Torp.BaseType
         public Buoy(int id=0)
         {
             Id = id;
+            gps = new GpsInfo();
         }
  
     }
@@ -99,6 +100,12 @@ namespace LOUV.Torp.BaseType
         public DateTime UTCTime;
         public float Longitude { get; set; }
         public float Latitude{ get; set; }
+        public GpsInfo()
+        {
+            UTCTime = DateTime.UtcNow;
+            Longitude = 0;
+            Latitude = 0;
+        }
     }
     [Serializable]
     public class LiteRange

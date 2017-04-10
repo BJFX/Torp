@@ -36,7 +36,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             BuoyPort = conf.BroadPort;
             ListenPort = conf.RecvPort;
             Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
-
+            FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
         }
         public string Buoy01IpAddr
         {
@@ -72,6 +72,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => Velocity); }
             set { SetPropertyValue(() => Velocity, value); }
+        }
+        public float FixedOffset
+        {
+            get { return GetPropertyValue(() => FixedOffset); }
+            set { SetPropertyValue(() => FixedOffset, value); }
         }
         public ICommand SaveConfig
         {
@@ -151,6 +156,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             if(!UnitCore.Instance.MonConfigueService.SetAcousticVel(Velocity))
             {
                 EventAggregator.PublishMessage(new LogEvent("保存默认声速出错", LogType.Both));
+                return false;
+            }
+            if (!UnitCore.Instance.MonConfigueService.SetOffset(FixedOffset))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存测距偏移出错", LogType.Both));
                 return false;
             }
             return true;

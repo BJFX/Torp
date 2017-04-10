@@ -65,10 +65,16 @@ namespace LOUV.Torp.Monitor.Views
             MainMap.LostFocus += MainMap_LostFocus;
             MainMap.MouseDoubleClick += MainMap_MouseDoubleClick;
         }
+        public GMapMarker currentMarker { get; set; }
+        #region map event
+        void MainMap_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ZoomSlide.Opacity = 0.3;
+        }
 
         private void MainMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(FindClickMarker()&& currentMarker!=null)
+            if (FindClickMarker() && currentMarker != null)
             {
                 var id = Convert.ToInt16(currentMarker.Tag);
 
@@ -79,73 +85,6 @@ namespace LOUV.Torp.Monitor.Views
             }
         }
 
-        private void AddBuoyToMap()
-        {
-            UnitCore.Instance.BuoyLock.WaitOne();
-            //2D
-            var it = UnitCore.Instance.Buoy.Values.GetEnumerator();
-            while(it.MoveNext())
-            {
-                var buoy = (Buoy)it.Current;
-                if(buoy.gps==null)
-                {
-                    buoy.gps = new GpsInfo()
-                    {
-                        UTCTime = DateTime.UtcNow,
-                    };
-                    
-                }
-                var marker = new GMapMarker(new PointLatLng(buoy.gps.Latitude,buoy.gps.Longitude));
-                {
-                    marker.Shape = new BuoyMarker(this, marker, buoy);
-                    marker.Offset = new Point(-15, -15);
-                    marker.ZIndex = int.MaxValue;
-                    marker.Tag = buoy.Id;
-                    MainMap.Markers.Add(marker);
-                }
-                marker.Position.Offset(GpsTomapOffset);
-            }
-            var targetmarker = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
-            {
-                targetmarker.Shape = new ObjectMarker(this, targetmarker, UnitCore.Instance.TargetObj);
-                targetmarker.Offset = new Point(-15, -15);
-                targetmarker.ZIndex = int.MaxValue;
-                targetmarker.Tag = 901;
-                MainMap.Markers.Add(targetmarker);
-            }
-            //targetmarker.Position.Offset(GpsTomapOffset);
-            UnitCore.Instance.BuoyLock.ReleaseMutex();
-            //3D TBD
-            //Route
-        }
-
-        void MainMap_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ZoomSlide.Opacity = 0.3;
-        }
-
-        private void RefreshMap(MapCfg cfg)
-        {
-            GpsTomapOffset = new PointLatLng(cfg.MapOffset.Lat,cfg.MapOffset.Lng);
-            mapToGpsOffset = new PointLatLng(-GpsTomapOffset.Lat,GpsTomapOffset.Lng);
-            MainMap.Position = new PointLatLng(cfg.CenterLat,cfg.CenterLng);
-            MainMap.Position.Offset(GpsTomapOffset.Lat,GpsTomapOffset.Lng);
-            MainMap.MapName = cfg.Title;
-            Mapnamebox.Text = cfg.Title;
-            MainMap.Zoom = 13;
-            CenterLngBox.Text = cfg.CenterLng.ToString();
-            CenterLatBox.Text = cfg.CenterLat.ToString();
-            OffsetLngBox.Text = cfg.MapOffset.Lng.ToString();
-            OffsetLatBox.Text = cfg.MapOffset.Lat.ToString();
-            MainMap.Manager.Mode = (AccessMode)Enum.Parse(typeof(AccessMode), cfg.AccessMode);
-            MainMap.MapType = (MapType)Enum.Parse(typeof(MapType), cfg.MapType);
-            MapTypeBox.ItemsSource = Enum.GetNames(typeof(MapType));
-            MapTypeBox.SelectedItem = cfg.MapType;
-            CacheModeBox.ItemsSource = Enum.GetNames(typeof(AccessMode));
-            CacheModeBox.SelectedItem = cfg.AccessMode;
-        }
-
-        #region map event
         private void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -426,6 +365,68 @@ namespace LOUV.Torp.Monitor.Views
         #endregion
 
         #region method
+
+        private void RefreshMap(MapCfg cfg)
+        {
+            GpsTomapOffset = new PointLatLng(cfg.MapOffset.Lat, cfg.MapOffset.Lng);
+            mapToGpsOffset = new PointLatLng(-GpsTomapOffset.Lat, GpsTomapOffset.Lng);
+            MainMap.Position = new PointLatLng(cfg.CenterLat, cfg.CenterLng);
+            MainMap.Position.Offset(GpsTomapOffset.Lat, GpsTomapOffset.Lng);
+            MainMap.MapName = cfg.Title;
+            Mapnamebox.Text = cfg.Title;
+            MainMap.Zoom = 13;
+            CenterLngBox.Text = cfg.CenterLng.ToString();
+            CenterLatBox.Text = cfg.CenterLat.ToString();
+            OffsetLngBox.Text = cfg.MapOffset.Lng.ToString();
+            OffsetLatBox.Text = cfg.MapOffset.Lat.ToString();
+            MainMap.Manager.Mode = (AccessMode)Enum.Parse(typeof(AccessMode), cfg.AccessMode);
+            MainMap.MapType = (MapType)Enum.Parse(typeof(MapType), cfg.MapType);
+            MapTypeBox.ItemsSource = Enum.GetNames(typeof(MapType));
+            MapTypeBox.SelectedItem = cfg.MapType;
+            CacheModeBox.ItemsSource = Enum.GetNames(typeof(AccessMode));
+            CacheModeBox.SelectedItem = cfg.AccessMode;
+        }
+
+        private void AddBuoyToMap()
+        {
+            UnitCore.Instance.BuoyLock.WaitOne();
+            //2D
+            var it = UnitCore.Instance.Buoy.Values.GetEnumerator();
+            while (it.MoveNext())
+            {
+                var buoy = (Buoy)it.Current;
+                if (buoy.gps == null)
+                {
+                    buoy.gps = new GpsInfo()
+                    {
+                        UTCTime = DateTime.UtcNow,
+                    };
+
+                }
+                var marker = new GMapMarker(new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude));
+                {
+                    marker.Shape = new BuoyMarker(this, marker, buoy);
+                    marker.Offset = new Point(-15, -15);
+                    marker.ZIndex = int.MaxValue;
+                    marker.Tag = buoy.Id;
+                    MainMap.Markers.Add(marker);
+                }
+                marker.Position.Offset(GpsTomapOffset);
+            }
+            var targetmarker = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
+            {
+                targetmarker.Shape = new ObjectMarker(this, targetmarker, UnitCore.Instance.TargetObj);
+                targetmarker.Offset = new Point(-15, -15);
+                targetmarker.ZIndex = int.MaxValue;
+                targetmarker.Tag = 901;
+                MainMap.Markers.Add(targetmarker);
+            }
+            //targetmarker.Position.Offset(GpsTomapOffset);
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
+            //3D TBD
+            //Route
+        }
+
         //将当前map保存成图片
         private void SaveCurrentMapView(string filename)
         {
@@ -455,12 +456,16 @@ namespace LOUV.Torp.Monitor.Views
             center.Offset(GpsTomapOffset.Lat, GpsTomapOffset.Lng);
             MainMap.Position = center;
         }
-        
+
         #endregion
 
-        public GMapMarker currentMarker { get; set; }
+        #region 3D map related
+        private void PosViewport3D_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
 
-        
+        }
+
+        #endregion
     }
 
 }

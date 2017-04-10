@@ -13,6 +13,7 @@ namespace LOUV.Torp.MonProtocol
     public class MonProtocol
     {
         public static float Velocity{ get; set; }
+        public static float FixedOffset { get; set; }
         public static GpsInfo ParseGps(byte[] buffer)
         {
             if (GPS.Parse(Encoding.Default.GetString(buffer)))
@@ -67,7 +68,7 @@ namespace LOUV.Torp.MonProtocol
             if (range.PeakPosition < 0)
                 range.PeakPosition += 160000;
 
-            return range.PeakPosition / 80000 * Velocity;
+            return range.PeakPosition / 80000 * Velocity+ FixedOffset;
         }
         public static float CalDistanceByTele(LiteRange literange,TeleRange telerange)
         {
@@ -77,7 +78,7 @@ namespace LOUV.Torp.MonProtocol
             }
             if(telerange.Crc==0)
             {
-                return telerange.RecvDelay * Velocity;
+                return telerange.RecvDelay * Velocity+ FixedOffset;
             }
             else
             {

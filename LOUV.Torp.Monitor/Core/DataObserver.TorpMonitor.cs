@@ -83,7 +83,8 @@ namespace LOUV.Torp.Monitor.Core
                         var gpsbuf = new byte[1030];
                         Buffer.BlockCopy(e.DataBuffer, 2, gpsbuf, 0, 1030);
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
-                        buoy.gps = info;
+                        if(info!=null)
+                            buoy.gps = info;
 
                     }
                     else if (e.Mode == CallMode.Range)
@@ -96,7 +97,8 @@ namespace LOUV.Torp.Monitor.Core
                         Buffer.BlockCopy(e.DataBuffer, 16, gpsbuf, 0, 1032 - 16);
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
                         buoy.liteRange = range;
-                        buoy.gps = info;
+                        if (info != null)
+                            buoy.gps = info;
                         buoy.Range = MonProtocol.MonProtocol.CalDistanceByLite(range);
                     }
                     else if (e.Mode == CallMode.TeleRange)
@@ -115,7 +117,8 @@ namespace LOUV.Torp.Monitor.Core
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
                         buoy.teleRange = telerange;
                         buoy.liteRange = range;
-                        buoy.gps = info;
+                        if (info != null)
+                            buoy.gps = info;
                         buoy.Range = MonProtocol.MonProtocol.CalDistanceByTele(range,telerange);
                     }
                     if (buoy.gps == null)
