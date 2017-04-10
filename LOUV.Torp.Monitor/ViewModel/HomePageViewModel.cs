@@ -15,6 +15,7 @@ using System.Windows;
 using LOUV.Torp.Utility;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -23,7 +24,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         IHandleMessage<SwitchMapModeEvent>
     {
         private DispatcherTimer Dt;
-
+        private List<Point3D> Path = new List<Point3D>();//target 3D track
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
             //UnitCore.Instance.TargetObj.Longitude += 0.1f;
@@ -32,7 +33,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             //return;
             UnitCore.Instance.BuoyLock.WaitOne();
             PointLatLng center = PointLatLng.Zero;
-            var valid = MonProtocol.TriangleLocate.Valid(10, ref center);
+            var valid = MonProtocol.TriangleLocate.Valid(100, ref center);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
@@ -73,6 +74,10 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy3 = new Buoy(3);
             Buoy4 = new Buoy(4);
             Dt = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
+            Buoy1 = null;
+            Buoy2 = null;
+            Buoy3 = null;
+            Buoy4 = null;
             /*UnitCore.Instance.TargetObj = new Target()
             {
                 Status = "已定位",
@@ -184,6 +189,98 @@ namespace LOUV.Torp.Monitor.ViewModel
                     break;
             }
         }
+        
+        #region latitude
+        public double latleft0
+        {
+            get { return GetPropertyValue(() => latleft0); }
+            set { SetPropertyValue(() => latleft0, value); }
+        }
+        public double latleft1
+        {
+            get { return GetPropertyValue(() => latleft1); }
+            set { SetPropertyValue(() => latleft1, value); }
+        }
+        public double latleft2
+        {
+            get { return GetPropertyValue(() => latleft2); }
+            set { SetPropertyValue(() => latleft2, value); }
+        }
+        public double latleft3
+        {
+            get { return GetPropertyValue(() => latleft3); }
+            set { SetPropertyValue(() => latleft3, value); }
+        }
+        public double latTop0
+        {
+            get { return GetPropertyValue(() => latTop0); }
+            set { SetPropertyValue(() => latTop0, value); }
+        }
+        public double latTop1
+        {
+            get { return GetPropertyValue(() => latTop1); }
+            set { SetPropertyValue(() => latTop1, value); }
+        }
+        public double latTop2
+        {
+            get { return GetPropertyValue(() => latTop2); }
+            set { SetPropertyValue(() => latTop2, value); }
+        }
+        public double latTop3
+        {
+            get { return GetPropertyValue(() => latTop3); }
+            set { SetPropertyValue(() => latTop3, value); }
+        }
+        #endregion
+        
+        #region Longitude
+        public double longbottom0
+        {
+            get { return GetPropertyValue(() => longbottom0); }
+            set { SetPropertyValue(() => longbottom0, value); }
+        }
+        public double longbottom1
+        {
+            get { return GetPropertyValue(() => longbottom1); }
+            set { SetPropertyValue(() => longbottom1, value); }
+        }
+        public double longbottom2
+        {
+            get { return GetPropertyValue(() => longbottom2); }
+            set { SetPropertyValue(() => longbottom2, value); }
+        }
+        public double longbottom3
+        {
+            get { return GetPropertyValue(() => longbottom3); }
+            set { SetPropertyValue(() => longbottom3, value); }
+        }
+        public double longTop0
+        {
+            get { return GetPropertyValue(() => longTop0); }
+            set { SetPropertyValue(() => longTop0, value); }
+        }
+        public double longTop1
+        {
+            get { return GetPropertyValue(() => longTop1); }
+            set { SetPropertyValue(() => longTop1, value); }
+        }
+        public double longTop2
+        {
+            get { return GetPropertyValue(() => longTop2); }
+            set { SetPropertyValue(() => longTop2, value); }
+        }
+        public double longTop3
+        {
+            get { return GetPropertyValue(() => longTop3); }
+            set { SetPropertyValue(() => longTop3, value); }
+        }
+        #endregion
+
+        public string CamPos
+        {
+            get { return GetPropertyValue(() => CamPos); }
+            set { SetPropertyValue(() => CamPos, value); }
+        }
         public bool AboutVisibility
         {
             get { return GetPropertyValue(() => AboutVisibility); }
@@ -220,6 +317,34 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => Buoy4); }
             set { SetPropertyValue(() => Buoy4, value); }
         }
+
+        public Model3D Buoy1Model
+        {
+            get { return GetPropertyValue(() => Buoy1Model); }
+            set { SetPropertyValue(() => Buoy1Model, value); }
+        }
+        public Model3D Buoy2Model
+        {
+            get { return GetPropertyValue(() => Buoy2Model); }
+            set { SetPropertyValue(() => Buoy2Model, value); }
+        }
+        public Model3D Buoy3Model
+        {
+            get { return GetPropertyValue(() => Buoy3Model); }
+            set { SetPropertyValue(() => Buoy3Model, value); }
+        }
+        public Model3D Buoy4Model
+        {
+            get { return GetPropertyValue(() => Buoy4Model); }
+            set { SetPropertyValue(() => Buoy4Model, value); }
+        }
+
+        public Model3D TrackModel
+        {
+            get { return GetPropertyValue(() => TrackModel); }
+            set { SetPropertyValue(() => TrackModel, value); }
+        }
+
         public void Handle(ShowAboutSlide message)
         {
             AboutVisibility = message.showslide;
