@@ -40,6 +40,7 @@ namespace LOUV.Torp.BaseType
         public int UseProfile { get; set; }
         public float AcouVel { get; set; }
         public float Offset { get; set; }
+        public int TimeOut { get; set; }
     }
     
 

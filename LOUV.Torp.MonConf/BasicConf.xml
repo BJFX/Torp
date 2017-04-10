@@ -3,7 +3,8 @@
   <Setup>
     <UseProfile>0</UseProfile>
     <AcousticVel>1500</AcousticVel>
-    <FixOffset>2.667</FixOffset>
+    <FixOffset>-4</FixOffset>
+	<TimeOut>100</TimeOut>
   </Setup>
   <Net>
     <IP0>192.168.2.101</IP0>

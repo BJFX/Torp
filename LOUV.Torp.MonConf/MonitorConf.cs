@@ -130,6 +130,7 @@ namespace LOUV.Torp.MonitorConf
                 setup.UseProfile = GetUseProfile();
                 setup.AcouVel = GetUserAcousVel();
                 setup.Offset = GetOffset();
+                setup.TimeOut = GetTimeOut();
                 return setup;
             }
             catch (Exception e)
@@ -144,7 +145,11 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Setup", "FixOffset" };
             return float.Parse(GetValue(str));
         }
-
+        private int GetTimeOut()
+        {
+            string[] str = { "Setup", "TimeOut" };
+            return int.Parse(GetValue(str));
+        }
         private float GetUserAcousVel()
         {
             string[] str = { "Setup", "AcousticVel" };
@@ -161,6 +166,11 @@ namespace LOUV.Torp.MonitorConf
         {
             string[] str = { "Setup", "FixOffset" };
             return SetValue(str, offset.ToString());
+        }
+        public bool SetTimeOut(int sec)
+        {
+            string[] str = { "Setup", "TimeOut" };
+            return SetValue(str, sec.ToString());
         }
         public bool SetUseProfile(int use)
         {

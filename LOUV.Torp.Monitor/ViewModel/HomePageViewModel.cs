@@ -33,7 +33,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             //return;
             UnitCore.Instance.BuoyLock.WaitOne();
             PointLatLng center = PointLatLng.Zero;
-            var valid = MonProtocol.TriangleLocate.Valid(100, ref center);
+            var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
@@ -42,7 +42,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             string log = "";
             while (itor.MoveNext())
             {
-                log += itor.Current.Key.ToString() + ":" +"Lat"+ itor.Current.Value.Lat.ToString()+"  Long"+ itor.Current.Value.Lng.ToString();
+                log += "("+itor.Current.Key.ToString() + ":" +"Lat"+ itor.Current.Value.Lat.ToString()+"  Long"+ itor.Current.Value.Lng.ToString()+")";
             }
             if (MonProtocol.TriangleLocate.CalTargetLocation(out targetpos))
             {
@@ -86,12 +86,13 @@ namespace LOUV.Torp.Monitor.ViewModel
                 Latitude = 39.98543f,
                 Depth = 18.2334454f,
             };*/
-            /*var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 41.09);
+            /*var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 24.4949);
             MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
-            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98542, 22.23);
+            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.318932, 39.98544, 20.81258);
             MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
-            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98556, 23.64);
-            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint3);*/
+            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3187, 39.9856224, 38.2326355);
+            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);*/
+        
         }
 
         public override void InitializePage(object extraData)

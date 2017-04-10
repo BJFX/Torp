@@ -86,8 +86,8 @@
                                   IsChecked ="True"
                                   Content="运行参数" FontFamily="Microsoft YaHei"/>
                     <StackPanel Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=SonarConfigButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                        <UniformGrid Columns="2">
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
                             <TextBlock FontSize="18" VerticalAlignment="Center" Text="默认声速："/>
                             <TextBox Name="VelBox" Margin="15,4,4,4" Width="100" Text="{Binding Velocity}" Background="{x:Null}" Foreground="White"/>
                         </StackPanel>
@@ -95,7 +95,11 @@
                             <TextBlock FontSize="18" VerticalAlignment="Center" Text="测距偏移："/>
                             <TextBox Name="FixOffsetBox" Margin="15,4,4,4" Width="100" Text="{Binding FixedOffset}" Background="{x:Null}" Foreground="White"/>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                            <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位超时："/>
+                            <TextBox  Margin="15,4,4,4" Width="100" Text="{Binding TimeOut}" Background="{x:Null}" Foreground="White"/>
                         </StackPanel>
+                        </UniformGrid>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

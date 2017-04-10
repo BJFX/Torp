@@ -37,6 +37,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             ListenPort = conf.RecvPort;
             Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
+            TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
         }
         public string Buoy01IpAddr
         {
@@ -77,6 +78,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => FixedOffset); }
             set { SetPropertyValue(() => FixedOffset, value); }
+        }
+        public int TimeOut
+        {
+            get { return GetPropertyValue(() => TimeOut); }
+            set { SetPropertyValue(() => TimeOut, value); }
         }
         public ICommand SaveConfig
         {
@@ -161,6 +167,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             if (!UnitCore.Instance.MonConfigueService.SetOffset(FixedOffset))
             {
                 EventAggregator.PublishMessage(new LogEvent("保存测距偏移出错", LogType.Both));
+                return false;
+            }
+            if (!UnitCore.Instance.MonConfigueService.SetTimeOut(TimeOut))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存定位超时出错", LogType.Both));
                 return false;
             }
             return true;
