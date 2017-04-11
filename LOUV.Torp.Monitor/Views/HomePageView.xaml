@@ -99,78 +99,83 @@
                         </Grid>
                     </MetroControl:MetroTabItem>
                     <MetroControl:MetroTabItem x:Name="ThreeDMapTabItem">
-                        <h:HelixViewport3D x:Name="PosViewport3D" Background="{StaticResource DefaultBackgroundBrush}" 
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="60"/>
+                            </Grid.RowDefinitions>
+                            <h:HelixViewport3D x:Name="PosViewport3D" Background="{StaticResource DefaultBackgroundBrush}" 
                                        ShowViewCube="False" 
                                        ShowCameraTarget="False" 
                                        ShowCoordinateSystem="False" 
                                    Margin="4" 
                                    Title="3D视图"
+                                   Foreground="AntiqueWhite"
                                    TitleSize="20"
-                                   SubTitleSize="16" PreviewMouseWheel="PosViewport3D_PreviewMouseWheel" SubTitle="{Binding subTitle}">
-                            <h:HelixViewport3D.DefaultCamera>
-                                <PerspectiveCamera x:Name ="PosCamera" Position="{Binding CamPos}" LookDirection="0,0,-6000" UpDirection="-1,0,0" NearPlaneDistance="3000" FarPlaneDistance="60000"/>
-                            </h:HelixViewport3D.DefaultCamera>
-                            <h:SunLight/>
-                            <h:GridLinesVisual3D  Fill="Cornsilk" Length ="12000" Width="12000" MinorDistance="1500" MajorDistance="20000" Thickness="6"/>
+                                   SubTitleSize="16" PreviewMouseWheel="PosViewport3D_PreviewMouseWheel" SubTitle="{Binding ObjTarget.Status}">
+                                <h:HelixViewport3D.DefaultCamera>
+                                    <PerspectiveCamera x:Name ="PosCamera" Position="{Binding CamPos}" LookDirection="0,0,-6000" UpDirection="-1,0,0" NearPlaneDistance="3000" FarPlaneDistance="60000"/>
+                                </h:HelixViewport3D.DefaultCamera>
+                                <h:SunLight/>
+                                <h:GridLinesVisual3D  Fill="Cornsilk" Length ="12000" Width="12000" MinorDistance="1500" MajorDistance="20000" Thickness="6"/>
 
-                            <h:BillboardTextVisual3D x:Name="latleftbottom0" Position="1500,-6000,-100" DepthOffset="0.1" Text="{Binding latleft0}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="latleftbottom1" Position="3000,-6000,-100" DepthOffset="0.1" Text="{Binding latleft1}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="latleftbottom2" Position="4500,-6000,-100" DepthOffset="0.1" Text="{Binding latleft2}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="latleftbottom3" Position="6000,-6000,-100" DepthOffset="0.1" Text="{Binding latleft3}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom0" Position="1500,-6000,0" DepthOffset="0.1" Text="{Binding latleft0}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom1" Position="3000,-6000,0" DepthOffset="0.1" Text="{Binding latleft1}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom2" Position="4500,-6000,0" DepthOffset="0.1" Text="{Binding latleft2}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom3" Position="6000,-6000,0" DepthOffset="0.1" Text="{Binding latleft3}" Foreground="White"/>
 
-                            <h:BillboardTextVisual3D x:Name="lattop0" Position="-1500,6000,-100" DepthOffset="0.1" Text="{Binding latTop0}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="lattop1" Position="-3000,6000,-100" DepthOffset="0.1" Text="{Binding latTop1}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="lattop2" Position="-4500,6000,-100" DepthOffset="0.1" Text="{Binding latTop2}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="lattop3" Position="-6000,6000,-100" DepthOffset="0.1" Text="{Binding latTop3}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop0" Position="-1500,6000,0" DepthOffset="0.1" Text="{Binding latTop0}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop1" Position="-3000,6000,0" DepthOffset="0.1" Text="{Binding latTop1}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop2" Position="-4500,6000,0" DepthOffset="0.1" Text="{Binding latTop2}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop3" Position="-6000,6000,0" DepthOffset="0.1" Text="{Binding latTop3}" Foreground="White"/>
 
-                            <h:BillboardTextVisual3D x:Name="longtop0" Position="-6000,-1500,-100" DepthOffset="0.1" Text="{Binding longTop0}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longtop1" Position="-6000,-3000,-100" DepthOffset="0.1" Text="{Binding longTop1}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longtop2" Position="-6000,-4500,-100" DepthOffset="0.1" Text="{Binding longTop2}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longtop3" Position="-6000,-6000,-100" DepthOffset="0.1" Text="{Binding longTop3}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop0" Position="-6000,-1500,0" DepthOffset="0.1" Text="{Binding longTop0}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop1" Position="-6000,-3000,0" DepthOffset="0.1" Text="{Binding longTop1}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop2" Position="-6000,-4500,0" DepthOffset="0.1" Text="{Binding longTop2}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop3" Position="-6000,-6000,0" DepthOffset="0.1" Text="{Binding longTop3}" Foreground="White"/>
 
-                            <h:BillboardTextVisual3D x:Name="longbottom0" Position="6000,1500,-100" DepthOffset="0.1" Text="{Binding longbottom0}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longbottom1" Position="6000,3000,-100" DepthOffset="0.1" Text="{Binding longbottom1}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longbottom2" Position="6000,4500,-100" DepthOffset="0.1" Text="{Binding longbottom2}" Foreground="White"/>
-                            <h:BillboardTextVisual3D x:Name="longbottom3" Position="6000,6000,-100" DepthOffset="0.1" Text="{Binding longbottom3}" Foreground="White"/>
-                            <ModelVisual3D Content="{Binding CurrentModel}">
-                                <ModelVisual3D.Transform>
-                                    <Transform3DGroup>
-                                        <TranslateTransform3D OffsetZ="100"/>
-                                        <RotateTransform3D>
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D Axis="0,0,-1" Angle="{Binding Heading}"/>
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                    </Transform3DGroup>
-                                </ModelVisual3D.Transform>
-                            </ModelVisual3D>
-                            <h:SphereVisual3D x:Name="TargetD"  Fill="Crimson" Radius="180" Center="{Binding ObjectCenter}" Visible="{Binding ObjectVisibility}">
-                                <h:SphereVisual3D.Transform>
-                                    <Transform3DGroup>
-                                        <RotateTransform3D>
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D Axis="0,0,-1" Angle="0"/>
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                    </Transform3DGroup>
-                                </h:SphereVisual3D.Transform>
-                            </h:SphereVisual3D>
-                            <ModelVisual3D Content="{Binding TrackModel}" x:Name="Visual3D">
-                                <ModelVisual3D.Transform>
-                                    <Transform3DGroup>
-                                        <RotateTransform3D>
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D Axis="0,0,1" Angle="{Binding 0}"/>
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                    </Transform3DGroup>
-                                </ModelVisual3D.Transform>
-                            </ModelVisual3D>
-                            <h:ArrowVisual3D Point1="3000 0 -100" Point2="-3000 0 -100" Diameter="30" Fill="Red"  HeadLength="20" ThetaDiv="36"  />
-                            <h:ArrowVisual3D Point1="0 3000 -100" Point2="0 -3000 -100" Diameter="30" Fill="Green" HeadLength="20" ThetaDiv="36"  />
+                                <h:BillboardTextVisual3D x:Name="longbottom0" Position="6000,1500,0" DepthOffset="0.1" Text="{Binding longbottom0}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom1" Position="6000,3000,0" DepthOffset="0.1" Text="{Binding longbottom1}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom2" Position="6000,4500,0" DepthOffset="0.1" Text="{Binding longbottom2}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom3" Position="6000,6000,0" DepthOffset="0.1" Text="{Binding longbottom3}" Foreground="White"/>
+                                <ModelVisual3D Content="{Binding CurrentModel}">
+                                    <ModelVisual3D.Transform>
+                                        <Transform3DGroup>
+                                            <TranslateTransform3D OffsetZ="100"/>
+                                            <RotateTransform3D>
+                                                <RotateTransform3D.Rotation>
+                                                    <AxisAngleRotation3D Axis="0,0,-1" Angle="{Binding Heading}"/>
+                                                </RotateTransform3D.Rotation>
+                                            </RotateTransform3D>
+                                        </Transform3DGroup>
+                                    </ModelVisual3D.Transform>
+                                </ModelVisual3D>
+                                <h:SphereVisual3D x:Name="Buoy1"  Fill="Red" Radius="70" Center="{Binding Buoy1Center}"/>
+                                <h:BillboardTextVisual3D Position="{Binding Buoy1Center}" DepthOffset="0.5" Text="{Binding Buoy1Info}" Foreground="White"/>
+                                <h:SphereVisual3D x:Name="Buoy2"  Fill="Red" Radius="70" Center="{Binding Buoy2Center}"/>
+                                <h:BillboardTextVisual3D Position="{Binding Buoy2Center}" DepthOffset="0.5" Text="{Binding Buoy2Info}" Foreground="White"/>
+                                <h:SphereVisual3D x:Name="Buoy3"  Fill="Red" Radius="70" Center="{Binding Buoy3Center}"/>
+                                <h:BillboardTextVisual3D Position="{Binding Buoy3Center}" DepthOffset="0.5" Text="{Binding Buoy3Info}" Foreground="White"/>
+                                <h:SphereVisual3D x:Name="Buoy4"  Fill="Red" Radius="70" Center="{Binding Buoy4Center}"/>
+                                <h:BillboardTextVisual3D Position="{Binding Buoy4Center}" DepthOffset="0.5" Text="{Binding Buoy4Info}" Foreground="White"/>
+                                <h:SphereVisual3D x:Name="TargetD"  Fill="YellowGreen" Radius="80" Center="{Binding ObjectCenter}"/>
+                                <h:BillboardTextVisual3D Position="{Binding ObjectCenter}" DepthOffset="0.5" Text="{Binding TargetInfo}" Foreground="White"/>
+                                <ModelVisual3D Content="{Binding TrackModel}" x:Name="Visual3D"/>
+                                <h:BillboardTextVisual3D Position="-3000 100 0" DepthOffset="0.1" Text="正北" Foreground="White"/>
+                                <h:ArrowVisual3D Point1="3000 0 0" Point2="-3000 0 0" Diameter="30" Fill="Red"  HeadLength="20" ThetaDiv="36"  />
+                                <h:BillboardTextVisual3D Position="100 3000 0" DepthOffset="0.1" Text="正东" Foreground="White"/>
+                                <h:ArrowVisual3D Point1="0 -3000 0" Point2="0 3000 0" Diameter="30" Fill="Green" HeadLength="20" ThetaDiv="36"  />
 
-                        </h:HelixViewport3D>
+                            </h:HelixViewport3D>
+                            <UniformGrid Grid.Row="1" Columns="5" Rows="2">
+                                <MetroControl:ToggleSwitch  Content="浮标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示浮标具体信息" IsChecked="{Binding BuoyInfoVisible}" />
+                                <MetroControl:ToggleSwitch  Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标具体信息" IsChecked="{Binding ObjInfoVisible}" />
+                                <MetroControl:ToggleSwitch  Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标点轨迹" IsChecked="{Binding TrackVisible}" />
+                                <MetroControl:ToggleSwitch  Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="3D地图将跟随目标点移动" IsChecked="{Binding AutoTrack}" />
+                                <Button x:Name="BackToNorth" Style="{StaticResource ChromeButtonStyle}" Content="回到正北" HorizontalAlignment="Left" ToolTip="保持正北方向" Click="BackToNorth_Click"/>
 
+                            </UniformGrid>
+                        </Grid>
                     </MetroControl:MetroTabItem>
 
                 </MetroControl:MetroAnimatedTabControl>

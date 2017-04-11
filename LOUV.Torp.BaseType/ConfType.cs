@@ -41,6 +41,7 @@ namespace LOUV.Torp.BaseType
         public float AcouVel { get; set; }
         public float Offset { get; set; }
         public int TimeOut { get; set; }
+        public int ValidInterval { get; set; }
     }
     
 

@@ -16,6 +16,8 @@ using LOUV.Torp.MonitorConf;
 using LOUV.Torp.Monitor.ViewModel;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using HelixToolkit.Wpf;
+using System.Windows.Media.Media3D;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -462,10 +464,21 @@ namespace LOUV.Torp.Monitor.Views
         #region 3D map related
         private void PosViewport3D_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
+            var distance = PosViewport3D.CameraController.CameraPosition.DistanceTo(new Point3D(0, 0, 0));
+            if (distance > 18000 && e.Delta < 0)
+                e.Handled = true;
+            if (distance < 6000 && e.Delta > 0)
+                e.Handled = true;
         }
-
+        private void BackToNorth_Click(object sender, RoutedEventArgs e)
+        {
+            if (PosViewport3D == null || PosViewport3D.CameraController == null)
+                return;
+            PosViewport3D.CameraController.ChangeDirection(new Vector3D(0, 0, -6000), new Vector3D(-1, 0, 0), 1000);
+        }
         #endregion
+
+
     }
 
 }

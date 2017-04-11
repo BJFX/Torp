@@ -16,23 +16,40 @@ using LOUV.Torp.Utility;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using HelixToolkit.Wpf;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
     public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
         IHandleMessage<RefreshBuoyInfoEvent>,
-        IHandleMessage<SwitchMapModeEvent>
+        IHandleMessage<SwitchMapModeEvent>,
+        IHandleMessage<ChangeValidIntervalEvent>
     {
         private DispatcherTimer Dt;
         private List<Point3D> Path = new List<Point3D>();//target 3D track
+        PointLatLng center = PointLatLng.Zero;
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
-            //UnitCore.Instance.TargetObj.Longitude += 0.1f;
-            //UnitCore.Instance.TargetObj.Latitude += 0.1f;
-            //RefreshTarget();
-            //return;
+            //test case
+            Buoy1.gps.Longitude += 0.1f;
+            Buoy1.gps.Latitude += 0.1f;
+            Buoy2.gps.Longitude += 0.1f;
+            Buoy2.gps.Latitude += 0.1f;
+            Buoy3.gps.Longitude += 0.1f;
+            Buoy3.gps.Latitude += 0.1f;
+            Buoy4.gps.Longitude += 0.1f;
+            Buoy4.gps.Latitude += 0.1f;
+            MonProtocol.TriangleLocate.Buoys.Clear();
+            var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
+            var lpoint2 = new Locate2D(DateTime.UtcNow, Buoy2.gps.Longitude, Buoy2.gps.Latitude, Buoy2.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
+            var lpoint3 = new Locate2D(DateTime.UtcNow, Buoy3.gps.Longitude, Buoy3.gps.Latitude, Buoy3.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
+            var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
+            //
             UnitCore.Instance.BuoyLock.WaitOne();
-            PointLatLng center = PointLatLng.Zero;
             var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
@@ -57,7 +74,6 @@ namespace LOUV.Torp.Monitor.ViewModel
                     Depth = (float)targetpos.Z,
                 };
                 log +="定位结果:" +  "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
-                
                 RefreshTarget();
             }
             else
@@ -66,35 +82,78 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
             UnitCore.Instance.MonTraceService.Save("Position", log);
         }
+        private void Refresh3DView()
+        {
+            double x, y,z;
+            x = 0;
+            y = 0;
+            z = 0;
+            center.Lat = (Buoy1.gps.Latitude + Buoy2.gps.Latitude +
+                Buoy3.gps.Latitude + Buoy4.gps.Latitude) / 4;
+            center.Lng = (Buoy1.gps.Longitude + Buoy2.gps.Longitude +
+                Buoy3.gps.Longitude + Buoy4.gps.Longitude) / 4;
+            UpdateLatLong(center);
+            if (Buoy1!=null)
+                Util.GetReltXY(new PointLatLng(Buoy1.gps.Latitude,Buoy1.gps.Longitude),center,out x,out y);
+            Buoy1Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            if (Buoy2 != null)
+                Util.GetReltXY(new PointLatLng(Buoy2.gps.Latitude, Buoy2.gps.Longitude), center, out x, out y);
+            Buoy2Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            if (Buoy3 != null)
+                Util.GetReltXY(new PointLatLng(Buoy3.gps.Latitude, Buoy3.gps.Longitude), center, out x, out y);
+            Buoy3Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+
+            if (Buoy4 != null)
+                Util.GetReltXY(new PointLatLng(Buoy4.gps.Latitude, Buoy4.gps.Longitude), center, out x, out y);
+            Buoy4Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            if(ObjTarget!=null)
+                Util.GetReltXY(new PointLatLng(ObjTarget.Latitude, ObjTarget.Longitude), center, out x, out y);
+            z=-ObjTarget.Depth;
+            ObjectCenter = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            if(AutoTrack)
+                CamPos = ObjectCenter;
+            UpdataTrack(x, y, z);
+
+        }
         public override void Initialize()
         {
-            ObjTarget = new Target();
-            Buoy1 = new Buoy(1);
-            Buoy2 = new Buoy(2);
-            Buoy3 = new Buoy(3);
-            Buoy4 = new Buoy(4);
-            Dt = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
+            //ObjTarget = new Target();
+            ObjTarget = null;
+            Dt = new DispatcherTimer(TimeSpan.FromSeconds(UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
             Buoy1 = null;
             Buoy2 = null;
             Buoy3 = null;
             Buoy4 = null;
-            /*UnitCore.Instance.TargetObj = new Target()
-            {
-                Status = "已定位",
-                UTCTime = DateTime.UtcNow,
-                Longitude = 116.3187f,
-                Latitude = 39.98543f,
-                Depth = 18.2334454f,
-            };*/
-            /*var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 24.4949);
+            CamPos = "0,0,6000";
+            TrackVisible = false;
+            ///test case
+            Buoy1 = new Buoy(1);
+            Buoy1.gps.Latitude = 39.58544f;
+            Buoy1.gps.Longitude = 116.3887f;
+            Buoy1.Range = 2400.4949f;
+            Buoy2 = new Buoy(2);
+            Buoy2.gps.Latitude = 39.58544f;
+            Buoy2.gps.Longitude = 116.418932f;
+            Buoy2.Range = 2400.81258f;
+            Buoy3 = new Buoy(3);
+            Buoy3.gps.Latitude = 39.6056224f;
+            Buoy3.gps.Longitude = 116.418932f;
+            Buoy3.Range = 2400.81258f;
+            Buoy4 = new Buoy(4);
+            Buoy4.gps.Latitude = 39.6056224f;
+            Buoy4.gps.Longitude = 116.3887f;
+            Buoy4.Range = 2400.4949f;
+            var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
             MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
-            var lpoint2 = new Locate2D(DateTime.UtcNow, 116.318932, 39.98544, 20.81258);
+            var lpoint2 = new Locate2D(DateTime.UtcNow, Buoy2.gps.Longitude, Buoy2.gps.Latitude, Buoy2.Range);
             MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
-            var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3187, 39.9856224, 38.2326355);
-            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);*/
-        
+            var lpoint3 = new Locate2D(DateTime.UtcNow, Buoy3.gps.Longitude, Buoy3.gps.Latitude, Buoy3.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
+            var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
+            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
+            ///
+            //Refresh3DView();
         }
-
         public override void InitializePage(object extraData)
         {
             AboutVisibility = false;
@@ -102,13 +161,37 @@ namespace LOUV.Torp.Monitor.ViewModel
             if(Dt.IsEnabled==false)
                 Dt.Start();
         }
+        private void UpdateLatLong(PointLatLng center)
+        {
+            longbottom0 = Util.LongOffset(center.Lng, center.Lat, 1500);
+            longbottom1 = Util.LongOffset(center.Lng, center.Lat, 3000);
+            longbottom2 = Util.LongOffset(center.Lng, center.Lat, 4500);
+            longbottom3 = Util.LongOffset(center.Lng, center.Lat, 6000);
 
+            longTop0 = Util.LongOffset(center.Lng, center.Lat, -1500);
+            longTop1 = Util.LongOffset(center.Lng, center.Lat, -3000);
+            longTop2 = Util.LongOffset(center.Lng, center.Lat, -4500);
+            longTop3 = Util.LongOffset(center.Lng, center.Lat, -6000);
+
+            latleft0 = Util.LatOffset(center.Lat, -1500);
+            latleft1 = Util.LatOffset(center.Lat, -3000);
+            latleft2 = Util.LatOffset(center.Lat, -4500);
+            latleft3 = Util.LatOffset(center.Lat, -6000);
+
+            latTop0 = Util.LatOffset(center.Lat, 1500);
+            latTop1 = Util.LatOffset(center.Lat, 3000);
+            latTop2 = Util.LatOffset(center.Lat, 4500);
+            latTop3 = Util.LatOffset(center.Lat, 6000);
+
+        }
         private void RefreshTarget()
         {
             ObjectMarker targetMarker = null;
             GMapMarker target = null;
+            ObjTarget = null;
+            ObjTarget = UnitCore.Instance.TargetObj;
             //refresh 2D target
-            if(MapMode==0)
+            if (MapMode==0)
             {
                 if (UnitCore.Instance.mainMap != null)
                 {
@@ -130,8 +213,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 }
                 if (target == null || targetMarker == null)
                     return;
-                ObjTarget = null;
-                ObjTarget = UnitCore.Instance.TargetObj;
+                
                 App.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     targetMarker.Refresh(UnitCore.Instance.TargetObj);
@@ -149,6 +231,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                         UnitCore.Instance.routePoint.RemoveAt(0);
                     UnitCore.Instance.TargetRoute = new GMapMarker(UnitCore.Instance.routePoint[0]);
                     {
+                        UnitCore.Instance.TargetRoute.Tag = 101;
                         UnitCore.Instance.TargetRoute.Route.AddRange(UnitCore.Instance.routePoint);
                         UnitCore.Instance.TargetRoute.RegenerateRouteShape(UnitCore.Instance.mainMap);
 
@@ -163,7 +246,19 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
             else//3D
             {
-
+                Refresh3DView();
+                if(ObjInfoVisible)
+                {
+                    TargetInfo = ObjTarget.Name + "   " + ObjTarget.Time + "(UTC)\r" +
+                    "经度:" + ObjTarget.Longitude.ToString("F06") + "\r|纬度:" +
+                    ObjTarget.Latitude.ToString("F06") + "\r" +
+                    "测算深度:" + ObjTarget.Depth.ToString("F02") +
+                    "测距状态:" + ObjTarget.Status;
+                }
+                else
+                {
+                    TargetInfo = "";
+                }
             }
         }
         private void RefreshBuoy(int index,Buoy buoy)
@@ -189,8 +284,43 @@ namespace LOUV.Torp.Monitor.ViewModel
                 default:
                     break;
             }
+            Refresh3DView();
+            RefreshBuoyInfo(BuoyInfoVisible);
         }
-        
+        private void RefreshBuoyInfo(bool enable)
+        {
+            if(enable)
+            {
+                Buoy1Info= Buoy1.Name + "   " + Buoy1.Time + "(UTC)\r"+
+                    "经度:" + Buoy1.gps.Longitude.ToString("F06") + "\r纬度:" + 
+                    Buoy1.gps.Latitude.ToString("F06")+"\r"+
+                    "测距:" + Buoy1.Range.ToString("F02");
+
+                Buoy2Info = Buoy2.Name + "   " + Buoy2.Time + "(UTC)\r" +
+                    "经度:" + Buoy2.gps.Longitude.ToString("F06") + "\r纬度:" +
+                    Buoy2.gps.Latitude.ToString("F06") + "\r" +
+                    "测距:" + Buoy2.Range.ToString("F02");
+
+                Buoy3Info = Buoy3.Name + "   " + Buoy3.Time + "(UTC)\r" +
+                    "经度:" + Buoy3.gps.Longitude.ToString("F06") + "\r纬度:" +
+                    Buoy3.gps.Latitude.ToString("F06") + "\r" +
+                    "测距:" + Buoy3.Range.ToString("F02");
+
+                Buoy4Info = Buoy4.Name + "   " + Buoy4.Time + "(UTC)\r" +
+                    "经度:" + Buoy4.gps.Longitude.ToString("F06") + "\r纬度:" +
+                    Buoy4.gps.Latitude.ToString("F06") + "\r" +
+                    "测距:" + Buoy4.Range.ToString("F02");
+            }
+            else
+            {
+                Buoy1Info = "";
+                Buoy2Info = "";
+                Buoy3Info = "";
+                Buoy4Info = "";
+            }
+        }
+        #region Binding
+
         #region latitude
         public double latleft0
         {
@@ -277,6 +407,117 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         #endregion
 
+        public bool BuoyInfoVisible
+        {
+            get { return GetPropertyValue(() => BuoyInfoVisible); }
+            set
+            {
+
+                RefreshBuoyInfo(value);
+                SetPropertyValue(() => BuoyInfoVisible, value);
+            }
+        }
+        public bool ObjInfoVisible
+        {
+            get { return GetPropertyValue(() => ObjInfoVisible); }
+            set
+            {
+                if (value == false)
+                    TargetInfo = "";
+                else
+                {
+                    TargetInfo = ObjTarget.Name + "   " + ObjTarget.Time + "(UTC)\r" +
+                    "经度:" + ObjTarget.Longitude.ToString("F06") + "\r|纬度:" +
+                    ObjTarget.Latitude.ToString("F06") + "\r" +
+                    "测算深度:" + ObjTarget.Depth.ToString("F02")+
+                    "测距状态:" + ObjTarget.Status;
+                }
+                SetPropertyValue(() => ObjInfoVisible, value);
+            }
+        }
+
+        public string Buoy1Info
+        {
+            get { return GetPropertyValue(() => Buoy1Info); }
+            set { SetPropertyValue(() => Buoy1Info, value); }
+        }
+        public string Buoy2Info
+        {
+            get { return GetPropertyValue(() => Buoy2Info); }
+            set { SetPropertyValue(() => Buoy2Info, value); }
+        }
+        public string Buoy3Info
+        {
+            get { return GetPropertyValue(() => Buoy3Info); }
+            set { SetPropertyValue(() => Buoy3Info, value); }
+        }
+        public string Buoy4Info
+        {
+            get { return GetPropertyValue(() => Buoy4Info); }
+            set { SetPropertyValue(() => Buoy4Info, value); }
+        }
+        public string TargetInfo
+        {
+            get { return GetPropertyValue(() => TargetInfo); }
+            set { SetPropertyValue(() => TargetInfo, value); }
+        }
+        public bool TrackVisible
+        {
+            get { return GetPropertyValue(() => TrackVisible); }
+            set
+            {
+
+                if (value == false)
+                    TrackModel = null;
+                else
+                {
+                    // create the WPF3D model
+                    var m = new Model3DGroup();
+                    var gm = new MeshBuilder();
+                    gm.AddTube(Path, 18, 10, false);
+                    m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Gold));
+                    TrackModel = m;
+                }
+                SetPropertyValue(() => TrackVisible, value);
+
+            }
+        }
+        private void RmoveTrack()
+        {
+            TrackVisible = false;
+            Path.RemoveAll((s) => { return s != null; });
+
+        }
+        public bool AutoTrack
+        {
+            get { return GetPropertyValue(() => AutoTrack); }
+            set
+            {
+                if(value == false)
+                {
+                    CamPos = "0,0,6000";
+                }
+                else
+                {
+                    CamPos = ObjectCenter;
+                }
+                SetPropertyValue(() => AutoTrack, value);
+            }
+        }
+        private void UpdataTrack(double x, double y, double z)
+        {
+            Path.Add(new Point3D(x, y, z));
+            if (TrackVisible)
+            {
+                // create the WPF3D model
+                var m = new Model3DGroup();
+                var gm = new MeshBuilder();
+                gm.AddTube(Path, 18, 10, false);
+                m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Gold));
+                TrackModel = m;
+            }
+        }
+
         public string CamPos
         {
             get { return GetPropertyValue(() => CamPos); }
@@ -346,6 +587,35 @@ namespace LOUV.Torp.Monitor.ViewModel
             set { SetPropertyValue(() => TrackModel, value); }
         }
 
+        public string Buoy1Center
+        {
+            get { return GetPropertyValue(() => Buoy1Center); }
+            set { SetPropertyValue(() => Buoy1Center, value); }
+        }
+        public string Buoy2Center
+        {
+            get { return GetPropertyValue(() => Buoy2Center); }
+            set { SetPropertyValue(() => Buoy2Center, value); }
+        }
+        public string Buoy3Center
+        {
+            get { return GetPropertyValue(() => Buoy3Center); }
+            set { SetPropertyValue(() => Buoy3Center, value); }
+        }
+        public string Buoy4Center
+        {
+            get { return GetPropertyValue(() => Buoy4Center); }
+            set { SetPropertyValue(() => Buoy4Center, value); }
+
+        }
+        public string ObjectCenter
+        {
+            get { return GetPropertyValue(() => ObjectCenter); }
+            set { SetPropertyValue(() => ObjectCenter, value); }
+        }
+        #endregion
+
+        #region Event Handle
         public void Handle(ShowAboutSlide message)
         {
             AboutVisibility = message.showslide;
@@ -373,6 +643,13 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
         }
 
-        
+        public void Handle(ChangeValidIntervalEvent message)
+        {
+            Dt.Stop();
+            Dt.Interval = TimeSpan.FromSeconds(message.ValidInterval);
+            Dt.Start();
+            
+        }
+        #endregion
     }
 }

@@ -38,6 +38,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
             TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
+            ValidInterval = UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval;
         }
         public string Buoy01IpAddr
         {
@@ -83,6 +84,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => TimeOut); }
             set { SetPropertyValue(() => TimeOut, value); }
+        }
+        public int ValidInterval
+        {
+            get { return GetPropertyValue(() => ValidInterval); }
+            set { SetPropertyValue(() => ValidInterval, value); }
         }
         public ICommand SaveConfig
         {
@@ -174,6 +180,14 @@ namespace LOUV.Torp.Monitor.ViewModel
                 EventAggregator.PublishMessage(new LogEvent("保存定位超时出错", LogType.Both));
                 return false;
             }
+            if (!UnitCore.Instance.MonConfigueService.SetValidInterval(ValidInterval))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存定位间隔出错", LogType.Both));
+                return false;
+            }
+            var interval = new ChangeValidIntervalEvent();
+            interval.ValidInterval = ValidInterval;
+            UnitCore.Instance.EventAggregator.PublishMessage(interval);
             return true;
         }
 

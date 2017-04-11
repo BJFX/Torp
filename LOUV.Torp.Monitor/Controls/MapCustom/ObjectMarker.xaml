@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              Height="48" Width="48">
     <Grid>
-        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/ico_coordinate.png" />
+        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/ico_coordinate.png" Margin="0,0,0,-48" />
     </Grid>
 </UserControl>

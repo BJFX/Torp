@@ -5,6 +5,7 @@
     <AcousticVel>1500</AcousticVel>
     <FixOffset>-4</FixOffset>
 	<TimeOut>100</TimeOut>
+	<ValidInterval>5</ValidInterval>
   </Setup>
   <Net>
     <IP0>192.168.2.101</IP0>

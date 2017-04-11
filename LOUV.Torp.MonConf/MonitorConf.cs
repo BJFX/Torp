@@ -131,6 +131,7 @@ namespace LOUV.Torp.MonitorConf
                 setup.AcouVel = GetUserAcousVel();
                 setup.Offset = GetOffset();
                 setup.TimeOut = GetTimeOut();
+                setup.ValidInterval = GetValidInterval();
                 return setup;
             }
             catch (Exception e)
@@ -140,6 +141,16 @@ namespace LOUV.Torp.MonitorConf
             }
         }
 
+        private int GetValidInterval()
+        {
+            string[] str = { "Setup", "ValidInterval" };
+            return int.Parse(GetValue(str));
+        }
+        public bool SetValidInterval(int sec)
+        {
+            string[] str = { "Setup", "ValidInterval" };
+            return SetValue(str, sec.ToString());
+        }
         private float GetOffset()
         {
             string[] str = { "Setup", "FixOffset" };
