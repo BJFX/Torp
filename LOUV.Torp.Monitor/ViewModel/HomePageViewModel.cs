@@ -31,7 +31,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
             //test case
-            Buoy1.gps.Longitude += 0.1f;
+            /*Buoy1.gps.Longitude += 0.1f;
             Buoy1.gps.Latitude += 0.1f;
             Buoy2.gps.Longitude += 0.1f;
             Buoy2.gps.Latitude += 0.1f;
@@ -39,6 +39,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy3.gps.Latitude += 0.1f;
             Buoy4.gps.Longitude += 0.1f;
             Buoy4.gps.Latitude += 0.1f;
+
             MonProtocol.TriangleLocate.Buoys.Clear();
             var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
             MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
@@ -47,7 +48,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             var lpoint3 = new Locate2D(DateTime.UtcNow, Buoy3.gps.Longitude, Buoy3.gps.Latitude, Buoy3.Range);
             MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
             var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
+            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);*/
+            UnitCore.Instance.TargetObj.Latitude += 0.01f;
+            UnitCore.Instance.TargetObj.Longitude += 0.01f;
+            RefreshTarget();
+            return;
             //
             UnitCore.Instance.BuoyLock.WaitOne();
             var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
@@ -110,8 +115,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                 Util.GetReltXY(new PointLatLng(ObjTarget.Latitude, ObjTarget.Longitude), center, out x, out y);
             z=-ObjTarget.Depth;
             ObjectCenter = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
-            if(AutoTrack)
-                CamPos = ObjectCenter;
+            if (AutoTrack)
+                CamPos = "1000,1000,1000";//x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
             UpdataTrack(x, y, z);
 
         }
@@ -124,7 +129,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy2 = null;
             Buoy3 = null;
             Buoy4 = null;
-            CamPos = "0,0,6000";
+            CamPos = "0,0,2000";
             TrackVisible = false;
             ///test case
             Buoy1 = new Buoy(1);
@@ -151,6 +156,9 @@ namespace LOUV.Torp.Monitor.ViewModel
             MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
             var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
             MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
+            UnitCore.Instance.TargetObj.Longitude = 116.39999f;
+            UnitCore.Instance.TargetObj.Latitude = 39.59355f;
+
             ///
             //Refresh3DView();
         }
@@ -163,25 +171,25 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         private void UpdateLatLong(PointLatLng center)
         {
-            longbottom0 = Util.LongOffset(center.Lng, center.Lat, 1500);
-            longbottom1 = Util.LongOffset(center.Lng, center.Lat, 3000);
-            longbottom2 = Util.LongOffset(center.Lng, center.Lat, 4500);
-            longbottom3 = Util.LongOffset(center.Lng, center.Lat, 6000);
+            longbottom0 = Util.LongOffset(center.Lng, center.Lat, 500);
+            longbottom1 = Util.LongOffset(center.Lng, center.Lat, 1000);
+            longbottom2 = Util.LongOffset(center.Lng, center.Lat, 1500);
+            longbottom3 = Util.LongOffset(center.Lng, center.Lat, 2000);
 
-            longTop0 = Util.LongOffset(center.Lng, center.Lat, -1500);
-            longTop1 = Util.LongOffset(center.Lng, center.Lat, -3000);
-            longTop2 = Util.LongOffset(center.Lng, center.Lat, -4500);
-            longTop3 = Util.LongOffset(center.Lng, center.Lat, -6000);
+            longTop0 = Util.LongOffset(center.Lng, center.Lat, -500);
+            longTop1 = Util.LongOffset(center.Lng, center.Lat, -1000);
+            longTop2 = Util.LongOffset(center.Lng, center.Lat, -1500);
+            longTop3 = Util.LongOffset(center.Lng, center.Lat, -2000);
 
-            latleft0 = Util.LatOffset(center.Lat, -1500);
-            latleft1 = Util.LatOffset(center.Lat, -3000);
-            latleft2 = Util.LatOffset(center.Lat, -4500);
-            latleft3 = Util.LatOffset(center.Lat, -6000);
+            latleft0 = Util.LatOffset(center.Lat, -500);
+            latleft1 = Util.LatOffset(center.Lat, -1000);
+            latleft2 = Util.LatOffset(center.Lat, -1500);
+            latleft3 = Util.LatOffset(center.Lat, -2000);
 
-            latTop0 = Util.LatOffset(center.Lat, 1500);
-            latTop1 = Util.LatOffset(center.Lat, 3000);
-            latTop2 = Util.LatOffset(center.Lat, 4500);
-            latTop3 = Util.LatOffset(center.Lat, 6000);
+            latTop0 = Util.LatOffset(center.Lat, 500);
+            latTop1 = Util.LatOffset(center.Lat, 1000);
+            latTop2 = Util.LatOffset(center.Lat, 1500);
+            latTop3 = Util.LatOffset(center.Lat, 2000);
 
         }
         private void RefreshTarget()
@@ -495,7 +503,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             {
                 if(value == false)
                 {
-                    CamPos = "0,0,6000";
+                    CamPos = "0,0,2000";
                 }
                 else
                 {

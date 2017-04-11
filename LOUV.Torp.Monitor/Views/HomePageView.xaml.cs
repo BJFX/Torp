@@ -465,16 +465,16 @@ namespace LOUV.Torp.Monitor.Views
         private void PosViewport3D_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var distance = PosViewport3D.CameraController.CameraPosition.DistanceTo(new Point3D(0, 0, 0));
-            if (distance > 18000 && e.Delta < 0)
+            if (distance > 6000 && e.Delta < 0)
                 e.Handled = true;
-            if (distance < 6000 && e.Delta > 0)
+            if (distance < 2000 && e.Delta > 0)
                 e.Handled = true;
         }
         private void BackToNorth_Click(object sender, RoutedEventArgs e)
         {
             if (PosViewport3D == null || PosViewport3D.CameraController == null)
                 return;
-            PosViewport3D.CameraController.ChangeDirection(new Vector3D(0, 0, -6000), new Vector3D(-1, 0, 0), 1000);
+            PosViewport3D.CameraController.ChangeDirection(new Vector3D(0, 0, -2000), new Vector3D(0, 1, 0), 1000);
         }
         #endregion
 
