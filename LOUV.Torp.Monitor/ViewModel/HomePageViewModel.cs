@@ -31,28 +31,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
             //test case
-            /*Buoy1.gps.Longitude += 0.1f;
-            Buoy1.gps.Latitude += 0.1f;
-            Buoy2.gps.Longitude += 0.1f;
-            Buoy2.gps.Latitude += 0.1f;
-            Buoy3.gps.Longitude += 0.1f;
-            Buoy3.gps.Latitude += 0.1f;
-            Buoy4.gps.Longitude += 0.1f;
-            Buoy4.gps.Latitude += 0.1f;
-
-            MonProtocol.TriangleLocate.Buoys.Clear();
-            var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
-            var lpoint2 = new Locate2D(DateTime.UtcNow, Buoy2.gps.Longitude, Buoy2.gps.Latitude, Buoy2.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
-            var lpoint3 = new Locate2D(DateTime.UtcNow, Buoy3.gps.Longitude, Buoy3.gps.Latitude, Buoy3.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
-            var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);*/
-            UnitCore.Instance.TargetObj.Latitude += 0.01f;
-            UnitCore.Instance.TargetObj.Longitude += 0.01f;
+            /*
+            UnitCore.Instance.TargetObj.Latitude += 0.001f;
+            UnitCore.Instance.TargetObj.Longitude += 0.001f;
             RefreshTarget();
-            return;
+            return;*/
             //
             UnitCore.Instance.BuoyLock.WaitOne();
             var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
@@ -116,7 +99,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             z=-ObjTarget.Depth;
             ObjectCenter = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
             if (AutoTrack)
-                CamPos = "1000,1000,1000";//x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
+            {
+                //UnitCore.Instance.PosView3D.CameraController.ChangeDirection(new Vector3D(0, 0, -2000), new Vector3D(0, 1, 0), 1000);
+                UnitCore.Instance.PosView3D.Camera.Position = new Point3D(x, y, z+4000);
+            }
+            //CamPos = x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
             UpdataTrack(x, y, z);
 
         }
@@ -129,10 +116,10 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy2 = null;
             Buoy3 = null;
             Buoy4 = null;
-            CamPos = "0,0,2000";
+            CamPos = "0,0,4000";
             TrackVisible = false;
             ///test case
-            Buoy1 = new Buoy(1);
+            /*Buoy1 = new Buoy(1);
             Buoy1.gps.Latitude = 39.58544f;
             Buoy1.gps.Longitude = 116.3887f;
             Buoy1.Range = 2400.4949f;
@@ -157,7 +144,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
             MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
             UnitCore.Instance.TargetObj.Longitude = 116.39999f;
-            UnitCore.Instance.TargetObj.Latitude = 39.59355f;
+            UnitCore.Instance.TargetObj.Latitude = 39.59355f;*/
 
             ///
             //Refresh3DView();
@@ -503,7 +490,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             {
                 if(value == false)
                 {
-                    CamPos = "0,0,2000";
+                    CamPos = "0,0,4000";
                 }
                 else
                 {

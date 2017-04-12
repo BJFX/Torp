@@ -474,11 +474,15 @@ namespace LOUV.Torp.Monitor.Views
         {
             if (PosViewport3D == null || PosViewport3D.CameraController == null)
                 return;
-            PosViewport3D.CameraController.ChangeDirection(new Vector3D(0, 0, -2000), new Vector3D(0, 1, 0), 1000);
+            PosViewport3D.CameraController.ChangeDirection(new Vector3D(0, 0, -3000), new Vector3D(0, 1, 0), 800);
+        }
+        private void PosViewport3D_Loaded(object sender, RoutedEventArgs e)
+        {
+            UnitCore.Instance.PosView3D = PosViewport3D;
         }
         #endregion
 
-
+        
     }
 
 }

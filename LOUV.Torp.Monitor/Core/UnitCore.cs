@@ -59,7 +59,7 @@ namespace LOUV.Torp.Monitor.Core
         public string Error { get; private set; }
 
         public bool ThreeDEnable { get; set; }//全局解析锁
-
+        public HelixViewport3D PosView3D { get; set; }
         public Model3D BuoyModel { get; set; }//buoy 模型
         public Model3D ObjModel { get; set; }//目标模型
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁

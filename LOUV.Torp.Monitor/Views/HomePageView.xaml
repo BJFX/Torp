@@ -112,32 +112,32 @@
                                    Title="3D视图"
                                    Foreground="AntiqueWhite"
                                    TitleSize="20"
-                                   SubTitleSize="16" PreviewMouseWheel="PosViewport3D_PreviewMouseWheel" SubTitle="{Binding ObjTarget.Status}">
+                                   SubTitleSize="16" PreviewMouseWheel="PosViewport3D_PreviewMouseWheel" SubTitle="{Binding ObjTarget.Status}" Loaded="PosViewport3D_Loaded">
                                 <h:HelixViewport3D.DefaultCamera>
-                                    <PerspectiveCamera x:Name ="PosCamera" Position="{Binding CamPos}" LookDirection="0,0,-2000" UpDirection="0,1,0" NearPlaneDistance="1000" FarPlaneDistance="20000"/>
+                                    <PerspectiveCamera x:Name ="PosCamera" Position="{Binding CamPos}" LookDirection="0,0,-4000" UpDirection="0,1,0" NearPlaneDistance="2000" FarPlaneDistance="20000"/>
                                 </h:HelixViewport3D.DefaultCamera>
                                 <h:SunLight/>
                                 <h:GridLinesVisual3D  Fill="Cornsilk" Length ="4000" Width="4000" MinorDistance="500" MajorDistance="10000" Thickness="6"/>
 
-                                <h:BillboardTextVisual3D x:Name="latleftbottom0" Position="500,-2000,0" DepthOffset="0.1" Text="{Binding latleft0, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="latleftbottom1" Position="1000,-2000,0" DepthOffset="0.1" Text="{Binding latleft1, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="latleftbottom2" Position="1500,-2000,0" DepthOffset="0.1" Text="{Binding latleft2, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="latleftbottom3" Position="2000,-2000,0" DepthOffset="0.1" Text="{Binding latleft3, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom0" Position="-2000,-500,0" DepthOffset="0.1" Text="{Binding latleft0, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom1" Position="-2000,-1000,0" DepthOffset="0.1" Text="{Binding latleft1, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom2" Position="-2000,-1500,0" DepthOffset="0.1" Text="{Binding latleft2, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="latleftbottom3" Position="-2000,-2000,0" DepthOffset="0.1" Text="{Binding latleft3, StringFormat=\{0:F4\}}" Foreground="White"/>
 
-                                <h:BillboardTextVisual3D x:Name="lattop0" Position="-500,2000,0" DepthOffset="0.1" Text="{Binding latTop0, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="lattop1" Position="-1000,2000,0" DepthOffset="0.1" Text="{Binding latTop1, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="lattop2" Position="-1500,2000,0" DepthOffset="0.1" Text="{Binding latTop2, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="lattop3" Position="-2000,2000,0" DepthOffset="0.1" Text="{Binding latTop3, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop0" Position="2000,500,0" DepthOffset="0.1" Text="{Binding latTop0, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop1" Position="2000,1000,0" DepthOffset="0.1" Text="{Binding latTop1, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop2" Position="2000,1500,0" DepthOffset="0.1" Text="{Binding latTop2, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="lattop3" Position="2000,2000,0" DepthOffset="0.1" Text="{Binding latTop3, StringFormat=\{0:F4\}}" Foreground="White"/>
 
-                                <h:BillboardTextVisual3D x:Name="longtop0" Position="-2000,-500,0" DepthOffset="0.1" Text="{Binding longTop0, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longtop1" Position="-2000,-1000,0" DepthOffset="0.1" Text="{Binding longTop1, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longtop2" Position="-2000,-1500,0" DepthOffset="0.1" Text="{Binding longTop2, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longtop3" Position="-2000,-2000,0" DepthOffset="0.1" Text="{Binding longTop3, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop0" Position="500,-2000,0" DepthOffset="0.1" Text="{Binding longTop0, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop1" Position="1000,-2000,0" DepthOffset="0.1" Text="{Binding longTop1, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop2" Position="1500,-2000,0" DepthOffset="0.1" Text="{Binding longTop2, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longtop3" Position="2000,-2000,0" DepthOffset="0.1" Text="{Binding longTop3, StringFormat=\{0:F4\}}" Foreground="White"/>
 
-                                <h:BillboardTextVisual3D x:Name="longbottom0" Position="2000,500,0" DepthOffset="0.1" Text="{Binding longbottom0, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longbottom1" Position="2000,1000,0" DepthOffset="0.1" Text="{Binding longbottom1, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longbottom2" Position="2000,1500,0" DepthOffset="0.1" Text="{Binding longbottom2, StringFormat=\{0:F4\}}" Foreground="White"/>
-                                <h:BillboardTextVisual3D x:Name="longbottom3" Position="2000,2000,0" DepthOffset="0.1" Text="{Binding longbottom3, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom0" Position="-500,2000,0" DepthOffset="0.1" Text="{Binding longbottom0, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom1" Position="-1000,2000,0" DepthOffset="0.1" Text="{Binding longbottom1, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom2" Position="-1500,2000,0" DepthOffset="0.1" Text="{Binding longbottom2, StringFormat=\{0:F4\}}" Foreground="White"/>
+                                <h:BillboardTextVisual3D x:Name="longbottom3" Position="-2000,2000,0" DepthOffset="0.1" Text="{Binding longbottom3, StringFormat=\{0:F4\}}" Foreground="White"/>
                                 <ModelVisual3D Content="{Binding CurrentModel}"/>
                                 <h:SphereVisual3D x:Name="Buoy1"  Fill="Red" Radius="50" Center="{Binding Buoy1Center}"/>
                                 <h:BillboardTextVisual3D Position="{Binding Buoy1Center}" DepthOffset="0.01" Text="{Binding Buoy1Info}" Foreground="White"/>
@@ -161,7 +161,7 @@
                                 <MetroControl:ToggleSwitch  Content="目标信息" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标具体信息" IsChecked="{Binding ObjInfoVisible}" />
                                 <MetroControl:ToggleSwitch  Content="显示轨迹" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="显示目标点轨迹" IsChecked="{Binding TrackVisible}" />
                                 <MetroControl:ToggleSwitch  Content="自动跟踪" HorizontalAlignment="Left" FontFamily="Microsoft YaHei" ToolTip="3D地图将跟随目标点移动" IsChecked="{Binding AutoTrack}" />
-                                <Button x:Name="BackToNorth" Style="{StaticResource ChromeButtonStyle}" Content="回到正北" HorizontalAlignment="Left" ToolTip="保持正北方向" Click="BackToNorth_Click"/>
+                                <Button x:Name="BackToNorth" Style="{StaticResource ChromeButtonStyle}" Content="恢复视图" HorizontalAlignment="Left" ToolTip="保持正北方向" Click="BackToNorth_Click"/>
 
                             </UniformGrid>
                         </Grid>
