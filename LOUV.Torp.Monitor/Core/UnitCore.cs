@@ -61,7 +61,7 @@ namespace LOUV.Torp.Monitor.Core
         public bool ThreeDEnable { get; set; }//全局解析锁
         public HelixViewport3D PosView3D { get; set; }
         public Model3D BuoyModel { get; set; }//buoy 模型
-        public Model3D ObjModel { get; set; }//目标模型
+        public ModelVisual3D ObjModel { get; set; }//目标模型
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
         public Hashtable Buoy = new Hashtable();
         //public Hashtable InfoBoard = new Hashtable();
@@ -104,18 +104,19 @@ namespace LOUV.Torp.Monitor.Core
             }
             try
             {
+               /*
                 var buoypath = _monConf.GetBuoyModel();
                 if (buoypath == null)
                     throw new Exception("未找到3D组件！");
                 buoypath = _monConf.MyExecPath + "\\" + buoypath;//found
                 BuoyModel = await LoadAsync(buoypath, false);
                 if (BuoyModel == null)
-                    throw new Exception("加载浮标组件失败！");
+                    throw new Exception("加载浮标组件失败！");*/
                 var objpath = _monConf.GetObjModel();
                 if (objpath == null)
                     throw new Exception("未找到3D组件！");
                 objpath = _monConf.MyExecPath + "\\" + objpath;//found
-                ObjModel = await LoadAsync(objpath, false);
+                ObjModel = await LoadXAMLAsync(objpath);
                 if (ObjModel == null)
                     throw new Exception("加载模型组件失败！");
                 return true;
@@ -287,7 +288,7 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
                 ReadInitPara();
-
+                LoadAssets();
                 var b = (Buoy)Buoy[0];
                 b.IP = _MonConfInfo.IP[0];
                 b = (Buoy)Buoy[1];
@@ -304,6 +305,7 @@ namespace LOUV.Torp.Monitor.Core
                     throw new Exception("UDP服务启动失败");
                 if (!MonTraceService.CreateService()) throw new Exception("数据服务启动失败");
                 _serviceStarted = true;
+
                 Error = NetCore.Error;
                 return ServiceStarted;
             }
@@ -387,6 +389,15 @@ namespace LOUV.Torp.Monitor.Core
                 // Alt 1. - freeze the model 
                 return mi.Load(model3DPath, null, true);
 
+            });
+        }
+        private async Task<ModelVisual3D> LoadXAMLAsync(string model3DPath)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                var fs = new FileStream(model3DPath, FileMode.Open, FileAccess.Read);
+                ModelVisual3D vp = (ModelVisual3D)System.Windows.Markup.XamlReader.Load(fs);
+                return vp;
             });
         }
     }

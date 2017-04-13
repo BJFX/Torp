@@ -18,6 +18,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using HelixToolkit.Wpf;
 using System.Windows.Media.Media3D;
+using System.Threading.Tasks;
 
 namespace LOUV.Torp.Monitor.Views
 {
@@ -260,11 +261,7 @@ namespace LOUV.Torp.Monitor.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            /*
-            Task<bool> ret = null;
-            ret = UnitCore.Instance.LoadAssets();
-            await ret;
-            UnitCore.Instance.ThreeDEnable = ret.Result;*/
+
             Splasher.CloseSplash();
         }
 

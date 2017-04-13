@@ -118,6 +118,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy4 = null;
             CamPos = "0,0,4000";
             TrackVisible = false;
+            
             ///test case
             /*Buoy1 = new Buoy(1);
             Buoy1.gps.Latitude = 39.58544f;
@@ -155,6 +156,8 @@ namespace LOUV.Torp.Monitor.ViewModel
             MapMode = 0;
             if(Dt.IsEnabled==false)
                 Dt.Start();
+            if(CurrentModel==null)
+                CurrentModel = UnitCore.Instance.ObjModel;
         }
         private void UpdateLatLong(PointLatLng center)
         {
@@ -581,7 +584,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => TrackModel); }
             set { SetPropertyValue(() => TrackModel, value); }
         }
-
+        public ModelVisual3D CurrentModel
+        {
+            get { return GetPropertyValue(() => CurrentModel); }
+            set { SetPropertyValue(() => CurrentModel, value); }
+        }
         public string Buoy1Center
         {
             get { return GetPropertyValue(() => Buoy1Center); }
