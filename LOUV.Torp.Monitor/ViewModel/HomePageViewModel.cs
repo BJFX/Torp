@@ -81,43 +81,53 @@ namespace LOUV.Torp.Monitor.ViewModel
             center.Lng = (Buoy1.gps.Longitude + Buoy2.gps.Longitude +
                 Buoy3.gps.Longitude + Buoy4.gps.Longitude) / 4;
             UpdateLatLong(center);
-            if (Buoy1!=null)
-                Util.GetReltXY(new PointLatLng(Buoy1.gps.Latitude,Buoy1.gps.Longitude),center,out x,out y);
-            Buoy1Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            if (Buoy1 != null)
+            {
+                Util.GetReltXY(new PointLatLng(Buoy1.gps.Latitude, Buoy1.gps.Longitude), center, out x, out y);
+                Buoy1Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            }
             if (Buoy2 != null)
+            {
                 Util.GetReltXY(new PointLatLng(Buoy2.gps.Latitude, Buoy2.gps.Longitude), center, out x, out y);
-            Buoy2Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+                Buoy2Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            }
             if (Buoy3 != null)
+            {
                 Util.GetReltXY(new PointLatLng(Buoy3.gps.Latitude, Buoy3.gps.Longitude), center, out x, out y);
-            Buoy3Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+                Buoy3Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+            }
 
             if (Buoy4 != null)
-                Util.GetReltXY(new PointLatLng(Buoy4.gps.Latitude, Buoy4.gps.Longitude), center, out x, out y);
-            Buoy4Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
-            if(ObjTarget!=null)
-                Util.GetReltXY(new PointLatLng(ObjTarget.Latitude, ObjTarget.Longitude), center, out x, out y);
-            z=-ObjTarget.Depth;
-            ObjectCenter = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
-            if (AutoTrack)
             {
-                //UnitCore.Instance.PosView3D.CameraController.ChangeDirection(new Vector3D(0, 0, -2000), new Vector3D(0, 1, 0), 1000);
-                UnitCore.Instance.PosView3D.Camera.Position = new Point3D(x, y, z+4000);
+                Util.GetReltXY(new PointLatLng(Buoy4.gps.Latitude, Buoy4.gps.Longitude), center, out x, out y);
+                Buoy4Center = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
             }
-            //CamPos = x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
-            UpdataTrack(x, y, z);
-            OffsetX = x;
-            OffsetY = y;
-            OffsetZ = z;
+            if (ObjTarget != null)
+            {
+                Util.GetReltXY(new PointLatLng(ObjTarget.Latitude, ObjTarget.Longitude), center, out x, out y);
+                z = -ObjTarget.Depth;
+                ObjectCenter = x.ToString("F02") + "," + y.ToString("F02") + "," + z.ToString("F02");
+                if (AutoTrack)
+                {
+                    //UnitCore.Instance.PosView3D.CameraController.ChangeDirection(new Vector3D(0, 0, -2000), new Vector3D(0, 1, 0), 1000);
+                    UnitCore.Instance.PosView3D.Camera.Position = new Point3D(x, y, z + 4000);
+                }
+                //CamPos = x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
+                UpdataTrack(x, y, z);
+                OffsetX = x;
+                OffsetY = y;
+                OffsetZ = z;
+            }
         }
         public override void Initialize()
         {
             //ObjTarget = new Target();
             ObjTarget = null;
             Dt = new DispatcherTimer(TimeSpan.FromSeconds(UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
-            Buoy1 = null;
-            Buoy2 = null;
-            Buoy3 = null;
-            Buoy4 = null;
+            Buoy1 = (Buoy)UnitCore.Instance.Buoy[0];
+            Buoy2 = (Buoy)UnitCore.Instance.Buoy[1];
+            Buoy3 = (Buoy)UnitCore.Instance.Buoy[2];
+            Buoy4 = (Buoy)UnitCore.Instance.Buoy[3];
             CamPos = "0,0,4000";
             TrackVisible = false;
             
