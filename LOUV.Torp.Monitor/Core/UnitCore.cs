@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
+using System.Windows;
+using System.Windows.Markup;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -288,7 +290,7 @@ namespace LOUV.Torp.Monitor.Core
                 NetworkAvailabilityChangedEventHandler(AvailabilityChangedCallback);
                 if(!LoadConfiguration()) throw new Exception("无法读取基本配置");
                 ReadInitPara();
-                LoadAssets();
+                //LoadAssets();
                 var b = (Buoy)Buoy[0];
                 b.IP = _MonConfInfo.IP[0];
                 b = (Buoy)Buoy[1];
@@ -396,8 +398,8 @@ namespace LOUV.Torp.Monitor.Core
             return await Task.Factory.StartNew(() =>
             {
                 var fs = new FileStream(model3DPath, FileMode.Open, FileAccess.Read);
-                ModelVisual3D vp = (ModelVisual3D)System.Windows.Markup.XamlReader.Load(fs);
-                return vp;
+                return(ModelVisual3D)XamlReader.Load(fs);
+                
             });
         }
     }

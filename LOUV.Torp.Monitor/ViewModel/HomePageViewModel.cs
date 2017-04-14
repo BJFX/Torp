@@ -105,7 +105,9 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
             //CamPos = x.ToString("F02") + "," + y.ToString("F02") + "," + (z-2000).ToString("F02");
             UpdataTrack(x, y, z);
-
+            OffsetX = x;
+            OffsetY = y;
+            OffsetZ = z;
         }
         public override void Initialize()
         {
@@ -156,8 +158,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             MapMode = 0;
             if(Dt.IsEnabled==false)
                 Dt.Start();
-            if(CurrentModel==null)
-                CurrentModel = UnitCore.Instance.ObjModel;
+            
         }
         private void UpdateLatLong(PointLatLng center)
         {
@@ -515,7 +516,21 @@ namespace LOUV.Torp.Monitor.ViewModel
                 TrackModel = m;
             }
         }
-
+        public double OffsetX
+        {
+            get { return GetPropertyValue(() => OffsetX); }
+            set { SetPropertyValue(() => OffsetX, value); }
+        }
+        public double OffsetY
+        {
+            get { return GetPropertyValue(() => OffsetY); }
+            set { SetPropertyValue(() => OffsetY, value); }
+        }
+        public double OffsetZ
+        {
+            get { return GetPropertyValue(() => OffsetZ); }
+            set { SetPropertyValue(() => OffsetZ, value); }
+        }
         public string CamPos
         {
             get { return GetPropertyValue(() => CamPos); }
@@ -558,36 +573,10 @@ namespace LOUV.Torp.Monitor.ViewModel
             set { SetPropertyValue(() => Buoy4, value); }
         }
 
-        public Model3D Buoy1Model
-        {
-            get { return GetPropertyValue(() => Buoy1Model); }
-            set { SetPropertyValue(() => Buoy1Model, value); }
-        }
-        public Model3D Buoy2Model
-        {
-            get { return GetPropertyValue(() => Buoy2Model); }
-            set { SetPropertyValue(() => Buoy2Model, value); }
-        }
-        public Model3D Buoy3Model
-        {
-            get { return GetPropertyValue(() => Buoy3Model); }
-            set { SetPropertyValue(() => Buoy3Model, value); }
-        }
-        public Model3D Buoy4Model
-        {
-            get { return GetPropertyValue(() => Buoy4Model); }
-            set { SetPropertyValue(() => Buoy4Model, value); }
-        }
-
         public Model3D TrackModel
         {
             get { return GetPropertyValue(() => TrackModel); }
             set { SetPropertyValue(() => TrackModel, value); }
-        }
-        public ModelVisual3D CurrentModel
-        {
-            get { return GetPropertyValue(() => CurrentModel); }
-            set { SetPropertyValue(() => CurrentModel, value); }
         }
         public string Buoy1Center
         {
