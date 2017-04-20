@@ -132,6 +132,7 @@ namespace LOUV.Torp.MonitorConf
                 setup.Offset = GetOffset();
                 setup.TimeOut = GetTimeOut();
                 setup.ValidInterval = GetValidInterval();
+                setup.SonarDepth = GetSonarDepth();
                 return setup;
             }
             catch (Exception e)
@@ -141,6 +142,16 @@ namespace LOUV.Torp.MonitorConf
             }
         }
 
+        private double GetSonarDepth()
+        {
+            string[] str = { "Setup", "SonarDepth" };
+            return double.Parse(GetValue(str));
+        }
+        public bool SetSonarDepth(double depth)
+        {
+            string[] str = { "Setup", "SonarDepth" };
+            return SetValue(str, depth.ToString());
+        }
         private int GetValidInterval()
         {
             string[] str = { "Setup", "ValidInterval" };

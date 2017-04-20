@@ -88,21 +88,25 @@
                     <StackPanel Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=SonarConfigButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <UniformGrid Columns="2">
                             <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
-                            <TextBlock FontSize="18" VerticalAlignment="Center" Text="默认声速："/>
-                            <TextBox Name="VelBox" Margin="15,4,4,4" Width="100" Text="{Binding Velocity}" Background="{x:Null}" Foreground="White"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
-                            <TextBlock FontSize="18" VerticalAlignment="Center" Text="测距偏移："/>
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="默认声速："/>
+                                <TextBox Name="VelBox" Margin="15,4,4,4" Width="100" Text="{Binding Velocity}" Background="{x:Null}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="测距偏移："/>
                                 <TextBlock Name="FixOffsetBox" Margin="15,4,4,4" Width="100" Text="{Binding FixedOffset}" Background="{x:Null}" Foreground="White"/>
                             </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
-                            <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位超时："/>
-                            <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding TimeOut}" Background="{x:Null}" Foreground="White" Maximum="65535" Minimum="1" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
-                            <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位间隔："/>
-                            <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding ValidInterval}" Background="{x:Null}" Foreground="White" Maximum="100" Minimum="1" />
-                        </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="声呐深度："/>
+                                <TextBlock Margin="15,4,4,4" Width="100" Text="{Binding SonarDepth}" Background="{x:Null}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位超时："/>
+                                <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding TimeOut}" Background="{x:Null}" Foreground="White" Maximum="65535" Minimum="1" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位间隔："/>
+                                <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding ValidInterval}" Background="{x:Null}" Foreground="White" Maximum="100" Minimum="1" />
+                            </StackPanel>
                         </UniformGrid>
                     </StackPanel>
                 </StackPanel>

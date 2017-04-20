@@ -42,6 +42,7 @@ namespace LOUV.Torp.BaseType
         public float Offset { get; set; }
         public int TimeOut { get; set; }
         public int ValidInterval { get; set; }
+        public double SonarDepth { get; set; }
     }
     
 

@@ -12,8 +12,13 @@ namespace LOUV.Torp.MonProtocol
     {
 
         private static double x1, y1, z1,range1, x2, y2, z2,range2, x3, y3, z3,range3;
-
+        private static double earthRadius = 6371.0;
         public static SortedList<int,Locate2D> Buoys = new SortedList<int,Locate2D>(3);
+        private static double[] geoCoordinate1 = new double[3];
+        private static double[] geoCoordinate2 = new double[3];
+        private static double[] geoCoordinate3 = new double[3];
+        private static double[] geoCoordinate4 = new double[3];
+        private static double[] distanceBuoy = new double[4];
         public static void Init()
         {
             x1 = y1 = z1 = x2 = y2 = z2 = x3 = y3 = z3 = range1 = range2 = range3 = 0;
@@ -116,7 +121,13 @@ namespace LOUV.Torp.MonProtocol
 
         public static double CalTargetByApproach(out Locate3D position)
         {
-
+            if(Buoys.Count>=3)
+            {
+                geoCoordinate1[0] = Buoys.Values[0].Lat;
+                geoCoordinate1[1] = Buoys.Values[0].Lng;
+                geoCoordinate1[2] = earthRadius - Buoys.Values[0].Range;
+            }
+            
         }
         #region method used in Approach
         private double[] solveLongBaseEquation(double[] buoy1, double[] buoy2, double[] buoy3, double[] buoy4, int buoyNum, double[] dis)

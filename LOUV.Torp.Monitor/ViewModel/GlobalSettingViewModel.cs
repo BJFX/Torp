@@ -90,6 +90,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => ValidInterval); }
             set { SetPropertyValue(() => ValidInterval, value); }
         }
+        public double SonarDepth
+        {
+            get { return GetPropertyValue(() => SonarDepth); }
+            set { SetPropertyValue(() => SonarDepth, value); }
+        }
         public ICommand SaveConfig
         {
             get { return GetPropertyValue(() => SaveConfig); }
@@ -183,6 +188,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             if (!UnitCore.Instance.MonConfigueService.SetValidInterval(ValidInterval))
             {
                 EventAggregator.PublishMessage(new LogEvent("保存定位间隔出错", LogType.Both));
+                return false;
+            }
+            if (!UnitCore.Instance.MonConfigueService.SetSonarDepth(SonarDepth))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存声呐深度出错", LogType.Both));
                 return false;
             }
             var interval = new ChangeValidIntervalEvent();
