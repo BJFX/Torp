@@ -39,6 +39,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
             TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
             ValidInterval = UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval;
+            SonarDepth = UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth;
         }
         public string Buoy01IpAddr
         {

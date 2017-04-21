@@ -19,6 +19,8 @@ namespace LOUV.Torp.MonProtocol
         private static double[] geoCoordinate3 = new double[3];
         private static double[] geoCoordinate4 = new double[3];
         private static double[] distanceBuoy = new double[4];
+        public static bool UseMatrix = false;
+        public static double SonarDepth = 0.02;
         public static void Init()
         {
             x1 = y1 = z1 = x2 = y2 = z2 = x3 = y3 = z3 = range1 = range2 = range3 = 0;
@@ -44,7 +46,7 @@ namespace LOUV.Torp.MonProtocol
             if (Buoys.Count < 3)
                 return false;
             //find latest 3 data
-            if(Buoys.Count==4)
+            if(Buoys.Count==4 && UseMatrix)
             {
                 int indexOld = 1;
                 DateTime oldtime = Buoys[indexOld].Time;
@@ -60,19 +62,49 @@ namespace LOUV.Torp.MonProtocol
             }
             center = new PointLatLng((Buoys.Values[0].Lat + Buoys.Values[1].Lat + Buoys.Values[2].Lat) / 3,
                 (Buoys.Values[0].Lng + Buoys.Values[1].Lng + Buoys.Values[2].Lng) / 3);
-            var buoy1 = new PointLatLng(Buoys.Values[0].Lat, Buoys.Values[0].Lng);
-            Utility.Util.GetReltXY(buoy1,center,out x1,out y1);
+            //used for matrix
+            if(UseMatrix)
+            {
+                var buoy1 = new PointLatLng(Buoys.Values[0].Lat, Buoys.Values[0].Lng);
+                Utility.Util.GetReltXY(buoy1, center, out x1, out y1);
+
+                z1 = 0;
+                var buoy2 = new PointLatLng(Buoys.Values[1].Lat, Buoys.Values[1].Lng);
+                Utility.Util.GetReltXY(buoy2, center, out x2, out y2);
+                z2 = 0;
+                var buoy3 = new PointLatLng(Buoys.Values[2].Lat, Buoys.Values[2].Lng);
+                Utility.Util.GetReltXY(buoy3, center, out x3, out y3);
+                z3 = 0;
+                range1 = Buoys.Values[0].Range;
+                range2 = Buoys.Values[1].Range;
+                range3 = Buoys.Values[2].Range;
+            }
+            else//used for Approach /km
+            {
+                geoCoordinate1[0] = Buoys.Values[0].Lat;
+                geoCoordinate1[1] = Buoys.Values[0].Lng;
+                geoCoordinate1[2] = earthRadius - SonarDepth;
+                geoCoordinate2[0] = Buoys.Values[1].Lat;
+                geoCoordinate2[1] = Buoys.Values[1].Lng;
+                geoCoordinate2[2] = earthRadius - SonarDepth;
+                geoCoordinate3[0] = Buoys.Values[2].Lat;
+                geoCoordinate3[1] = Buoys.Values[2].Lng;
+                geoCoordinate3[2] = earthRadius - SonarDepth;
+                distanceBuoy[0] = Buoys.Values[0].Range/1000;
+                distanceBuoy[1] = Buoys.Values[1].Range/1000;
+                distanceBuoy[2] = Buoys.Values[2].Range/1000;
+                
+                if (Buoys.Count==4)
+                {
+                    geoCoordinate4[0] = Buoys.Values[3].Lat;
+                    geoCoordinate4[1] = Buoys.Values[3].Lng;
+                    geoCoordinate4[2] = earthRadius - SonarDepth;
+                    distanceBuoy[3] = Buoys.Values[3].Range/1000;
+                }
+                
+            }
             
-            z1 = 0;
-            var buoy2 = new PointLatLng(Buoys.Values[1].Lat, Buoys.Values[1].Lng);
-            Utility.Util.GetReltXY(buoy2, center, out x2, out y2);
-            z2 = 0;
-            var buoy3 = new PointLatLng(Buoys.Values[2].Lat, Buoys.Values[2].Lng);
-            Utility.Util.GetReltXY(buoy3, center, out x3, out y3);
-            z3 = 0;
-            range1 = Buoys.Values[0].Range;
-            range2 = Buoys.Values[1].Range;
-            range3 = Buoys.Values[2].Range;
+
             return true;
         }
 
@@ -104,7 +136,7 @@ namespace LOUV.Torp.MonProtocol
             };
             double[] D = new double[3];
             MatrixLocate.InitMatrix(ref m, i1, i2, i3, ref D);
-            position = new Locate3D(DateTime.Now);
+            position = new Locate3D(DateTime.UtcNow);
             if (MatrixLocate.locate(m, D, out x, out y)!=1)
             {
                 return false;
@@ -113,24 +145,19 @@ namespace LOUV.Torp.MonProtocol
             if (diff < 0)
                 return false;
             double z = Math.Sqrt(diff);
-            position = new Locate3D(DateTime.Now, x, y, z);
+            position = new Locate3D(DateTime.UtcNow, x, y, z);
             return true;
         }
 
 
 
-        public static double CalTargetByApproach(out Locate3D position)
+        public static double[] CalTargetByApproach()
         {
-            if(Buoys.Count>=3)
-            {
-                geoCoordinate1[0] = Buoys.Values[0].Lat;
-                geoCoordinate1[1] = Buoys.Values[0].Lng;
-                geoCoordinate1[2] = earthRadius - Buoys.Values[0].Range;
-            }
-            
+            return solveLongBaseEquation(geoCoordinate1, geoCoordinate2, geoCoordinate3, geoCoordinate4, 4, distanceBuoy);
+
         }
         #region method used in Approach
-        private double[] solveLongBaseEquation(double[] buoy1, double[] buoy2, double[] buoy3, double[] buoy4, int buoyNum, double[] dis)
+        private static double[] solveLongBaseEquation(double[] buoy1, double[] buoy2, double[] buoy3, double[] buoy4, int buoyNum, double[] dis)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
@@ -144,8 +171,8 @@ namespace LOUV.Torp.MonProtocol
 
             double[] disTemp = new double[4];
 
-            double[] test = new double[3] { 0, 0, earthRadius - 0.02 };
-            double[] testSphere = new double[3] { 0, 0, earthRadius - 0.02 };
+            double[] test = new double[3] { 0, 0, earthRadius - SonarDepth };
+            double[] testSphere = new double[3] { 0, 0, earthRadius - SonarDepth };
             double[] output = new double[3];
 
             stopwatch.Start();
@@ -230,11 +257,11 @@ namespace LOUV.Torp.MonProtocol
             else
                 res[1] = output[1];
 
-            res[2] = output[2];
+            res[2] = (earthRadius - output[2]) * 1000;
             res[3] = Math.Sqrt(distanceMin) * 1000;
             return res;
         }
-        private double[] degree2Sphere(double[] degree)
+        private static double[] degree2Sphere(double[] degree)
         {
 
             double[] res = new double[3];
@@ -252,7 +279,7 @@ namespace LOUV.Torp.MonProtocol
 
         }
 
-        private double[] sphere2Decare(double[] sphere)
+        private static double[] sphere2Decare(double[] sphere)
         {
             double[] xyz1 = new double[3];
 
@@ -263,7 +290,7 @@ namespace LOUV.Torp.MonProtocol
             return xyz1;
         }
 
-        private double decare2Distance(double[] decare1, double[] decare2)
+        private static double decare2Distance(double[] decare1, double[] decare2)
         {
             double a = decare1[0] - decare2[0];
             double b = decare1[1] - decare2[1];
@@ -271,7 +298,7 @@ namespace LOUV.Torp.MonProtocol
 
             return Math.Sqrt(a * a + b * b + c * c);
         }
-        private double sphere2Distance(double[] degree1, double[] degree2)
+        private static double sphere2Distance(double[] degree1, double[] degree2)
         {
             double[] xyz1 = new double[3];
             double[] xyz2 = new double[3];

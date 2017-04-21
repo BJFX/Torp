@@ -37,23 +37,23 @@ namespace LOUV.Torp.Monitor.ViewModel
             RefreshTarget();
             return;*/
             //
-            bool useMatrix = false;
             string log = "";
-            if(useMatrix)
+            UnitCore.Instance.BuoyLock.WaitOne();
+            var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
+            if (valid == false)
+                return;
+            Locate3D targetpos = new Locate3D(DateTime.UtcNow);
+            var itor = MonProtocol.TriangleLocate.Buoys.GetEnumerator();
+
+            while (itor.MoveNext())
+            {
+                log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + ")";
+            }
+            if (MonProtocol.TriangleLocate.UseMatrix)
             {
                 Dxy = 0;
-                UnitCore.Instance.BuoyLock.WaitOne();
-                var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
-                UnitCore.Instance.BuoyLock.ReleaseMutex();
-                if (valid == false)
-                    return;
-                Locate3D targetpos;
-                var itor = MonProtocol.TriangleLocate.Buoys.GetEnumerator();
-
-                while (itor.MoveNext())
-                {
-                    log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + ")";
-                }
+                
                 if (MonProtocol.TriangleLocate.CalTargetByMatrix(out targetpos))
                 {
                     targetpos.centerLat = center.Lat;
@@ -78,25 +78,19 @@ namespace LOUV.Torp.Monitor.ViewModel
             }
             else
             {
-                Locate3D targetpos;
-                var itor = MonProtocol.TriangleLocate.Buoys.GetEnumerator();
-
-                while (itor.MoveNext())
-                {
-                    log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + ")";
-                }
-                Dxy = (float)MonProtocol.TriangleLocate.CalTargetByApproach(out targetpos);
-                
-                targetpos.centerLat = center.Lat;
-                targetpos.centerLng = center.Lng;
+                var sonardepth = (float)UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth;
+                MonProtocol.TriangleLocate.SonarDepth = sonardepth / 1000;
+                var result = MonProtocol.TriangleLocate.CalTargetByApproach();
+               
                 UnitCore.Instance.TargetObj = new Target()
                 {
                     Status = "已定位",
-                    UTCTime = targetpos.Time,
-                    Longitude = (float)Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
-                    Latitude = (float)Util.LatOffset(targetpos.centerLat, targetpos.Y),
-                    Depth = targetpos.Z,
+                    UTCTime = DateTime.UtcNow,
+                    Longitude = (float)result[1],
+                    Latitude = (float)result[0],
+                    Depth = (float)result[2],
                 };
+                Dxy = (float)result[3];
                 log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude + " D="+ Dxy.ToString("F06");
                 RefreshTarget();
             }
@@ -166,21 +160,21 @@ namespace LOUV.Torp.Monitor.ViewModel
             
             ///test case
             /*Buoy1 = new Buoy(1);
-            Buoy1.gps.Latitude = 39.58544f;
-            Buoy1.gps.Longitude = 116.3887f;
-            Buoy1.Range = 2400.4949f;
+            Buoy1.gps.Latitude = 29.55774f;
+            Buoy1.gps.Longitude = 118.974123f;
+            Buoy1.Range = 1500f;
             Buoy2 = new Buoy(2);
-            Buoy2.gps.Latitude = 39.58544f;
-            Buoy2.gps.Longitude = 116.418932f;
-            Buoy2.Range = 2400.81258f;
+            Buoy2.gps.Latitude = 29.55774f;
+            Buoy2.gps.Longitude = 118.9431f;
+            Buoy2.Range = 1500f;
             Buoy3 = new Buoy(3);
-            Buoy3.gps.Latitude = 39.6056224f;
-            Buoy3.gps.Longitude = 116.418932f;
-            Buoy3.Range = 2400.81258f;
+            Buoy3.gps.Latitude = 29.58472f;
+            Buoy3.gps.Longitude = 118.974123f;
+            Buoy3.Range = 3354.1f;
             Buoy4 = new Buoy(4);
-            Buoy4.gps.Latitude = 39.6056224f;
-            Buoy4.gps.Longitude = 116.3887f;
-            Buoy4.Range = 2400.4949f;
+            Buoy4.gps.Latitude = 29.58472f;
+            Buoy4.gps.Longitude = 118.9431f;
+            Buoy4.Range = 3354.1f;
             var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
             MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
             var lpoint2 = new Locate2D(DateTime.UtcNow, Buoy2.gps.Longitude, Buoy2.gps.Latitude, Buoy2.Range);
@@ -189,8 +183,8 @@ namespace LOUV.Torp.Monitor.ViewModel
             MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
             var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
             MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
-            UnitCore.Instance.TargetObj.Longitude = 116.39999f;
-            UnitCore.Instance.TargetObj.Latitude = 39.59355f;*/
+            //UnitCore.Instance.TargetObj.Longitude = 116.39999f;
+            //UnitCore.Instance.TargetObj.Latitude = 39.59355f;*/
 
             ///
             //Refresh3DView();
