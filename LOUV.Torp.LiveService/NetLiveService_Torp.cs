@@ -153,8 +153,8 @@ namespace LOUV.Torp.LiveService
          */
             _udpListClient = new UdpClient(_commConf.RecvPort);
             if (!UDPDataService.Init(_udpListClient)) throw new Exception("UDP网络绑定失败");
-           
-            _udpBroadClient = new UdpClient(_commConf.BroadPort+100);//绑定一个比广播端口大100的端口
+
+            _udpBroadClient = _udpListClient;//广播client=监听client
             _udpBroadClient.EnableBroadcast = true;
             //UDPBroadCaster = _udpBroadClient;
             IsInitialize = true;

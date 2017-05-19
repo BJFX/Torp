@@ -127,6 +127,7 @@ namespace LOUV.Torp.Monitor.Core
                     
                     if (UnitCore.Instance.mainMap != null)
                     {
+                        UnitCore.Instance.BuoyLock.WaitOne();
                         var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
                         while (itor.MoveNext())
                         {
@@ -135,10 +136,10 @@ namespace LOUV.Torp.Monitor.Core
                             {
                                 var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
                                 //remove possible duplicate data
-                                UnitCore.Instance.BuoyLock.WaitOne();
+                                
                                 MonProtocol.TriangleLocate.Buoys.Remove(id);
                                 MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
-                                UnitCore.Instance.BuoyLock.ReleaseMutex();
+                                
                                 var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
                                 point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                                     UnitCore.Instance.MainMapCfg.MapOffset.Lng);
@@ -157,6 +158,7 @@ namespace LOUV.Torp.Monitor.Core
                             }
 
                         }
+                        UnitCore.Instance.BuoyLock.ReleaseMutex();
                     }
                     
                 }

@@ -349,12 +349,14 @@ namespace LOUV.Torp.Monitor.Views
         }
         private void ShowTrace_IsCheckedChanged(object sender, EventArgs e)
         {
-            if(ShowTrace.IsChecked==true)
+            UnitCore.Instance.BuoyLock.WaitOne();
+            if (ShowTrace.IsChecked==true)
             {
                 UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
             }
             else
                 UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+            UnitCore.Instance.BuoyLock.ReleaseMutex();
         }
 
         private void AutoTrace_IsCheckedChanged(object sender, EventArgs e)

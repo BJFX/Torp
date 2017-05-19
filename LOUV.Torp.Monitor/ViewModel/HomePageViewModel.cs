@@ -260,7 +260,9 @@ namespace LOUV.Torp.Monitor.ViewModel
                     target.Position = point;
                     //remove legacy route
                     var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute);
+                    UnitCore.Instance.BuoyLock.WaitOne();
                     UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+                    UnitCore.Instance.BuoyLock.ReleaseMutex();
                     UnitCore.Instance.routePoint.Remove(PointLatLng.Zero);
                     UnitCore.Instance.routePoint.Add(point);
                     if (UnitCore.Instance.routePoint.Count > 300)
@@ -274,8 +276,12 @@ namespace LOUV.Torp.Monitor.ViewModel
                         UnitCore.Instance.TargetRoute.ZIndex = -1;
                     }
                     if(isExist)
+                    {
+                        UnitCore.Instance.BuoyLock.WaitOne();
                         UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
-
+                        UnitCore.Instance.BuoyLock.ReleaseMutex();
+                    }
+                        
                     if (UnitCore.Instance.AutoTrace)
                         UnitCore.Instance.mainMap.Position = point;
                 }));
