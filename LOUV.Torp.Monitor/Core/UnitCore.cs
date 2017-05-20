@@ -170,6 +170,8 @@ namespace LOUV.Torp.Monitor.Core
                 initpara = (InitialData)formatter.Deserialize(stream);
                 stream.Close();
                 Buoy = initpara.buoy;
+                if (Buoy.Count == 0)
+                    throw new Exception();//use default value
                 //clean the range info,only need gps location
                 foreach(var buoy in Buoy.Values)
                 {
