@@ -138,12 +138,14 @@
     <Compile Include="Controls\MapCustom\ObjTip.xaml.cs">
       <DependentUpon>ObjTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ReplayStateToVisibilityConverter.cs" />
     <Compile Include="Core\SettleSoundFile.cs" />
     <Compile Include="Events\ChangeValidIntervalEvent.cs" />
     <Compile Include="Events\GoHomePageNavigationRequest.cs" />
     <Compile Include="Events\GoLiveCaptureNavigationRequest.cs" />
     <Compile Include="Events\RefreshBuoyInfoEvent.cs" />
     <Compile Include="Events\RefreshLog.cs" />
+    <Compile Include="Events\ReplayModeEvent.cs" />
     <Compile Include="Events\ShowAboutSlide.cs" />
     <Compile Include="Events\SwitchMapModeEvent.cs" />
     <Compile Include="Splasher.cs" />

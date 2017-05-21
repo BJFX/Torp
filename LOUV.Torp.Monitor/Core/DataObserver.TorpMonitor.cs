@@ -55,6 +55,8 @@ namespace LOUV.Torp.Monitor.Core
 
                         }
                     }
+                    if (UnitCore.Instance.IsReplay)
+                        return;
                     Buoy buoy = null;
 
                     if (UnitCore.Instance.Buoy.ContainsKey(id - 1))
@@ -64,18 +66,12 @@ namespace LOUV.Torp.Monitor.Core
                     if (buoy == null)
                         return;
                     //类型标志
-                    if(e.Mode == CallMode.UDPAns)
+                    if (e.Mode == CallMode.UDPAns)
                     {
-
-                        var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
-                        dialog.Title = "浮标消息";
-                        await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
-                            dialog);
-                        var textBlock = dialog.FindChild<TextBlock>("MessageTextBlock");
-                        textBlock.Text = "已成功发送水声命令！";
-                        await TaskEx.Delay(1000);
-                        await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame, dialog);
-
+                        App.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            UnitCore.Instance.EventAggregator.PublishMessage(new LogEvent("浮标命令发送成功", LogType.OnlyInfoandClose));
+                        }));
                         return;
                     }
                     else if (e.Mode == CallMode.GPS) //gps
@@ -124,43 +120,44 @@ namespace LOUV.Torp.Monitor.Core
                     if (buoy.gps == null)
                         return;
                     UnitCore.Instance.EventAggregator.PublishMessage(new RefreshBuoyInfoEvent(id - 1));
-                    
-                    if (UnitCore.Instance.mainMap != null)
+                    App.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        UnitCore.Instance.BuoyLock.WaitOne();
-                        var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
-                        while (itor.MoveNext())
+                        if (UnitCore.Instance.mainMap != null)
                         {
-                            var marker = itor.Current;
-                            if ((int)marker.Tag == id)
+                            UnitCore.Instance.BuoyLock.WaitOne();
+                            var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
+                            while (itor.MoveNext())
                             {
-                                var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
-                                //remove possible duplicate data
-                                
-                                MonProtocol.TriangleLocate.Buoys.Remove(id);
-                                MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
-                                
-                                var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
-                                point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
-                                    UnitCore.Instance.MainMapCfg.MapOffset.Lng);
-                                if (marker.Shape is BuoyMarker buoymarker)
+                                var marker = itor.Current;
+                                if ((int)marker.Tag == id)
                                 {
-                                    
-                                    App.Current.Dispatcher.Invoke(new Action(() =>
+                                    var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
+                                    //remove possible duplicate data
+
+                                    MonProtocol.TriangleLocate.Buoys.Remove(id);
+                                    MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
+
+                                    var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
+                                    point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
+                                        UnitCore.Instance.MainMapCfg.MapOffset.Lng);
+                                    if (marker.Shape is BuoyMarker buoymarker)
                                     {
+
+
                                         buoymarker.Refresh(buoy);
                                         marker.Position = point;
-                                    }));
-                                }
-                                
-                                
-                                
-                            }
 
+                                    }
+
+
+
+                                }
+
+                            }
+                            UnitCore.Instance.BuoyLock.ReleaseMutex();
                         }
-                        UnitCore.Instance.BuoyLock.ReleaseMutex();
-                    }
-                    
+                    }));
+
                 }
                 catch (Exception ex)
                 {

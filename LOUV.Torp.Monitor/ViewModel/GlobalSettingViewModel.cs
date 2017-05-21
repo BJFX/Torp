@@ -39,6 +39,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
             TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
             ValidInterval = UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval;
+            PreAdjust = UnitCore.Instance.MonConfigueService.GetSetup().PreAdjust;
             SonarDepth = UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth;
         }
         public string Buoy01IpAddr
@@ -90,6 +91,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => ValidInterval); }
             set { SetPropertyValue(() => ValidInterval, value); }
+        }
+        public int PreAdjust
+        {
+            get { return GetPropertyValue(() => PreAdjust); }
+            set { SetPropertyValue(() => PreAdjust, value); }
         }
         public double SonarDepth
         {
@@ -196,6 +202,12 @@ namespace LOUV.Torp.Monitor.ViewModel
                 EventAggregator.PublishMessage(new LogEvent("保存声呐深度出错", LogType.Both));
                 return false;
             }
+            if (!UnitCore.Instance.MonConfigueService.SetPreAdjust(PreAdjust))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存压力校准值出错", LogType.Both));
+                return false;
+            }
+            BaseType.TeleRange.pressureadjust = PreAdjust;
             var interval = new ChangeValidIntervalEvent();
             interval.ValidInterval = ValidInterval;
             UnitCore.Instance.EventAggregator.PublishMessage(interval);

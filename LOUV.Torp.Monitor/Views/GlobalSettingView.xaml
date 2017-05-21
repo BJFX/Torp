@@ -107,6 +107,10 @@
                                 <TextBlock FontSize="18" VerticalAlignment="Center" Text="定位间隔："/>
                                 <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding ValidInterval}" Background="{x:Null}" Foreground="White" Maximum="100" Minimum="1" />
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="压力校准："/>
+                                <MetroControl:NumericUpDown  Margin="15,4,4,4" Width="100" Value="{Binding PreAdjust}" Background="{x:Null}" Foreground="White" Maximum="10000" Minimum="1" />
+                            </StackPanel>
                         </UniformGrid>
                     </StackPanel>
                 </StackPanel>

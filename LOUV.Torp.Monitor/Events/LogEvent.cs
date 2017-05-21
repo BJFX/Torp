@@ -6,6 +6,7 @@ namespace LOUV.Torp.Monitor.Events
     {
         OnlyLog,
         OnlyInfo,
+        OnlyInfoandClose,
         Both
     }
     public class LogEvent

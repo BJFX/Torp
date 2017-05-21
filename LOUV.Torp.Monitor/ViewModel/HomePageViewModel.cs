@@ -17,17 +17,22 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
+using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
     public class HomePageViewModel : ViewModelBase, IHandleMessage<ShowAboutSlide>, 
         IHandleMessage<RefreshBuoyInfoEvent>,
         IHandleMessage<SwitchMapModeEvent>,
-        IHandleMessage<ChangeValidIntervalEvent>
+        IHandleMessage<ChangeValidIntervalEvent>,
+        IHandleMessage<ReplayModeEvent>
     {
         private DispatcherTimer Dt;
+        private DispatcherTimer replayTimer;
         private List<Point3D> Path = new List<Point3D>();//target 3D track
         PointLatLng center = PointLatLng.Zero;
+        private int ReplayFileIndex = 0;
         private void CalTargetLocateCallBack(object sender, EventArgs e)
         {
             //test case
@@ -48,7 +53,7 @@ namespace LOUV.Torp.Monitor.ViewModel
 
             while (itor.MoveNext())
             {
-                log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + ")";
+                log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + " Distance" + itor.Current.Value.Range.ToString() + ")";
             }
             if (MonProtocol.TriangleLocate.UseMatrix)
             {
@@ -150,6 +155,11 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             //ObjTarget = new Target();
             ObjTarget = null;
+            StartReplayCMD = RegisterCommand(ExecuteStartReplayCMD, CanExecuteStartReplayCMD, true);
+            ResumeReplayCMD = RegisterCommand(ExecuteResumeReplayCMD, CanExecuteResumeReplayCMD, true);
+            PauseReplayCMD = RegisterCommand(ExecutePauseReplayCMD, CanExecutePauseReplayCMD, true);
+            ExitReplayCMD = RegisterCommand(ExecuteExitReplayCMD, CanExecuteExitReplayCMD, true);
+            ReplayState = 0;//0:normal,1:replaying,2:pause
             Dt = new DispatcherTimer(TimeSpan.FromSeconds(UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
             Buoy1 = (Buoy)UnitCore.Instance.Buoy[0];
             Buoy2 = (Buoy)UnitCore.Instance.Buoy[1];
@@ -652,9 +662,25 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => ObjectCenter); }
             set { SetPropertyValue(() => ObjectCenter, value); }
         }
+        public bool RelplayMode
+        {
+            get { return GetPropertyValue(() => RelplayMode); }
+            set { SetPropertyValue(() => RelplayMode, value); }
+        }
+        public uint ReplayState//0:normal,1:replaying,2:pause
+        {
+            get { return GetPropertyValue(() => ReplayState); }
+            set
+            {
+                SetPropertyValue(() => ReplayState, value);
+               
+            }
+        }
         #endregion
 
         #region Event Handle
+
+
         public void Handle(ShowAboutSlide message)
         {
             AboutVisibility = message.showslide;
@@ -689,6 +715,181 @@ namespace LOUV.Torp.Monitor.ViewModel
             Dt.Start();
             
         }
+
+        public void Handle(ReplayModeEvent message)
+        {
+            RelplayMode = UnitCore.Instance.IsReplay;
+        }
         #endregion
+
+        #region Binding method
+        public ICommand StartReplayCMD
+        {
+            get { return GetPropertyValue(() => StartReplayCMD); }
+            set { SetPropertyValue(() => StartReplayCMD, value); }
+        }
+        private void CanExecuteStartReplayCMD(object sender, CanExecuteRoutedEventArgs eventArgs)
+        {
+            eventArgs.CanExecute = true;
+        }
+        private async void ExecuteStartReplayCMD(object sender, ExecutedRoutedEventArgs eventArgs)
+        {
+
+                if (ReplayState != 0)
+                {
+                    var md = new MetroDialogSettings();
+                    md.AffirmativeButtonText = "确定";
+                    md.NegativeButtonText = "取消";
+                    var ret = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "正在回放数据，确定要重新选择结果数据吗？",
+                        UnitCore.Instance.NetCore.Error, MessageDialogStyle.AffirmativeAndNegative, md);
+                    if (ret != MessageDialogResult.Affirmative)
+                    {
+                        return;
+                    }
+                }
+                //start replay
+                CleanScreen();
+
+                ReplayFileIndex = 0;
+                if (replayTimer != null)
+                    replayTimer.Stop();
+                var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["ReplayDialog"];
+                await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                    dialog);
+
+        }
+
+        private void CleanScreen()
+        {
+            TrackModel = null;
+            RmoveTrack();
+            var gpsinfo = new GpsInfo()
+            {
+                UTCTime = DateTime.UtcNow,
+                Latitude = 29.592966F,
+                Longitude = 118.983188F,
+            };
+
+            var by = new Buoy()
+            {
+                Id = 1,
+                gps = gpsinfo,
+                IP = "192.168.2.101",
+            };
+            Buoy1 = by;
+            by.Id = 2;
+            Buoy2 = by;
+            by.Id = 3;
+            Buoy3 = by;
+            by.Id = 4;
+            Buoy4 = by;
+            UnitCore.Instance.TargetObj.Latitude = 29.592966F;
+            UnitCore.Instance.TargetObj.Longitude = 118.983188F;
+            UnitCore.Instance.TargetObj.Status = "未定位";
+            RefreshBuoy(0, Buoy1);
+            RefreshBuoy(1, Buoy2);
+            RefreshBuoy(2, Buoy3);
+            RefreshBuoy(3, Buoy4);
+            RefreshTarget();
+            RefreshBuoyInfo(BuoyInfoVisible);
+        }
+
+        public ICommand ResumeReplayCMD
+        {
+            get { return GetPropertyValue(() => ResumeReplayCMD); }
+            set { SetPropertyValue(() => ResumeReplayCMD, value); }
+        }
+        private void CanExecuteResumeReplayCMD(object sender, CanExecuteRoutedEventArgs eventArgs)
+        {
+            eventArgs.CanExecute = true;
+        }
+
+        private void ExecuteResumeReplayCMD(object sender, ExecutedRoutedEventArgs eventArgs)
+        {
+            if (ReplayState != 1)
+            {
+
+                //check the filelist
+                if (UnitCore.Instance.Replaylist != null && UnitCore.Instance.Replaylist.Count > 0)
+                {
+                    if (replayTimer == null)
+                        replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(1000), DispatcherPriority.Input,
+                    ResultReplaying, Dispatcher.CurrentDispatcher);
+                    replayTimer.Start();
+                    ReplayState = 1;
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+        }
+
+        private void ResultReplaying(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICommand ExitReplayCMD
+        {
+            get { return GetPropertyValue(() => ExitReplayCMD); }
+            set { SetPropertyValue(() => ExitReplayCMD, value); }
+        }
+        private void CanExecuteExitReplayCMD(object sender, CanExecuteRoutedEventArgs eventArgs)
+        {
+            eventArgs.CanExecute = true;
+        }
+
+        private async void ExecuteExitReplayCMD(object sender, ExecutedRoutedEventArgs eventArgs)
+        {
+            var md = new MetroDialogSettings();
+            md.AffirmativeButtonText = "退出";
+            md.NegativeButtonText = "取消";
+            var ret = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame,
+                "退出回放模式",
+                "确认退出回放模式？", MessageDialogStyle.AffirmativeAndNegative, md);
+            if (ret == MessageDialogResult.Affirmative)
+            {
+                replayTimer.Stop();
+                ReplayState = 0;
+                
+                CleanScreen();
+
+            }
+
+        }
+        public ICommand PauseReplayCMD
+        {
+            get { return GetPropertyValue(() => PauseReplayCMD); }
+            set { SetPropertyValue(() => PauseReplayCMD, value); }
+        }
+        private void CanExecutePauseReplayCMD(object sender, CanExecuteRoutedEventArgs eventArgs)
+        {
+            eventArgs.CanExecute = true;
+        }
+
+        private void ExecutePauseReplayCMD(object sender, ExecutedRoutedEventArgs eventArgs)
+        {
+            if (ReplayState == 1)
+            {
+                replayTimer.Stop();
+
+                ReplayState = 2;
+                
+                return;
+            }
+            if (ReplayState == 2)
+            {
+                replayTimer.Start();
+
+                ReplayState = 1;
+                
+            }
+
+        }
+        #endregion
+
     }
 }

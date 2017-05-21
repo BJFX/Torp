@@ -59,23 +59,26 @@ namespace LOUV.Torp.Monitor.Controls
         }
         private void GoToGlobalSettings(object sender, RoutedEventArgs e)
         {
-            VM.GoToGlobalSettings();
+            if (!UnitCore.Instance.IsReplay)
+                VM.GoToGlobalSettings();
         }
 
 
         private void ShowAbout(object sender, RoutedEventArgs e)
         {
-            UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(true));
+            if (!UnitCore.Instance.IsReplay)
+                UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(true));
         }
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            VM.GoBack();
+            if(!UnitCore.Instance.IsReplay)
+                VM.GoBack();
         }
         
        
         private void Minimize(object sender, RoutedEventArgs e)
         {
-            if (MainWindow != null)
+            if (MainWindow != null&& !UnitCore.Instance.IsReplay)
             {
                 MainWindow.WindowState = WindowState.Minimized;
             }
@@ -135,6 +138,23 @@ namespace LOUV.Torp.Monitor.Controls
             UnitCore.Instance.EventAggregator.PublishMessage(new SwitchMapModeEvent());
         }
 
+        private async void BeginReplay(object sender, RoutedEventArgs e)
+        {
+            if(!UnitCore.Instance.IsReplay)
+            {
+                var md = new MetroDialogSettings();
+                md.AffirmativeButtonText = "退出";
+                md.NegativeButtonText = "取消";
+                md.ColorScheme = MetroDialogColorScheme.Accented;
+                var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "进入回放模式",
+                "实时网络通信将暂停", MessageDialogStyle.AffirmativeAndNegative, md);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    UnitCore.Instance.IsReplay = true;
+                    UnitCore.Instance.EventAggregator.PublishMessage(new ReplayModeEvent());
 
+                }
+            }
+        }
     }
 }

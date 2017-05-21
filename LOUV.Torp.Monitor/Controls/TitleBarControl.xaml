@@ -28,6 +28,7 @@
                     Grid.Row="0"
                     HorizontalAlignment="Right">
             <Button Margin="0,0,20,0" Style="{StaticResource FloorPlanAppBarButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="2D/3D地图" Click="SwitchMap"/>
+            <Button Margin="0,0,20,0" Style="{StaticResource ReStartAppBarButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="数据回放" Click="BeginReplay"/>
             <Button  VerticalAlignment="Center" Margin="0,0,20,0" Style="{StaticResource AssistantAppBarButtonStyle}" Click="ShowAbout"  HorizontalAlignment="Center" ToolTip="地图信息"/>
             <Button  Click="GoToGlobalSettings" Margin="0,0,20,0" VerticalAlignment="Center" Style="{StaticResource SettingsAppBarButtonStyle}"  HorizontalAlignment="Center" ToolTip="全局设置"/>
             <Button  Click="Minimize"  Margin="0,0,20,0" VerticalAlignment="Center" Style="{StaticResource MinimizeAppBarButtonStyle}"  HorizontalAlignment="Center" ToolTip="最小化程序"/>

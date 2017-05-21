@@ -133,6 +133,7 @@ namespace LOUV.Torp.MonitorConf
                 setup.TimeOut = GetTimeOut();
                 setup.ValidInterval = GetValidInterval();
                 setup.SonarDepth = GetSonarDepth();
+                setup.PreAdjust = GetPreAdjust();
                 return setup;
             }
             catch (Exception e)
@@ -140,6 +141,12 @@ namespace LOUV.Torp.MonitorConf
                 ex = e;
                 return null;
             }
+        }
+
+        private int GetPreAdjust()
+        {
+            string[] str = { "Setup", "PreAdjust" };
+            return int.Parse(GetValue(str));
         }
 
         private double GetSonarDepth()
@@ -183,11 +190,16 @@ namespace LOUV.Torp.MonitorConf
             string[] str = { "Setup", "UseProfile" };
             return int.Parse(GetValue(str));
         }
-
         public bool SetOffset(float offset)
         {
             string[] str = { "Setup", "FixOffset" };
             return SetValue(str, offset.ToString());
+        }
+
+        public bool SetPreAdjust(int adjust)
+        {
+            string[] str = { "Setup", "PreAdjust" };
+            return SetValue(str, adjust.ToString());
         }
         public bool SetTimeOut(int sec)
         {

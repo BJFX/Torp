@@ -12,7 +12,7 @@ namespace LOUV.Torp.ICore
         //将错误信息写入文件
         void ErrorLog(string message, Exception ex);
         //发送消息到界面
-        void Notice(string message);
+        void Notice(string message, bool autoclose = false);
         //发送消息到界面
         void Alert(string message, Exception ex=null);
         //通过UDP调试端口广播信息，用于调试

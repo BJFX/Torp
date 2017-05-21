@@ -29,4 +29,8 @@
     <BitmapImage x:Key="ico_floorplan_o" UriSource="/Assets/ico_floorplan_o.png"/>
     <BitmapImage x:Key="ico_floorplan_p" UriSource="/Assets/ico_floorplan_p.png"/>
     <BitmapImage x:Key="ico_floorplan_disable" UriSource="/Assets/ico_floorplan_disable.png"/>
+    <BitmapImage x:Key="RestartNormal" UriSource="/Assets/ico_restart_n.png"/>
+    <BitmapImage x:Key="RestartOver" UriSource="/Assets/ico_restart_o.png"/>
+    <BitmapImage x:Key="RestartPressed" UriSource="/Assets/ico_restart_p.png"/>
+    
 </ResourceDictionary>

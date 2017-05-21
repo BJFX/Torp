@@ -59,7 +59,7 @@ namespace LOUV.Torp.Monitor.Core
         private CommNet _MonConfInfo;
         public SettleSoundFile SoundFile = null;
         public string Error { get; private set; }
-
+        public bool IsReplay { get; set; }
         public bool ThreeDEnable { get; set; }//全局解析锁
         public HelixViewport3D PosView3D { get; set; }
         public Model3D BuoyModel { get; set; }//buoy 模型
@@ -75,6 +75,7 @@ namespace LOUV.Torp.Monitor.Core
         public List<PointLatLng> routePoint = new List<PointLatLng>(300);
         public bool AutoTrace = false;
         InitialData initpara = new InitialData();
+        public Hashtable Replaylist = new Hashtable();
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
@@ -95,6 +96,7 @@ namespace LOUV.Torp.Monitor.Core
             TargetRoute.Tag = 101;
             //ACMMutex = new Mutex();
             BuoyLock = new Mutex();
+            IsReplay = false;
 
         }
         public async Task<bool> LoadAssets()

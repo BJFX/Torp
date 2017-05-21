@@ -43,6 +43,7 @@ namespace LOUV.Torp.BaseType
         public int TimeOut { get; set; }
         public int ValidInterval { get; set; }
         public double SonarDepth { get; set; }
+        public int PreAdjust { get; set; }
     }
     
 
@@ -129,6 +130,7 @@ namespace LOUV.Torp.BaseType
     [Serializable]
     public class TeleRange
     {
+        public static int pressureadjust =377;
         public TeleRange()
         {
             SamplingStart = 0;
@@ -184,7 +186,7 @@ namespace LOUV.Torp.BaseType
                 if (ba == null)
                     return "";
 
-                var presure = Util.GetIntValueFromBit(ba, 20, 12);
+                var presure = (Util.GetIntValueFromBit(ba, 20, 12)- pressureadjust)* 0.133935287;
                 
                 return presure.ToString();
             }

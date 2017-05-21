@@ -7,6 +7,9 @@ using LOUV.Torp.ICore;
 using LOUV.Torp.Monitor.Helpers;
 using LOUV.Torp.Monitor.ViewModel;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+
 namespace LOUV.Torp.Monitor.Core.Controllers
 {
     /// <summary>
@@ -96,6 +99,9 @@ namespace LOUV.Torp.Monitor.Core.Controllers
                     //WriteLog(message.Message);
                     Notice(message.Message);
                     break;
+                case LogType.OnlyInfoandClose:
+                    Notice(message.Message,true);
+                    break;
                 default:
                     WriteLog(message.Message);
                     break;
@@ -121,14 +127,29 @@ namespace LOUV.Torp.Monitor.Core.Controllers
         #endregion
 
 
-        public void Notice(string message)
+        public void Notice(string message,bool autoclose = false)
         {
             var md = new MetroDialogSettings();
             md.AffirmativeButtonText = "确定";
-            App.Current.Dispatcher.Invoke(new Action(() =>
+            App.Current.Dispatcher.Invoke(new Action(async () =>
             {
-                MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "提示",
-                    message, MessageDialogStyle.Affirmative, md);
+                if (autoclose)
+                {
+                    var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["CustomInfoDialog"];
+                    dialog.Title = "消息";
+                    await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
+                        dialog);
+                    var textBlock = dialog.FindChild<TextBlock>("MessageTextBlock");
+                    textBlock.Text = message;
+                    await TaskEx.Delay(2000);
+                    await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame, dialog);
+
+                }
+                else
+                {
+                    await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "提示",
+                message, MessageDialogStyle.Affirmative, md);
+                }
             }));
         }
     }
