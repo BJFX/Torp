@@ -25,26 +25,23 @@ namespace LOUV.Torp.MonProtocol
         {
             x1 = y1 = z1 = x2 = y2 = z2 = x3 = y3 = z3 = range1 = range2 = range3 = 0;
         }
-        //validate the input 3 buoy position
-        //if their utctime is not updated then remove old data and init all local data.
-        //return true when data is updated and assign them to local viarable.
-        //need add lock when call this function
+
         //if count of buoy less then 3, return false and do nothing
-        public static bool Valid(int timeout,ref PointLatLng center)
+        public static bool Valid(ref PointLatLng center)
         {
             if (Buoys.Count < 3)
                 return false;
-            var nowtime = DateTime.UtcNow;
-            for(int i= Buoys.Count-1; i>=0; i--)
+
+            for(int i= Buoys.Count-1; i>=1; i--)
             {
-                if(Math.Abs(nowtime.Subtract(Buoys.Values[i].Time).TotalSeconds)>timeout)
+                if(Buoys.Values[i].Time != Buoys.Values[i-1].Time)
                 {
-                    Buoys.Remove(i);
+                    
+                    return false;
                 }
                 
             }
-            if (Buoys.Count < 3)
-                return false;
+            
             //find latest 3 data
             if(Buoys.Count==4 && UseMatrix)
             {
@@ -103,8 +100,8 @@ namespace LOUV.Torp.MonProtocol
                 }
                 
             }
-            
 
+            Buoys.Clear();
             return true;
         }
 

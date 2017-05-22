@@ -22,20 +22,24 @@ namespace LOUV.Torp.Monitor.Core
     public class MonitorDataObserver:Observer<CustomEventArgs>
     {
   
-        public async void Handle(object sender, CustomEventArgs e)
+        public void Handle(object sender, CustomEventArgs e)
         {
             if (e.ParseOK)
             {
               //
                 try
                 {
-                    //save
-                    UnitCore.Instance.MonTraceService.Save("ALL", e.DataBuffer);
+                    var buf = new byte[e.DataBuffer.Length + 2];
+                    
                     var ip = e.CallSrc as string;
                     int id = 0;
-                    if (ip != null)
+                    if (ip != null&&!UnitCore.Instance.IsReplay)
                     {
                         id = int.Parse(ip.Substring(ip.Length - 1));
+                        //save
+                        Buffer.BlockCopy(buf, 2, e.DataBuffer, 0, e.DataBuffer.Length);
+                        Buffer.BlockCopy(buf, 0, BitConverter.GetBytes(id), 0, 2);
+                        UnitCore.Instance.MonTraceService.Save("ALL", e.DataBuffer);
                         switch (id)
                         {
                             case 1:
@@ -55,8 +59,7 @@ namespace LOUV.Torp.Monitor.Core
 
                         }
                     }
-                    if (UnitCore.Instance.IsReplay)
-                        return;
+
                     Buoy buoy = null;
 
                     if (UnitCore.Instance.Buoy.ContainsKey(id - 1))
@@ -119,6 +122,15 @@ namespace LOUV.Torp.Monitor.Core
                     }
                     if (buoy.gps == null)
                         return;
+                    var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
+                    //remove possible duplicate data
+
+                    MonProtocol.TriangleLocate.Buoys.Remove(id);
+                    MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
+
+                    var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
+                    point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
+                        UnitCore.Instance.MainMapCfg.MapOffset.Lng);
                     UnitCore.Instance.EventAggregator.PublishMessage(new RefreshBuoyInfoEvent(id - 1));
                     App.Current.Dispatcher.Invoke(new Action(() =>
                     {
@@ -131,15 +143,7 @@ namespace LOUV.Torp.Monitor.Core
                                 var marker = itor.Current;
                                 if ((int)marker.Tag == id)
                                 {
-                                    var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
-                                    //remove possible duplicate data
-
-                                    MonProtocol.TriangleLocate.Buoys.Remove(id);
-                                    MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
-
-                                    var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
-                                    point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
-                                        UnitCore.Instance.MainMapCfg.MapOffset.Lng);
+                                    
                                     if (marker.Shape is BuoyMarker buoymarker)
                                     {
 

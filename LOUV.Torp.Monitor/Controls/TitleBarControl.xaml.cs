@@ -143,7 +143,7 @@ namespace LOUV.Torp.Monitor.Controls
             if(!UnitCore.Instance.IsReplay)
             {
                 var md = new MetroDialogSettings();
-                md.AffirmativeButtonText = "退出";
+                md.AffirmativeButtonText = "确定";
                 md.NegativeButtonText = "取消";
                 md.ColorScheme = MetroDialogColorScheme.Accented;
                 var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "进入回放模式",

@@ -75,7 +75,7 @@ namespace LOUV.Torp.Monitor.Core
         public List<PointLatLng> routePoint = new List<PointLatLng>(300);
         public bool AutoTrace = false;
         InitialData initpara = new InitialData();
-        public Hashtable Replaylist = new Hashtable();
+        public List<byte[]> Replaylist = new List<byte[]>();
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }

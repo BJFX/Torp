@@ -187,16 +187,16 @@ namespace LOUV.Torp.Monitor.ViewModel
                 EventAggregator.PublishMessage(new LogEvent("保存测距偏移出错", LogType.Both));
                 return false;
             }
-            if (!UnitCore.Instance.MonConfigueService.SetTimeOut(TimeOut))
-            {
-                EventAggregator.PublishMessage(new LogEvent("保存定位超时出错", LogType.Both));
-                return false;
-            }
-            if (!UnitCore.Instance.MonConfigueService.SetValidInterval(ValidInterval))
-            {
-                EventAggregator.PublishMessage(new LogEvent("保存定位间隔出错", LogType.Both));
-                return false;
-            }
+            //if (!UnitCore.Instance.MonConfigueService.SetTimeOut(TimeOut))
+            //{
+            //    EventAggregator.PublishMessage(new LogEvent("保存定位超时出错", LogType.Both));
+            //    return false;
+            //}
+            //if (!UnitCore.Instance.MonConfigueService.SetValidInterval(ValidInterval))
+            //{
+            //    EventAggregator.PublishMessage(new LogEvent("保存定位间隔出错", LogType.Both));
+            //    return false;
+            //}
             if (!UnitCore.Instance.MonConfigueService.SetSonarDepth(SonarDepth))
             {
                 EventAggregator.PublishMessage(new LogEvent("保存声呐深度出错", LogType.Both));

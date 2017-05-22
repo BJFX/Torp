@@ -54,7 +54,6 @@
                     Grid.ColumnSpan ="2"
                     HorizontalAlignment ="Stretch" OpacityMask="Black" Margin="10,0,0,0"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding RelplayMode, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Label Content="{Binding }" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                     <Button x:Name="OpenReplayButton" Style="{StaticResource OpenLocalAppBarButtonStyle}" Command="{Binding StartReplayCMD}" />
                     <Button x:Name="StartReplayButton" Style="{StaticResource MetroWindowButtonStyle}"  Content="回放" Command="{Binding ResumeReplayCMD}" Visibility="{Binding ReplayState, ConverterParameter=继续回放, Converter={StaticResource ReplayStateToVisibilityConverter}}" Margin="3,0"/>
                     <Button x:Name="PauseButton" Style="{StaticResource MetroWindowButtonStyle}" Content="暂停" Command="{Binding PauseReplayCMD}" Visibility="{Binding ReplayState, ConverterParameter=暂停回放, Converter={StaticResource ReplayStateToVisibilityConverter}}" Margin="3,0"/>

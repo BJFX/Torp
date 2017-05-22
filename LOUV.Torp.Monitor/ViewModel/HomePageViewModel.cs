@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
+using System.Threading.Tasks;
 using LOUV.Torp.Monitor.Events;
 using TinyMetroWpfLibrary.ViewModel;
 using TinyMetroWpfLibrary.EventAggregation;
@@ -19,6 +20,9 @@ using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using System.IO;
+using LOUV.Torp.CommLib;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -33,7 +37,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         private List<Point3D> Path = new List<Point3D>();//target 3D track
         PointLatLng center = PointLatLng.Zero;
         private int ReplayFileIndex = 0;
-        private void CalTargetLocateCallBack(object sender, EventArgs e)
+        private void CalTargetLocateCallBack()
         {
             //test case
             /*
@@ -44,7 +48,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             //
             string log = "";
             UnitCore.Instance.BuoyLock.WaitOne();
-            var valid = MonProtocol.TriangleLocate.Valid(UnitCore.Instance.MonConfigueService.GetSetup().TimeOut, ref center);
+            var valid = MonProtocol.TriangleLocate.Valid(ref center);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if (valid == false)
                 return;
@@ -160,7 +164,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             PauseReplayCMD = RegisterCommand(ExecutePauseReplayCMD, CanExecutePauseReplayCMD, true);
             ExitReplayCMD = RegisterCommand(ExecuteExitReplayCMD, CanExecuteExitReplayCMD, true);
             ReplayState = 0;//0:normal,1:replaying,2:pause
-            Dt = new DispatcherTimer(TimeSpan.FromSeconds(UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
+            //Dt = new DispatcherTimer(TimeSpan.FromSeconds(UnitCore.Instance.MonConfigueService.GetSetup().ValidInterval), DispatcherPriority.DataBind, CalTargetLocateCallBack, Dispatcher.CurrentDispatcher);
             Buoy1 = (Buoy)UnitCore.Instance.Buoy[0];
             Buoy2 = (Buoy)UnitCore.Instance.Buoy[1];
             Buoy3 = (Buoy)UnitCore.Instance.Buoy[2];
@@ -203,8 +207,6 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             AboutVisibility = false;
             MapMode = 0;
-            if(Dt.IsEnabled==false)
-                Dt.Start();
             
         }
         private void UpdateLatLong(PointLatLng center)
@@ -694,6 +696,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 RefreshBuoy(message._index, (Buoy)UnitCore.Instance.Buoy[message._index]);
             }
             UnitCore.Instance.BuoyLock.ReleaseMutex();
+            CalTargetLocateCallBack();
         }
 
         public void Handle(SwitchMapModeEvent message)
@@ -740,8 +743,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                     var md = new MetroDialogSettings();
                     md.AffirmativeButtonText = "确定";
                     md.NegativeButtonText = "取消";
-                    var ret = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame, "正在回放数据，确定要重新选择结果数据吗？",
-                        UnitCore.Instance.NetCore.Error, MessageDialogStyle.AffirmativeAndNegative, md);
+                    var ret = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMessageAsync(MainFrameViewModel.pMainFrame,"重新开始回放？", "正在回放数据，确定要重新选择回放文件吗？",
+                        MessageDialogStyle.AffirmativeAndNegative, md);
                     if (ret != MessageDialogResult.Affirmative)
                     {
                         return;
@@ -753,10 +756,48 @@ namespace LOUV.Torp.Monitor.ViewModel
                 ReplayFileIndex = 0;
                 if (replayTimer != null)
                     replayTimer.Stop();
-                var dialog = (BaseMetroDialog)App.Current.MainWindow.Resources["ReplayDialog"];
-                await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowMetroDialogAsync(MainFrameViewModel.pMainFrame,
-                    dialog);
+            OpenFileDialog OpenFileDlg = new OpenFileDialog();
+            if (OpenFileDlg.ShowDialog() == true)
+            {
+                var ReplayFileName = OpenFileDlg.FileName;
+                if (UnitCore.Instance.Replaylist == null)
+                    UnitCore.Instance.Replaylist = new List<byte[]>();
+                var tsk = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowProgressAsync(MainFrameViewModel.pMainFrame, "请稍候", "正在处理回放数据...", false);
+                tsk.SetIndeterminate();
+                SplitDataFile(ReplayFileName);
+                await TaskEx.Delay(2000);
+                await tsk.CloseAsync();
+            }
 
+        }
+
+        private void SplitDataFile(string replayFileName)
+        {
+            FileStream file;
+
+            using (file = new FileStream(replayFileName, FileMode.Open))
+            {
+                UnitCore.Instance.Replaylist.Clear();
+                var bytes = new byte[1034];//add 2 byte ip address
+                while (file.Read(bytes, 0, 1034)>0)
+                {
+
+                    switch (BitConverter.ToInt16(bytes, 2))
+                    {
+                        case 0x0128:
+                        case 0x0129:
+                        case 0x012A:
+                            UnitCore.Instance.Replaylist.Add(bytes);
+                            break;
+                        case 0x012B:
+                            //udp ans
+                            break;
+
+                    }
+                    
+                }
+
+            }
         }
 
         private void CleanScreen()
@@ -813,7 +854,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 if (UnitCore.Instance.Replaylist != null && UnitCore.Instance.Replaylist.Count > 0)
                 {
                     if (replayTimer == null)
-                        replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(1000), DispatcherPriority.Input,
+                        replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(500), DispatcherPriority.Input,
                     ResultReplaying, Dispatcher.CurrentDispatcher);
                     replayTimer.Start();
                     ReplayState = 1;
@@ -829,7 +870,34 @@ namespace LOUV.Torp.Monitor.ViewModel
 
         private void ResultReplaying(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var bytes = UnitCore.Instance.Replaylist[ReplayFileIndex];//must be 1034 bytes
+            CallMode mode = CallMode.GPS;
+            var ip = BitConverter.ToInt16(bytes, 0);
+            switch (BitConverter.ToInt16(bytes, 2))
+            {
+                case 0x0128:
+                    mode = CallMode.Range;
+                    break;
+                case 0x0129:
+                    mode = CallMode.TeleRange;
+                    break;
+                case 0x012A:
+                    mode = CallMode.GPS;
+                    break;
+                case 0x012B:
+                    return;
+
+            }
+            var arg = new CustomEventArgs(0, null, bytes, bytes.Length, true, null, mode, "192.168.2."+ip.ToString());
+            UnitCore.Instance.Observer.Handle(this, arg);
+            ReplayFileIndex++;
+            if (ReplayFileIndex == UnitCore.Instance.Replaylist.Count)
+            {
+                ReplayFileIndex = 0;
+                replayTimer.Stop();
+                ReplayState = 0;
+            }
+
         }
 
         public ICommand ExitReplayCMD
