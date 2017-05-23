@@ -25,7 +25,7 @@ namespace LOUV.Torp.Monitor.Converters
                         return Visibility.Collapsed;
                         break;
                     case "退出回放":
-                        return Visibility.Collapsed;
+                        return Visibility.Visible;
                         break;
                     default:
                         return Visibility.Visible;

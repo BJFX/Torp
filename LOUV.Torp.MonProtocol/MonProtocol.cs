@@ -67,7 +67,7 @@ namespace LOUV.Torp.MonProtocol
             }
             if (range.PeakPosition < 0)
                 range.PeakPosition += 160000;
-            var distance = range.PeakPosition / 80000 * Velocity + FixedOffset;
+            var distance = (float)(range.PeakPosition * Velocity / 80000.0  + FixedOffset);
             return distance <0?0: distance;
         }
         public static float CalDistanceByTele(LiteRange literange,TeleRange telerange)

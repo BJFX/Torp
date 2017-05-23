@@ -5,6 +5,7 @@ using System.Text;
 using LOUV.Torp.BaseType;
 using System.Diagnostics;
 using GMap.NET;
+using System.Collections;
 
 namespace LOUV.Torp.MonProtocol
 {
@@ -31,17 +32,41 @@ namespace LOUV.Torp.MonProtocol
         {
             if (Buoys.Count < 3)
                 return false;
-
-            for(int i= Buoys.Count-1; i>=1; i--)
+            var sorttable = new Hashtable();
+            DateTime t = DateTime.Today;
+            for(int i= Buoys.Count-1; i>=0; i--)
             {
-                if(Buoys.Values[i].Time != Buoys.Values[i-1].Time)
+                if (sorttable.ContainsKey(Buoys.Values[i].Time))
                 {
-                    
-                    return false;
+                    int n = (int)sorttable[Buoys.Values[i].Time];
+                    sorttable[Buoys.Values[i].Time] = n + 1;
+                    if (n + 1 >= 3)
+                        t = Buoys.Values[i].Time;//most 
+                }
+                else
+                {
+                    sorttable.Add(Buoys.Values[i].Time, 1);
                 }
                 
             }
             
+            if (!sorttable.ContainsValue(3) && !sorttable.ContainsValue(4))
+            {
+                return false;
+            }
+            if(sorttable.ContainsValue(3) && Buoys.Count == 4)
+            {
+                //remove unused buoy
+                for (int i = Buoys.Count - 1; i >= 0; i--)
+                {
+                   if(Buoys.Values[i].Time!=t)
+                    {
+                        Buoys.RemoveAt(i);
+                        break;
+                    }
+
+                }
+            }
             //find latest 3 data
             if(Buoys.Count==4 && UseMatrix)
             {

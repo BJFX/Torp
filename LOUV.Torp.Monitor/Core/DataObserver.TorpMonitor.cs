@@ -33,13 +33,14 @@ namespace LOUV.Torp.Monitor.Core
                     
                     var ip = e.CallSrc as string;
                     int id = 0;
+                    id = Int16.Parse(ip.Substring(ip.Length - 1));
                     if (ip != null&&!UnitCore.Instance.IsReplay)
                     {
-                        id = int.Parse(ip.Substring(ip.Length - 1));
+                        
                         //save
-                        Buffer.BlockCopy(buf, 2, e.DataBuffer, 0, e.DataBuffer.Length);
-                        Buffer.BlockCopy(buf, 0, BitConverter.GetBytes(id), 0, 2);
-                        UnitCore.Instance.MonTraceService.Save("ALL", e.DataBuffer);
+                        Buffer.BlockCopy( e.DataBuffer, 0, buf, 2, e.DataBuffer.Length);
+                        Buffer.BlockCopy(BitConverter.GetBytes(id), 0, buf, 0, 2);
+                        UnitCore.Instance.MonTraceService.Save("ALL", buf);
                         switch (id)
                         {
                             case 1:
@@ -122,12 +123,14 @@ namespace LOUV.Torp.Monitor.Core
                     }
                     if (buoy.gps == null)
                         return;
-                    var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
-                    //remove possible duplicate data
-
-                    MonProtocol.TriangleLocate.Buoys.Remove(id);
-                    MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
-
+                    if(buoy.Range>0.5)
+                    {
+                        var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
+                        //remove possible duplicate data
+                        MonProtocol.TriangleLocate.Buoys.Remove(id);
+                        MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
+                    }
+                    
                     var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
                     point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                         UnitCore.Instance.MainMapCfg.MapOffset.Lng);

@@ -54,10 +54,15 @@ namespace LOUV.Torp.Monitor.ViewModel
                 return;
             Locate3D targetpos = new Locate3D(DateTime.UtcNow);
             var itor = MonProtocol.TriangleLocate.Buoys.GetEnumerator();
-
+            float presure = 0.0f;
             while (itor.MoveNext())
             {
                 log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + " Distance" + itor.Current.Value.Range.ToString() + ")";
+                var p = float.Parse(((Buoy)UnitCore.Instance.Buoy[itor.Current.Key - 1]).teleRange.Presure);
+                if(((Buoy)UnitCore.Instance.Buoy[itor.Current.Key - 1]).teleRange.Crc==0)
+                {
+                    presure = p;
+                }
             }
             if (MonProtocol.TriangleLocate.UseMatrix)
             {
@@ -73,7 +78,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                         UTCTime = targetpos.Time,
                         Longitude = (float)Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
                         Latitude = (float)Util.LatOffset(targetpos.centerLat, targetpos.Y),
-                        Depth = (float)(targetpos.Z + UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth),
+                        Depth = presure,// (float)(targetpos.Z + UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth),
                     };
                     log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude;
                     RefreshTarget();
@@ -97,7 +102,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                     UTCTime = DateTime.UtcNow,
                     Longitude = (float)result[1],
                     Latitude = (float)result[0],
-                    Depth = (float)result[2],
+                    Depth = presure,//(float)result[2],
                 };
                 Dxy = (float)result[3];
                 log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj.Longitude + "  lat:" + UnitCore.Instance.TargetObj.Latitude + " D="+ Dxy.ToString("F06");
@@ -765,8 +770,13 @@ namespace LOUV.Torp.Monitor.ViewModel
                 var tsk = await MainFrameViewModel.pMainFrame.DialogCoordinator.ShowProgressAsync(MainFrameViewModel.pMainFrame, "请稍候", "正在处理回放数据...", false);
                 tsk.SetIndeterminate();
                 SplitDataFile(ReplayFileName);
-                await TaskEx.Delay(2000);
+                await TaskEx.Delay(1000);
                 await tsk.CloseAsync();
+                ReplayState = 1;
+                if (replayTimer == null)
+                    replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(500), DispatcherPriority.Input,
+                ResultReplaying, Dispatcher.CurrentDispatcher);
+                replayTimer.Start();
             }
 
         }
@@ -781,13 +791,14 @@ namespace LOUV.Torp.Monitor.ViewModel
                 var bytes = new byte[1034];//add 2 byte ip address
                 while (file.Read(bytes, 0, 1034)>0)
                 {
-
+                    var buf = new byte[1034];
+                    Buffer.BlockCopy(bytes, 0, buf, 0, 1034);
                     switch (BitConverter.ToInt16(bytes, 2))
                     {
                         case 0x0128:
                         case 0x0129:
                         case 0x012A:
-                            UnitCore.Instance.Replaylist.Add(bytes);
+                            UnitCore.Instance.Replaylist.Add(buf);
                             break;
                         case 0x012B:
                             //udp ans
@@ -888,7 +899,9 @@ namespace LOUV.Torp.Monitor.ViewModel
                     return;
 
             }
-            var arg = new CustomEventArgs(0, null, bytes, bytes.Length, true, null, mode, "192.168.2."+ip.ToString());
+            var buf = new byte[1032];
+            Buffer.BlockCopy(bytes, 2, buf, 0, 1032);
+            var arg = new CustomEventArgs(0, null, buf, buf.Length, true, null, mode, "192.168.2."+ip.ToString());
             UnitCore.Instance.Observer.Handle(this, arg);
             ReplayFileIndex++;
             if (ReplayFileIndex == UnitCore.Instance.Replaylist.Count)
@@ -922,7 +935,8 @@ namespace LOUV.Torp.Monitor.ViewModel
             {
                 replayTimer.Stop();
                 ReplayState = 0;
-                
+                UnitCore.Instance.IsReplay = false;
+                RelplayMode = UnitCore.Instance.IsReplay;
                 CleanScreen();
 
             }

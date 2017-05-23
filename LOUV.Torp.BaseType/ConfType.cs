@@ -136,7 +136,7 @@ namespace LOUV.Torp.BaseType
             SamplingStart = 0;
             RecvDelay = 0;
             ModemStyle = 0;
-            Crc = 1;//error
+            Crc = 0;//1:error
             Dopple = 0;
             MsgLength = 19;
             Msg = null;

@@ -57,15 +57,31 @@ namespace LOUV.Torp.Monitor.Controls
                 return _mainWindow; 
             }
         }
-        private void GoToGlobalSettings(object sender, RoutedEventArgs e)
+        private async void GoToGlobalSettings(object sender, RoutedEventArgs e)
         {
+            if (UnitCore.Instance.IsReplay)
+            {
+                var md = new MetroDialogSettings();
+                md.AffirmativeButtonText = "确定";
+                md.ColorScheme = MetroDialogColorScheme.Accented;
+                var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "无法修改配置",
+                "请先退出回放模式", MessageDialogStyle.Affirmative, md);
+            }
             if (!UnitCore.Instance.IsReplay)
                 VM.GoToGlobalSettings();
         }
 
 
-        private void ShowAbout(object sender, RoutedEventArgs e)
+        private async void ShowAbout(object sender, RoutedEventArgs e)
         {
+            if (UnitCore.Instance.IsReplay)
+            {
+                var md = new MetroDialogSettings();
+                md.AffirmativeButtonText = "确定";
+                md.ColorScheme = MetroDialogColorScheme.Accented;
+                var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "无法修改地图",
+                "请先退出回放模式", MessageDialogStyle.Affirmative, md);
+            }
             if (!UnitCore.Instance.IsReplay)
                 UnitCore.Instance.EventAggregator.PublishMessage(new ShowAboutSlide(true));
         }
@@ -76,8 +92,16 @@ namespace LOUV.Torp.Monitor.Controls
         }
         
        
-        private void Minimize(object sender, RoutedEventArgs e)
+        private async void Minimize(object sender, RoutedEventArgs e)
         {
+            if(UnitCore.Instance.IsReplay)
+            {
+                var md = new MetroDialogSettings();
+                md.AffirmativeButtonText = "确定";
+                md.ColorScheme = MetroDialogColorScheme.Accented;
+                var result = await VM.DialogCoordinator.ShowMessageAsync(VM, "无法最小化",
+                "请先退出回放模式", MessageDialogStyle.Affirmative, md);
+            }
             if (MainWindow != null&& !UnitCore.Instance.IsReplay)
             {
                 MainWindow.WindowState = WindowState.Minimized;
