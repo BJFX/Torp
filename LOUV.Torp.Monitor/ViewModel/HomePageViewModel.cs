@@ -281,9 +281,12 @@ namespace LOUV.Torp.Monitor.ViewModel
                     UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
                     UnitCore.Instance.BuoyLock.ReleaseMutex();
                     UnitCore.Instance.routePoint.Remove(PointLatLng.Zero);
+                   
                     UnitCore.Instance.routePoint.Add(point);
-                    if (UnitCore.Instance.routePoint.Count > 300)
-                        UnitCore.Instance.routePoint.RemoveAt(0);
+                    //if (UnitCore.Instance.routePoint.Count > 300)
+                    //    UnitCore.Instance.routePoint.RemoveAt(0);
+                    if (UnitCore.Instance.routePoint.Count == 1)
+                        return;
                     UnitCore.Instance.TargetRoute = new GMapMarker(UnitCore.Instance.routePoint[0]);
                     {
                         UnitCore.Instance.TargetRoute.Tag = 101;
@@ -539,7 +542,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                     var m = new Model3DGroup();
                     var gm = new MeshBuilder();
                     gm.AddTube(Path, 18, 10, false);
-                    m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Gold));
+                    m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Red));
                     TrackModel = m;
                 }
                 SetPropertyValue(() => TrackVisible, value);
@@ -548,6 +551,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         private void RmoveTrack()
         {
+            UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
             TrackVisible = false;
             Path.RemoveAll((s) => { return s != null; });
 
@@ -577,7 +581,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 var m = new Model3DGroup();
                 var gm = new MeshBuilder();
                 gm.AddTube(Path, 18, 10, false);
-                m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Gold));
+                m.Children.Add(new GeometryModel3D(gm.ToMesh(), Materials.Red));
                 TrackModel = m;
             }
         }
@@ -774,7 +778,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 await tsk.CloseAsync();
                 ReplayState = 1;
                 if (replayTimer == null)
-                    replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(500), DispatcherPriority.Input,
+                    replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(200), DispatcherPriority.Input,
                 ResultReplaying, Dispatcher.CurrentDispatcher);
                 replayTimer.Start();
             }
@@ -865,7 +869,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 if (UnitCore.Instance.Replaylist != null && UnitCore.Instance.Replaylist.Count > 0)
                 {
                     if (replayTimer == null)
-                        replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(500), DispatcherPriority.Input,
+                        replayTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(200), DispatcherPriority.Input,
                     ResultReplaying, Dispatcher.CurrentDispatcher);
                     replayTimer.Start();
                     ReplayState = 1;
