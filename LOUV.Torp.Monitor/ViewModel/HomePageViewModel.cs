@@ -58,12 +58,22 @@ namespace LOUV.Torp.Monitor.ViewModel
             while (itor.MoveNext())
             {
                 log += "(" + itor.Current.Key.ToString() + ":" + "Lat" + itor.Current.Value.Lat.ToString() + "  Long" + itor.Current.Value.Lng.ToString() + " Distance" + itor.Current.Value.Range.ToString() + ")";
-                var p = float.Parse(((Buoy)UnitCore.Instance.Buoy[itor.Current.Key - 1]).teleRange.Presure);
-                if(((Buoy)UnitCore.Instance.Buoy[itor.Current.Key - 1]).teleRange.Crc==0)
+                
+            }
+            
+
+            for(int i=0;i<4;i++)
+            {
+                
+                if (((Buoy)UnitCore.Instance.Buoy[i]).teleRange.Crc == 0)
                 {
-                    presure = p;
+                    float p;
+                    var ret = float.TryParse(((Buoy)UnitCore.Instance.Buoy[i]).teleRange.Presure,out p);
+                    if(ret)
+                        presure = p;
                 }
             }
+            
             if (MonProtocol.TriangleLocate.UseMatrix)
             {
                 Dxy = 0;
@@ -176,7 +186,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy4 = (Buoy)UnitCore.Instance.Buoy[3];
             CamPos = "0,0,4000";
             TrackVisible = false;
-            
+            ReplaySpeed = 1;
             ///test case
             /*Buoy1 = new Buoy(1);
             Buoy1.gps.Latitude = 29.55774f;
@@ -687,6 +697,22 @@ namespace LOUV.Torp.Monitor.ViewModel
                
             }
         }
+        public int ReplaySpeed
+        {
+            get { return GetPropertyValue(() => ReplaySpeed); }
+            set
+            {
+                if (replayTimer != null)
+                {
+                    replayTimer.Stop();
+                    replayTimer.Interval =TimeSpan.FromMilliseconds( 200 / value);
+                    replayTimer.Start();
+                }
+                SetPropertyValue(() => ReplaySpeed, value);
+
+            }
+        }
+
         #endregion
 
         #region Event Handle

@@ -125,7 +125,7 @@ namespace LOUV.Torp.Monitor.Core
                         return;
                     if(buoy.Range>0.5)
                     {
-                        var lpoint = new Locate2D(buoy.gps.UTCTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
+                        var lpoint = new Locate2D(buoy.RangeTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
                         //remove possible duplicate data
                         MonProtocol.TriangleLocate.Buoys.Remove(id);
                         MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);

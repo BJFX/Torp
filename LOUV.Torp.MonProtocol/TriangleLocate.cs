@@ -255,7 +255,7 @@ namespace LOUV.Torp.MonProtocol
                             distanceTemp = disTemp[0] * disTemp[0] + disTemp[1] * disTemp[1] + disTemp[2] * disTemp[2];
                             if (buoyNum >= 4)
                             {
-                                distanceTemp = distanceTemp + disTemp[3] * disTemp[3];
+                                distanceTemp = distanceTemp + (disTemp[3] - earthRadius) * (disTemp[3] - earthRadius);
                             }
                             if (distanceTemp < distanceMin)
                             {

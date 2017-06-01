@@ -73,6 +73,22 @@ namespace LOUV.Torp.BaseType
                 return gps.UTCTime.ToLongTimeString();
             }
         }
+        public DateTime RangeTime
+        {
+            get
+            {
+                if (teleRange != null)
+                {
+                    return teleRange.Time;
+                }
+                else
+                {
+                    if(gps!=null)
+                        return gps.UTCTime;
+                    return DateTime.UtcNow;
+                }
+            }
+        }
         public int Id { get; set; }
         //public string Memo { get; set; }
         public float Range { get; set; }
@@ -126,6 +142,7 @@ namespace LOUV.Torp.BaseType
             RecvGain = 0;
             PeakPosition = 0;
         }
+        
     }
     [Serializable]
     public class TeleRange
@@ -177,6 +194,24 @@ namespace LOUV.Torp.BaseType
                 var secs = Util.GetIntValueFromBit(ba, 3, 17);
                 var time = DateTime.UtcNow.Date.AddSeconds(secs);
                 return time.ToLongTimeString();
+            }
+        }
+        public DateTime Time
+        {
+            get
+            {
+                if (ba == null)
+                    return DateTime.UtcNow;
+                if(Crc==0)
+                {
+                    var secs = Util.GetIntValueFromBit(ba, 3, 17);
+                    return DateTime.UtcNow.Date.AddSeconds(secs);
+                }
+                else
+                {
+                    return DateTime.UtcNow.Date.AddSeconds(SamplingStart);
+                }
+
             }
         }
         public string Presure

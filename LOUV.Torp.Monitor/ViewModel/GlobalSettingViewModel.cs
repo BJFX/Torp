@@ -210,7 +210,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             BaseType.TeleRange.pressureadjust = PreAdjust;
             var interval = new ChangeValidIntervalEvent();
             interval.ValidInterval = ValidInterval;
-            UnitCore.Instance.EventAggregator.PublishMessage(interval);
+            //UnitCore.Instance.EventAggregator.PublishMessage(interval);
             return true;
         }
 

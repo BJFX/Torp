@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Height="48" Width="48">
+             Height="24" Width="24">
     <Grid>
-        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/ico_coordinate.png" Margin="0,0,0,-48" />
+        <Image Name="icon" Source="/LOUV.Torp.Monitor;component/Assets/circle.ico" Margin="0,0,0,-24" />
     </Grid>
 </UserControl>
