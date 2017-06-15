@@ -48,7 +48,6 @@
                     Foreground="White"
                     Title="{Binding Home_Brand, Mode=OneWay, Source={StaticResource Resources}}"
                     Grid.Row ="0"
-                    TitleImageSource="/Assets/3935.png"
                     BackButtonVisibility="Collapsed"
                     Grid.Column ="1"
                     Grid.ColumnSpan ="2"

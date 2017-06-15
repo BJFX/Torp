@@ -136,10 +136,10 @@
     <value>串口服务正常</value>
   </data>
   <data name="GLOBALSETTING_Title_Top" xml:space="preserve">
-    <value>浮标水声通信平台参数</value>
+    <value>水下航行器遥测遥控显控平台参数</value>
   </data>
   <data name="Home_Brand" xml:space="preserve">
-    <value>浮标水声通信平台</value>
+    <value>水下航行器遥测遥控显控平台</value>
   </data>
   <data name="Home_Brand_LOAT" xml:space="preserve">
     <value>水下航行器信息技术重点实验室</value>
@@ -160,16 +160,16 @@
     <value>基本设置</value>
   </data>
   <data name="Home_Title_ApplicationName" xml:space="preserve">
-    <value>水声监控显控</value>
+    <value>水下航行器遥测遥控显控平台</value>
   </data>
   <data name="Live_Title_Top" xml:space="preserve">
     <value>水声监控平台设置-实时监控</value>
   </data>
   <data name="Mon_ApplicationName" xml:space="preserve">
-    <value>水声监控系统程序</value>
+    <value>水下航行器遥测遥控显控平台</value>
   </data>
   <data name="Mon_RUNNING" xml:space="preserve">
-    <value>水声监控系统正在运行</value>
+    <value>水下航行器遥测遥控显控平台正在运行</value>
   </data>
   <data name="NETWORK_DOWN" xml:space="preserve">
     <value>网络未连接</value>
@@ -181,7 +181,7 @@
     <value>网络已连接</value>
   </data>
   <data name="SPLASH_BAND" xml:space="preserve">
-    <value>水声监控系统</value>
+    <value>水下航行器遥测遥控显控平台</value>
   </data>
   <data name="SPLASH_BAND_DESCRIPTION" xml:space="preserve">
     <value>多点浮标通信、位置呈现、目标监控</value>
@@ -193,7 +193,7 @@
     <value> © 2017 中国科学院声学研究所 </value>
   </data>
   <data name="SPLASH_PRODUCT_NAME" xml:space="preserve">
-    <value>浮标水声通信主控程序</value>
+    <value>水下航行器遥测遥控显控平台</value>
   </data>
   <data name="SPLASH_RIGHT_RESERVER" xml:space="preserve">
     <value>版权所有</value>

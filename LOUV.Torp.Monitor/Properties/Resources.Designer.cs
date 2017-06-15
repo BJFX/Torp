@@ -115,7 +115,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 浮标水声通信平台参数.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台参数.
         /// </summary>
         public static string GLOBALSETTING_Title_Top {
             get {
@@ -124,7 +124,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 浮标水声通信平台.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台.
         /// </summary>
         public static string Home_Brand {
             get {
@@ -187,7 +187,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 水声监控显控.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台.
         /// </summary>
         public static string Home_Title_ApplicationName {
             get {
@@ -205,7 +205,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 水声监控系统程序.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台.
         /// </summary>
         public static string Mon_ApplicationName {
             get {
@@ -214,7 +214,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 水声监控系统正在运行.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台正在运行.
         /// </summary>
         public static string Mon_RUNNING {
             get {
@@ -250,7 +250,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 水声监控系统.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台.
         /// </summary>
         public static string SPLASH_BAND {
             get {
@@ -286,7 +286,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 浮标水声通信主控程序.
+        ///   Looks up a localized string similar to 水下航行器遥测遥控显控平台.
         /// </summary>
         public static string SPLASH_PRODUCT_NAME {
             get {

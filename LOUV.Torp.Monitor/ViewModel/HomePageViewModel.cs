@@ -561,6 +561,7 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         private void RmoveTrack()
         {
+            //UnitCore.Instance.routePoint.RemoveAll((s) => { return s != null; });
             UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
             TrackVisible = false;
             Path.RemoveAll((s) => { return s != null; });
@@ -865,14 +866,14 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy3 = by;
             by.Id = 4;
             Buoy4 = by;
-            UnitCore.Instance.TargetObj.Latitude = 29.592966F;
-            UnitCore.Instance.TargetObj.Longitude = 118.983188F;
-            UnitCore.Instance.TargetObj.Status = "未定位";
+            //UnitCore.Instance.TargetObj.Latitude = 29.592966F;
+            //UnitCore.Instance.TargetObj.Longitude = 118.983188F;
+            //UnitCore.Instance.TargetObj.Status = "未定位";
             RefreshBuoy(0, Buoy1);
             RefreshBuoy(1, Buoy2);
             RefreshBuoy(2, Buoy3);
             RefreshBuoy(3, Buoy4);
-            RefreshTarget();
+            
             RefreshBuoyInfo(BuoyInfoVisible);
         }
 
