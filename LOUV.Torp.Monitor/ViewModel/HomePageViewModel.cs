@@ -247,12 +247,27 @@ namespace LOUV.Torp.Monitor.ViewModel
             latTop3 = Util.LatOffset(center.Lat, 2000);
 
         }
-        private void RefreshTarget()
+        private void RefreshTarget(uint id)
         {
             ObjectMarker targetMarker = null;
             GMapMarker target = null;
-            ObjTarget = null;
-            ObjTarget = UnitCore.Instance.TargetObj;
+            GMapMarker route = null;
+            Target ObjTarget = null;
+            List<PointLatLng> routePoint = null;
+            if (id== UnitCore.Instance.TargetObj1.ID)
+            {
+                ObjTarget1 = UnitCore.Instance.TargetObj1;
+                ObjTarget = ObjTarget1;
+                route = UnitCore.Instance.TargetRoute1;
+                routePoint = UnitCore.Instance.routePoint1;
+            }
+            else
+            {
+                ObjTarget2 = UnitCore.Instance.TargetObj2;
+                ObjTarget = ObjTarget2;
+                route = UnitCore.Instance.TargetRoute2;
+                routePoint = UnitCore.Instance.routePoint2;
+            }
             //refresh 2D target
             if (MapMode==0)
             {
@@ -263,7 +278,16 @@ namespace LOUV.Torp.Monitor.ViewModel
                     {
                         var marker = itor.Current;
 
-                        if ((int)marker.Tag == 901)//900+1,2,3,4...
+                        if ((id == UnitCore.Instance.TargetObj1.ID)&&(int)marker.Tag == 901)//900+1,2,3,4...
+                        {
+                            if (marker.Shape is ObjectMarker obj)
+                            {
+                                targetMarker = obj;
+                                target = marker;
+                            }
+                            break;
+                        }
+                        if ((id == UnitCore.Instance.TargetObj2.ID) && (int)marker.Tag == 902)//900+1,2,3,4...
                         {
                             if (marker.Shape is ObjectMarker obj)
                             {
@@ -279,36 +303,39 @@ namespace LOUV.Torp.Monitor.ViewModel
                 
                 App.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    targetMarker.Refresh(UnitCore.Instance.TargetObj);
-                    var point = new PointLatLng(UnitCore.Instance.TargetObj.Latitude, 
-                        UnitCore.Instance.TargetObj.Longitude);
+                    targetMarker.Refresh(ObjTarget);
+                    var point = new PointLatLng(ObjTarget.Latitude,
+                        ObjTarget.Longitude);
                     point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                         UnitCore.Instance.MainMapCfg.MapOffset.Lng);
                     target.Position = point;
                     //remove legacy route
-                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute);
+                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(route);
                     UnitCore.Instance.BuoyLock.WaitOne();
-                    UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+                    UnitCore.Instance.mainMap.Markers.Remove(route);
                     UnitCore.Instance.BuoyLock.ReleaseMutex();
-                    UnitCore.Instance.routePoint.Remove(PointLatLng.Zero);
-                   
-                    UnitCore.Instance.routePoint.Add(point);
+                    routePoint.Remove(PointLatLng.Zero);
+
+                    routePoint.Add(point);
                     //if (UnitCore.Instance.routePoint.Count > 300)
                     //    UnitCore.Instance.routePoint.RemoveAt(0);
-                    if (UnitCore.Instance.routePoint.Count == 1)
+                    if (routePoint.Count == 1)
                         return;
-                    UnitCore.Instance.TargetRoute = new GMapMarker(UnitCore.Instance.routePoint[0]);
+                    route = new GMapMarker(routePoint[0]);
                     {
-                        UnitCore.Instance.TargetRoute.Tag = 101;
-                        UnitCore.Instance.TargetRoute.Route.AddRange(UnitCore.Instance.routePoint);
-                        UnitCore.Instance.TargetRoute.RegenerateRouteShape(UnitCore.Instance.mainMap);
+                        if (id == UnitCore.Instance.TargetObj1.ID)
+                            route.Tag = 101;
+                        if (id == UnitCore.Instance.TargetObj1.ID)
+                            route.Tag = 102;
+                        route.Route.AddRange(routePoint);
+                        route.RegenerateRouteShape(UnitCore.Instance.mainMap);
 
-                        UnitCore.Instance.TargetRoute.ZIndex = -1;
+                        route.ZIndex = -1;
                     }
                     if(isExist)
                     {
                         UnitCore.Instance.BuoyLock.WaitOne();
-                        UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
+                        UnitCore.Instance.mainMap.Markers.Add(route);
                         UnitCore.Instance.BuoyLock.ReleaseMutex();
                     }
                         
@@ -562,7 +589,8 @@ namespace LOUV.Torp.Monitor.ViewModel
         private void RmoveTrack()
         {
             //UnitCore.Instance.routePoint.RemoveAll((s) => { return s != null; });
-            UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+            UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute1);
+            UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute2);
             TrackVisible = false;
             Path.RemoveAll((s) => { return s != null; });
 
@@ -627,10 +655,15 @@ namespace LOUV.Torp.Monitor.ViewModel
             set { SetPropertyValue(() => MapMode, value); }
         }
 
-        public Target ObjTarget
+        public Target ObjTarget1
         {
-            get { return GetPropertyValue(() => ObjTarget); }
-            set { SetPropertyValue(() => ObjTarget, value); }
+            get { return GetPropertyValue(() => ObjTarget1); }
+            set { SetPropertyValue(() => ObjTarget1, value); }
+        }
+        public Target ObjTarget2
+        {
+            get { return GetPropertyValue(() => ObjTarget2); }
+            set { SetPropertyValue(() => ObjTarget2, value); }
         }
         public Buoy Buoy1
         {

@@ -242,7 +242,7 @@ namespace LOUV.Torp.BaseType
     {
         public string Name { get; set; }
         public string Status { get; set; }
-
+        public uint ID { get; set; }
         public string Time
         {
             get { return UTCTime.ToLongTimeString(); }

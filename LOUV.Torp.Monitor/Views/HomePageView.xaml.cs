@@ -352,10 +352,15 @@ namespace LOUV.Torp.Monitor.Views
             UnitCore.Instance.BuoyLock.WaitOne();
             if (ShowTrace.IsChecked==true)
             {
-                UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute);
+                UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute1);
+                UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute2);
             }
             else
-                UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute);
+            {
+                UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute1);
+                UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute2);
+            }
+                
             UnitCore.Instance.BuoyLock.ReleaseMutex();
         }
 
@@ -414,13 +419,21 @@ namespace LOUV.Torp.Monitor.Views
                 }
                 marker.Position.Offset(GpsTomapOffset);
             }
-            var targetmarker = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
+            var targetmarker1 = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
             {
-                targetmarker.Shape = new ObjectMarker(this, targetmarker, UnitCore.Instance.TargetObj);
-                targetmarker.Offset = new Point(-15, -15);
-                targetmarker.ZIndex = int.MaxValue;
-                targetmarker.Tag = 901;
-                MainMap.Markers.Add(targetmarker);
+                targetmarker1.Shape = new ObjectMarker(this, targetmarker1, UnitCore.Instance.TargetObj1);
+                targetmarker1.Offset = new Point(-15, -15);
+                targetmarker1.ZIndex = int.MaxValue;
+                targetmarker1.Tag = 901;
+                MainMap.Markers.Add(targetmarker1);
+            }
+            var targetmarker2 = new GMapMarker(new PointLatLng(0, 0));//default(0,0)
+            {
+                targetmarker2.Shape = new ObjectMarker(this, targetmarker2, UnitCore.Instance.TargetObj2);
+                targetmarker2.Offset = new Point(-15, -15);
+                targetmarker2.ZIndex = int.MaxValue;
+                targetmarker2.Tag = 902;
+                MainMap.Markers.Add(targetmarker2);
             }
             //targetmarker.Position.Offset(GpsTomapOffset);
             UnitCore.Instance.BuoyLock.ReleaseMutex();

@@ -67,12 +67,15 @@ namespace LOUV.Torp.Monitor.Core
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
         public Hashtable Buoy = new Hashtable();
         //public Hashtable InfoBoard = new Hashtable();
-        public Target TargetObj = new Target();
+        public Target TargetObj1 = new Target();
+        public Target TargetObj2 = new Target();
         public MapCfg MainMapCfg { get; set; }//map配置
         public Setup SetupCfg { get; set; }//计算配置
         public Map mainMap = null;//指向MainMap
-        public GMapMarker TargetRoute = new GMapMarker();
-        public List<PointLatLng> routePoint = new List<PointLatLng>(300);
+        public GMapMarker TargetRoute1 = new GMapMarker();
+        public List<PointLatLng> routePoint1 = new List<PointLatLng>(300);
+        public GMapMarker TargetRoute2 = new GMapMarker();
+        public List<PointLatLng> routePoint2 = new List<PointLatLng>(300);
         public bool AutoTrace = false;
         InitialData initpara = new InitialData();
         public List<byte[]> Replaylist = new List<byte[]>();
@@ -93,7 +96,8 @@ namespace LOUV.Torp.Monitor.Core
 
         protected UnitCore()
         {
-            TargetRoute.Tag = 101;
+            TargetRoute1.Tag = 101;
+            TargetRoute2.Tag = 102;
             //ACMMutex = new Mutex();
             BuoyLock = new Mutex();
             IsReplay = false;
