@@ -23,6 +23,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.IO;
 using LOUV.Torp.CommLib;
+using LOUV.Torp.MonProtocol;
 
 namespace LOUV.Torp.Monitor.ViewModel
 {
@@ -34,6 +35,8 @@ namespace LOUV.Torp.Monitor.ViewModel
     {
         private DispatcherTimer Dt;
         private DispatcherTimer replayTimer;
+        private TriangleLocate locate1 = new TriangleLocate();
+        private TriangleLocate locate2 = new TriangleLocate();
         private List<Point3D> Path = new List<Point3D>();//target 3D track
         PointLatLng center = PointLatLng.Zero;
         private int ReplayFileIndex = 0;

@@ -12,23 +12,27 @@ namespace LOUV.Torp.MonProtocol
     public class TriangleLocate
     {
 
-        private static double x1, y1, z1,range1, x2, y2, z2,range2, x3, y3, z3,range3;
+        private  double x1, y1, z1,range1, x2, y2, z2,range2, x3, y3, z3,range3;
         private static double earthRadius = 6371.0;
-        public static SortedList<int,Locate2D> Buoys = new SortedList<int,Locate2D>(3);
-        private static double[] geoCoordinate1 = new double[3];
-        private static double[] geoCoordinate2 = new double[3];
-        private static double[] geoCoordinate3 = new double[3];
-        private static double[] geoCoordinate4 = new double[3];
-        private static double[] distanceBuoy = new double[4];
+        public  SortedList<int,Locate2D> Buoys = new SortedList<int,Locate2D>(3);
+        private  double[] geoCoordinate1 = new double[3];
+        private  double[] geoCoordinate2 = new double[3];
+        private  double[] geoCoordinate3 = new double[3];
+        private  double[] geoCoordinate4 = new double[3];
+        private  double[] distanceBuoy = new double[4];
         public static bool UseMatrix = false;
         public static double SonarDepth = 0.02;
-        public static void Init()
+        public TriangleLocate()
+        {
+            Init();
+        }
+        public void Init()
         {
             x1 = y1 = z1 = x2 = y2 = z2 = x3 = y3 = z3 = range1 = range2 = range3 = 0;
         }
 
         //if count of buoy less then 3, return false and do nothing
-        public static bool Valid(ref PointLatLng center)
+        public  bool Valid(ref PointLatLng center)
         {
             if (Buoys.Count < 3)
                 return false;
@@ -130,7 +134,7 @@ namespace LOUV.Torp.MonProtocol
             return true;
         }
 
-        public static bool CalTargetByMatrix(out Locate3D position)
+        public bool CalTargetByMatrix(out Locate3D position)
         {
             double x, y = 0;
             
@@ -173,13 +177,13 @@ namespace LOUV.Torp.MonProtocol
 
 
 
-        public static double[] CalTargetByApproach()
+        public double[] CalTargetByApproach()
         {
             return solveLongBaseEquation(geoCoordinate1, geoCoordinate2, geoCoordinate3, geoCoordinate4, 4, distanceBuoy);
 
         }
         #region method used in Approach
-        private static double[] solveLongBaseEquation(double[] buoy1, double[] buoy2, double[] buoy3, double[] buoy4, int buoyNum, double[] dis)
+        private double[] solveLongBaseEquation(double[] buoy1, double[] buoy2, double[] buoy3, double[] buoy4, int buoyNum, double[] dis)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
@@ -283,7 +287,7 @@ namespace LOUV.Torp.MonProtocol
             res[3] = Math.Sqrt(distanceMin) * 1000;
             return res;
         }
-        private static double[] degree2Sphere(double[] degree)
+        private double[] degree2Sphere(double[] degree)
         {
 
             double[] res = new double[3];
@@ -301,7 +305,7 @@ namespace LOUV.Torp.MonProtocol
 
         }
 
-        private static double[] sphere2Decare(double[] sphere)
+        private double[] sphere2Decare(double[] sphere)
         {
             double[] xyz1 = new double[3];
 
@@ -312,7 +316,7 @@ namespace LOUV.Torp.MonProtocol
             return xyz1;
         }
 
-        private static double decare2Distance(double[] decare1, double[] decare2)
+        private double decare2Distance(double[] decare1, double[] decare2)
         {
             double a = decare1[0] - decare2[0];
             double b = decare1[1] - decare2[1];
@@ -320,7 +324,7 @@ namespace LOUV.Torp.MonProtocol
 
             return Math.Sqrt(a * a + b * b + c * c);
         }
-        private static double sphere2Distance(double[] degree1, double[] degree2)
+        private double sphere2Distance(double[] degree1, double[] degree2)
         {
             double[] xyz1 = new double[3];
             double[] xyz2 = new double[3];

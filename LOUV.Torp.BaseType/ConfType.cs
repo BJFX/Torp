@@ -77,9 +77,9 @@ namespace LOUV.Torp.BaseType
         {
             get
             {
-                if (teleRange != null)
+                if (teleRange1 != null)
                 {
-                    return teleRange.Time;
+                    return teleRange1.Time;
                 }
                 else
                 {
@@ -91,20 +91,23 @@ namespace LOUV.Torp.BaseType
         }
         public int Id { get; set; }
         //public string Memo { get; set; }
-        public float Range { get; set; }
+        public float Range1 { get; set; }
+        public float Range2 { get; set; }
 
-//        public float Longitude
-//        {
-//            get { return gps.Longitude; }
-//        }
-//
-//        public float Latitude
-//        {
-//            get { return gps.Latitude; }
-//        }
+        //        public float Longitude
+        //        {
+        //            get { return gps.Longitude; }
+        //        }
+        //
+        //        public float Latitude
+        //        {
+        //            get { return gps.Latitude; }
+        //        }
         public GpsInfo gps { get; set; }
-        public LiteRange liteRange { get; set; }
-        public TeleRange teleRange { get; set; }
+        public LiteRange liteRange1 { get; set; }
+        public TeleRange teleRange1 { get; set; }
+        public LiteRange liteRange2 { get; set; }
+        public TeleRange teleRange2 { get; set; }
         public string IP { get; set; }
 
         public Buoy(int id=0)
@@ -134,15 +137,25 @@ namespace LOUV.Torp.BaseType
         public float RelativePara2 { get; set; }
         public UInt16 RecvGain { get; set; }
         public Int32 PeakPosition { get; set; }
-
+        public Int32 SampleStartTime { get; set; }
+        public byte ID { get; set; }
         public LiteRange()
         {
             RelativePara1 = 0;
             RelativePara2 = 0;
             RecvGain = 0;
             PeakPosition = 0;
+            SampleStartTime = 0;
+            ID = 0;
         }
-        
+        public DateTime Time
+        {
+            get
+            {  
+                return DateTime.UtcNow.Date.AddSeconds(SampleStartTime);
+            }
+        }
+
     }
     [Serializable]
     public class TeleRange
@@ -158,7 +171,9 @@ namespace LOUV.Torp.BaseType
             MsgLength = 19;
             Msg = null;
             ba = null;
+            ID = 0;
         }
+        public byte ID { get; set; }
         public Int32 SamplingStart { get; set; }
         public float RecvDelay { get; set; }
         public byte ModemStyle { get; set; }
@@ -242,7 +257,7 @@ namespace LOUV.Torp.BaseType
     {
         public string Name { get; set; }
         public string Status { get; set; }
-        public uint ID { get; set; }
+        public byte ID { get; set; }
         public string Time
         {
             get { return UTCTime.ToLongTimeString(); }

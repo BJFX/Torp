@@ -36,7 +36,9 @@ namespace LOUV.Torp.MonProtocol
                 RelativePara1 = BitConverter.ToSingle(buffer, 0),
                 RelativePara2 = BitConverter.ToSingle(buffer, 4),
                 RecvGain = BitConverter.ToUInt16(buffer, 8),
-                PeakPosition = BitConverter.ToInt32(buffer, 10)
+                PeakPosition = BitConverter.ToInt32(buffer, 10),
+                SampleStartTime = BitConverter.ToInt32(buffer, 198),
+                ID = (byte)BitConverter.ToChar(buffer, 202)
             };
             return range;
         }
@@ -49,6 +51,7 @@ namespace LOUV.Torp.MonProtocol
                 ModemStyle = (byte)BitConverter.ToChar(buffer, 8),
                 Crc = BitConverter.ToInt16(buffer, 9),
                 Dopple = BitConverter.ToSingle(buffer, 11),
+                ID = (byte)BitConverter.ToChar(buffer, 240),
                 MsgLength = msglength,
                 Msg = new byte[msglength]
             };
