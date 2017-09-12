@@ -30,7 +30,14 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Lat.Text = buoy.gps.Latitude.ToString("F6");
             Long.Text = buoy.gps.Longitude.ToString("F6");
             TimeGps.Text = buoy.gps.UTCTime.ToLocalTime().ToShortTimeString();
-            Range.Text = buoy.Range.ToString("F6");
+            RangeLabel2.Visibility = Visibility.Visible;
+            Range2.Visibility = Visibility.Visible;
+            RangeLabel2.Visibility = Visibility.Visible;
+            Range2.Visibility = Visibility.Visible;
+            RangeLabel1.Content = "测距1";
+            Range1.Text = buoy.Range1.ToString("F6");
+            RangeLabel1.Content = "测距2";
+            Range2.Text = buoy.Range2.ToString("F6");
         }
         public void SetTarget(Target target)
         {
@@ -38,7 +45,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
             Lat.Text = target.Latitude.ToString("F6");
             Long.Text = target.Longitude.ToString("F6");
             TimeGps.Text = target.UTCTime.ToLocalTime().ToShortTimeString();
-            Range.Text = target.Status;
+            Range1.Text = target.Status;
+            RangeLabel1.Content = "定位";
+            RangeLabel2.Visibility = Visibility.Collapsed;
+            Range2.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -31,6 +31,7 @@ using GMap.NET;
 using GMap.NET.WindowsPresentation;
 using System.Windows;
 using System.Windows.Markup;
+using LOUV.Torp.MonProtocol;
 
 namespace LOUV.Torp.Monitor.Core
 {
@@ -79,6 +80,8 @@ namespace LOUV.Torp.Monitor.Core
         public bool AutoTrace = false;
         InitialData initpara = new InitialData();
         public List<byte[]> Replaylist = new List<byte[]>();
+        public TriangleLocate Locate1 = new TriangleLocate();
+        public TriangleLocate Locate2 = new TriangleLocate();
         public MonTraceService MonTraceService
         {
             get { return _MonTraceService ?? (_MonTraceService = new MonTraceService()); }
@@ -182,8 +185,10 @@ namespace LOUV.Torp.Monitor.Core
                 foreach(var buoy in Buoy.Values)
                 {
                     var b = (Buoy)buoy;
-                    b.liteRange = new LiteRange();
-                    b.teleRange = new TeleRange();
+                    b.liteRange1 = new LiteRange();
+                    b.teleRange1 = new TeleRange();
+                    b.liteRange2 = new LiteRange();
+                    b.teleRange2 = new TeleRange();
                 }
                 //InfoBoard = initpara.info;
 

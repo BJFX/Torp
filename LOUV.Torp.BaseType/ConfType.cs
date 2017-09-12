@@ -73,7 +73,7 @@ namespace LOUV.Torp.BaseType
                 return gps.UTCTime.ToLongTimeString();
             }
         }
-        public DateTime RangeTime
+        public DateTime RangeTime1
         {
             get
             {
@@ -84,6 +84,22 @@ namespace LOUV.Torp.BaseType
                 else
                 {
                     if(gps!=null)
+                        return gps.UTCTime;
+                    return DateTime.UtcNow;
+                }
+            }
+        }
+        public DateTime RangeTime2
+        {
+            get
+            {
+                if (teleRange2 != null)
+                {
+                    return teleRange2.Time;
+                }
+                else
+                {
+                    if (gps != null)
                         return gps.UTCTime;
                     return DateTime.UtcNow;
                 }

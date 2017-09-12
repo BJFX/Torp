@@ -19,28 +19,28 @@ namespace LOUV.Torp.MonProtocol
         [SetUp]
         public void Init()
         {
-            
+            TriangleLocate locate = new TriangleLocate();
             var lpoint1 = new Locate2D(DateTime.UtcNow, 116.3187, 39.98544, 41.09);
-            TriangleLocate.Buoys.Add(1, lpoint1);
+            locate.Buoys.Add(1, lpoint1);
             var lpoint2 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98542, 22.23);
-            TriangleLocate.Buoys.Add(2, lpoint2);
+            locate.Buoys.Add(2, lpoint2);
             var lpoint3 = new Locate2D(DateTime.UtcNow, 116.3184, 39.98556, 23.64);
-            TriangleLocate.Buoys.Add(4, lpoint3);
-            var center = new PointLatLng((TriangleLocate.Buoys.Values[0].Lat + TriangleLocate.Buoys.Values[1].Lat + TriangleLocate.Buoys.Values[2].Lat) / 3,
-                (TriangleLocate.Buoys.Values[0].Lng + TriangleLocate.Buoys.Values[1].Lng + TriangleLocate.Buoys.Values[2].Lng) / 3);
-            var buoy1 = new PointLatLng(TriangleLocate.Buoys.Values[0].Lat, TriangleLocate.Buoys.Values[0].Lng);
+            locate.Buoys.Add(4, lpoint3);
+            var center = new PointLatLng((locate.Buoys.Values[0].Lat + locate.Buoys.Values[1].Lat + locate.Buoys.Values[2].Lat) / 3,
+                (locate.Buoys.Values[0].Lng + locate.Buoys.Values[1].Lng + locate.Buoys.Values[2].Lng) / 3);
+            var buoy1 = new PointLatLng(locate.Buoys.Values[0].Lat, locate.Buoys.Values[0].Lng);
             Utility.Util.GetReltXY(buoy1, center, out x1, out y1);
 
             z1 = 0;
-            var buoy2 = new PointLatLng(TriangleLocate.Buoys.Values[1].Lat, TriangleLocate.Buoys.Values[1].Lng);
+            var buoy2 = new PointLatLng(locate.Buoys.Values[1].Lat, locate.Buoys.Values[1].Lng);
             Utility.Util.GetReltXY(buoy2, center, out x2, out y2);
             z2 = 0;
-            var buoy3 = new PointLatLng(TriangleLocate.Buoys.Values[2].Lat, TriangleLocate.Buoys.Values[2].Lng);
+            var buoy3 = new PointLatLng(locate.Buoys.Values[2].Lat, locate.Buoys.Values[2].Lng);
             Utility.Util.GetReltXY(buoy3, center, out x3, out y3);
             z3 = 0;
-            range1 = TriangleLocate.Buoys.Values[0].Range;
-            range2 = TriangleLocate.Buoys.Values[1].Range;
-            range3 = TriangleLocate.Buoys.Values[2].Range;
+            range1 = locate.Buoys.Values[0].Range;
+            range2 = locate.Buoys.Values[1].Range;
+            range3 = locate.Buoys.Values[2].Range;
             m = new Matrix();
              i1 = new Input()
             {

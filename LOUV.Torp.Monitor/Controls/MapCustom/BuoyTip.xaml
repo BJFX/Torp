@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             Background="Transparent" Height="140" Width="160" IsHitTestVisible="False">
+             Background="Transparent" Height="172" Width="160" IsHitTestVisible="False">
     <Grid >
         <Rectangle Stroke="Green" RadiusX="2" RadiusY="2" Fill="AliceBlue"/>
         <Label Name="BuoyNameLabel" HorizontalAlignment="Left" Width="50" FontSize="16" Foreground="Navy" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Height="40" VerticalAlignment="Top">名称:</Label>
         <TextBlock Height="23.64" Margin="52,9.36,5.137,0" Name="BuoyID" VerticalAlignment="Top" Foreground="Red" FontSize="16" FontWeight="Bold" Text="4444" Width="124"/>
-        <Label FontSize="16" Foreground="Navy" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,78,0,0" Name="RangeLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">测距:</Label>
-        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,84,4,0" Name="Range" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,78,0,0" Name="RangeLabel1" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">测距1:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,84,4,0" Name="Range1" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
+        <Label FontSize="16" Foreground="Navy" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="-1,102,0,0" Name="RangeLabel2" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">测距2:</Label>
+        <TextBlock FontSize="16" FontWeight="Bold" Foreground="Maroon" Margin="52,107,4,0" Name="Range2" Height="29" VerticalAlignment="Top" Text="-" TextWrapping="Wrap" Width="124"/>
         <Label FontSize="16" Foreground="Navy" Height="36" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,24,0,0" Name="LatLabel" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="50">纬度:</Label>
         <TextBlock FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Height="26" Margin="52,31,4,0" Name="Lat" VerticalAlignment="Top" Text="-" Width="124"></TextBlock>
         <Label FontSize="16" Foreground="Navy" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="0,52,0,0" Name="LongLabel" VerticalContentAlignment="Center" Width="50" Height="33" VerticalAlignment="Top">经度:</Label>

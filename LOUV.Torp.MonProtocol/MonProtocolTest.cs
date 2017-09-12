@@ -79,7 +79,7 @@ namespace LOUV.Torp.MonProtocol
             {
                 var litebuf = new byte[14];
                 Buffer.BlockCopy(buf,2,litebuf,0,14);
-                var range = MonProtocol.ParsePulseRange(litebuf);
+                var range = MonProtocol.ParsePulseRange(litebuf,false);
                 Assert.IsNotNull(range);
                 Console.WriteLine("PulseRange: RelativePara1:{0};RelativePara2:{1};RecvGain:{2};PeakPosition:{3}\n", range.RelativePara1, range.RelativePara2, range.RecvGain, range.PeakPosition);
                 var gpsbuf = new byte[1030];
@@ -96,12 +96,12 @@ namespace LOUV.Torp.MonProtocol
             {
                 var litebuf = new byte[14];
                 Buffer.BlockCopy(buf, 2, litebuf, 0, 14);
-                var range = MonProtocol.ParsePulseRange(litebuf);
+                var range = MonProtocol.ParsePulseRange(litebuf,true);
                 Assert.IsNotNull(range);
                 Console.WriteLine("PulseRange: RelativePara1:{0};RelativePara2:{1};RecvGain:{2};PeakPosition:{3}\n", range.RelativePara1, range.RelativePara1, range.RecvGain, range.PeakPosition);
                 var length = BitConverter.ToUInt16(buf, 31);
-                var combuf = new byte[17+length];
-                Buffer.BlockCopy(buf, 16, combuf, 0, 17 + length);
+                var combuf = new byte[17+241];
+                Buffer.BlockCopy(buf, 16, combuf, 0, 241);
                 var telerange = MonProtocol.ParseTeleRange(combuf,length);
                 Assert.IsNotNull(telerange);
                 Console.WriteLine("Telerange: SamplingStart:{0};RecvDelay:{1};ModemStyle:{2};Dopple:{3},CRC:{4};Message:{5}\n", telerange.SamplingStart,

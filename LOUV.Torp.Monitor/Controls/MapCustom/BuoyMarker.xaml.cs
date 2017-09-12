@@ -151,8 +151,10 @@ namespace LOUV.Torp.Monitor.Controls.MapCustom
                 string latlngstr = "经度:" + _buoy.gps.Longitude.ToString("F06") + "\r纬度:" + _buoy.gps.Latitude.ToString("F06");
                 ft = new FormattedText(latlngstr, CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
                 drawingContext.DrawText(ft, new Point(40, -20));
-                ft = new FormattedText("测距:"+_buoy.Range.ToString("F02"), CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                ft = new FormattedText("测距1:"+_buoy.Range1.ToString("F02"), CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
                 drawingContext.DrawText(ft, new Point(40, 20));
+                ft = new FormattedText("测距2:" + _buoy.Range2.ToString("F02"), CultureInfo.CurrentUICulture, fd, tf, 16, Brushes.White);
+                drawingContext.DrawText(ft, new Point(40, 40));
             }
         }
         protected void BroadCastAni(DrawingContext drawingContext, float radius, TimeSpan ts)

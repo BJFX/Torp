@@ -91,46 +91,70 @@ namespace LOUV.Torp.Monitor.Core
                     {
                         var litebuf = new byte[14];
                         Buffer.BlockCopy(e.DataBuffer, 2, litebuf, 0, 14);
-                        var range = MonProtocol.MonProtocol.ParsePulseRange(litebuf);
+                        var range = MonProtocol.MonProtocol.ParsePulseRange(litebuf,false);
                         
                         var gpsbuf = new byte[1030];
                         Buffer.BlockCopy(e.DataBuffer, 16, gpsbuf, 0, 1032 - 16);
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
-                        buoy.liteRange = range;
                         if (info != null)
                             buoy.gps = info;
-                        buoy.Range = MonProtocol.MonProtocol.CalDistanceByLite(range);
+                        if (range.ID == UnitCore.Instance.TargetObj1.ID)
+                        {
+                            buoy.liteRange1 = range;
+                            buoy.Range1 = MonProtocol.MonProtocol.CalDistanceByLite(range);
+                        }
+                        else
+                        {
+                            buoy.liteRange2 = range;
+                            buoy.Range2 = MonProtocol.MonProtocol.CalDistanceByLite(range);
+                        }
                     }
                     else if (e.Mode == CallMode.TeleRange)
                     {
                         var litebuf = new byte[14];
                         Buffer.BlockCopy(e.DataBuffer, 2, litebuf, 0, 14);
-                        var range = MonProtocol.MonProtocol.ParsePulseRange(litebuf);
+                        var range = MonProtocol.MonProtocol.ParsePulseRange(litebuf,true);
                         
                         var length = BitConverter.ToUInt16(e.DataBuffer, 31);
-                        var combuf = new byte[17 + length];
-                        Buffer.BlockCopy(e.DataBuffer, 16, combuf, 0, 17 + length);
+                        var combuf = new byte[241];
+                        Buffer.BlockCopy(e.DataBuffer, 16, combuf, 0, 241);
                         var telerange = MonProtocol.MonProtocol.ParseTeleRange(combuf, length);
                         
                         var gpsbuf = new byte[1030];
                         Buffer.BlockCopy(e.DataBuffer, 33 + length, gpsbuf, 0, 1032 - 33 - length);
                         var info = MonProtocol.MonProtocol.ParseGps(gpsbuf);
-                        buoy.teleRange = telerange;
-                        buoy.liteRange = range;
+                        if (telerange.ID == UnitCore.Instance.TargetObj1.ID)
+                        {
+                            buoy.teleRange1 = telerange;
+                            buoy.liteRange1 = range;
+                            buoy.Range1 = MonProtocol.MonProtocol.CalDistanceByTele(range, telerange);
+                        }
+                        else
+                        {
+                            buoy.teleRange2 = telerange;
+                            buoy.liteRange2 = range;
+                            buoy.Range2 = MonProtocol.MonProtocol.CalDistanceByTele(range, telerange);
+                        }
                         if (info != null)
                             buoy.gps = info;
-                        buoy.Range = MonProtocol.MonProtocol.CalDistanceByTele(range,telerange);
+                        
                     }
                     if (buoy.gps == null)
                         return;
-                    if(buoy.Range>0.5)
+                    if(buoy.Range1>0.5)
                     {
-                        var lpoint = new Locate2D(buoy.RangeTime, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range);
+                        var lpoint = new Locate2D(buoy.RangeTime1, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range1);
                         //remove possible duplicate data
-                        MonProtocol.TriangleLocate.Buoys.Remove(id);
-                        MonProtocol.TriangleLocate.Buoys.Add(id, lpoint);
+                        UnitCore.Instance.Locate1.Buoys.Remove(id);
+                        UnitCore.Instance.Locate1.Buoys.Add(id, lpoint);
                     }
-                    
+                    if (buoy.Range2 > 0.5)
+                    {
+                        var lpoint = new Locate2D(buoy.RangeTime2, buoy.gps.Longitude, buoy.gps.Latitude, buoy.Range2);
+                        //remove possible duplicate data
+                        UnitCore.Instance.Locate2.Buoys.Remove(id);
+                        UnitCore.Instance.Locate2.Buoys.Add(id, lpoint);
+                    }
                     var point = new PointLatLng(buoy.gps.Latitude, buoy.gps.Longitude);
                     point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                         UnitCore.Instance.MainMapCfg.MapOffset.Lng);

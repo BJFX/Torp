@@ -29,17 +29,20 @@ namespace LOUV.Torp.MonProtocol
             return null;
         }
 
-        public static LiteRange ParsePulseRange(byte[] buffer)
+        public static LiteRange ParsePulseRange(byte[] buffer,bool lite)
         {
             var range = new LiteRange()
             {
                 RelativePara1 = BitConverter.ToSingle(buffer, 0),
                 RelativePara2 = BitConverter.ToSingle(buffer, 4),
                 RecvGain = BitConverter.ToUInt16(buffer, 8),
-                PeakPosition = BitConverter.ToInt32(buffer, 10),
-                SampleStartTime = BitConverter.ToInt32(buffer, 198),
-                ID = (byte)BitConverter.ToChar(buffer, 202)
+                PeakPosition = BitConverter.ToInt32(buffer, 10),   
             };
+            if (!lite)
+            {
+                range.SampleStartTime = BitConverter.ToInt32(buffer, 198);
+                range.ID = (byte)BitConverter.ToChar(buffer, 202);
+            }
             return range;
         }
         public static TeleRange ParseTeleRange(byte[] buffer,UInt16 msglength)
