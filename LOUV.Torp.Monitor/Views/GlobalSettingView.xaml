@@ -113,6 +113,9 @@
                             </StackPanel>
                         </UniformGrid>
                     </StackPanel>
+                    <ToggleButton x:Name="TargetSet" Background="#99119EDA"
+                                  IsChecked ="True"
+                                  Content="AUV设置" FontFamily="Microsoft YaHei"/>
                 </StackPanel>
             </ScrollViewer>
             <Controls:PercentageProgressRing  IsOpen="{Binding IsUpdating}" IsSupportPercentage="True" Percentange="{Binding UpdatePercentange}"/>

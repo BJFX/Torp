@@ -102,8 +102,8 @@ namespace LOUV.Torp.Monitor.ViewModel
 
             if (MonProtocol.TriangleLocate.UseMatrix)
             {
-                Dxy = 0;
-
+                Dxy1 = 0;
+                Dxy2 = 0;
                 if (locate.CalTargetByMatrix(out targetpos))
                 {
                     targetpos.centerLat = center.Lat;
@@ -138,7 +138,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                 }
                 else
                 {
-                    Dxy = 0;
+                    Dxy1 = 0;
+                    Dxy2 = 0;
                     log += "定位结果:未成功定位";
                 }
 
@@ -158,8 +159,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                         Latitude = (float)result[0],
                         Depth = presure,//(float)result[2],
                     };
-                    Dxy = (float)result[3];
-                    log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj1.Longitude + "  lat:" + UnitCore.Instance.TargetObj1.Latitude + " D=" + Dxy.ToString("F06");
+                    Dxy1 = (float)result[3];
+                    log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj1.Longitude + "  lat:" + UnitCore.Instance.TargetObj1.Latitude + " D=" + Dxy1.ToString("F06");
                     RefreshTarget(UnitCore.Instance.TargetObj1.ID);
                 }
                 if (index == 1)
@@ -172,8 +173,8 @@ namespace LOUV.Torp.Monitor.ViewModel
                         Latitude = (float)result[0],
                         Depth = presure,//(float)result[2],
                     };
-                    Dxy = (float)result[3];
-                    log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj2.Longitude + "  lat:" + UnitCore.Instance.TargetObj2.Latitude + " D=" + Dxy.ToString("F06");
+                    Dxy2 = (float)result[3];
+                    log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj2.Longitude + "  lat:" + UnitCore.Instance.TargetObj2.Latitude + " D=" + Dxy2.ToString("F06");
                     RefreshTarget(UnitCore.Instance.TargetObj2.ID);
                 }
             }
@@ -571,10 +572,15 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         #endregion
 
-        public float Dxy
+        public float Dxy1
         {
-            get { return GetPropertyValue(() => Dxy); }
-            set { SetPropertyValue(() => Dxy, value); }
+            get { return GetPropertyValue(() => Dxy1); }
+            set { SetPropertyValue(() => Dxy1, value); }
+        }
+        public float Dxy2
+        {
+            get { return GetPropertyValue(() => Dxy2); }
+            set { SetPropertyValue(() => Dxy2, value); }
         }
         public bool BuoyInfoVisible
         {

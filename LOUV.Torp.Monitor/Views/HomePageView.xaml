@@ -12229,48 +12229,78 @@
 
                 </MetroControl:MetroAnimatedTabControl>
                 <ScrollViewer Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
-                    <Grid  Margin="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <UniformGrid Rows="4" Columns="2" Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                            <Label Content="{Binding ObjTarget.Name}" FontSize="22" Foreground="White" HorizontalAlignment="Left"/>
-                            <Label Content="{Binding ObjTarget.Status}" FontSize="20" Foreground="White" HorizontalAlignment="Left"/>
+                    <StackPanel  Margin="3">
+                        <UniformGrid Rows="4" Columns="2" Grid.Row="0">
+                            <Label Content="{Binding ObjTarget1.Name}" FontSize="22" Foreground="White" HorizontalAlignment="Left"/>
+                            <Label Content="{Binding ObjTarget1.Status}" FontSize="20" Foreground="White" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="更新:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget1.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="经度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget1.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="纬度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget1.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="深度(m):" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget.Depth, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget1.Depth, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="均方误差(m):" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Dxy, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
-                        <UniformGrid Rows="5" Columns="3" Grid.Row="1" >
-                            <Label Content="{Binding Buoy1.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
+                        <UniformGrid Rows="4" Columns="2" Grid.Row="0">
+                            <Label Content="{Binding ObjTarget2.Name}" FontSize="22" Foreground="White" HorizontalAlignment="Left"/>
+                            <Label Content="{Binding ObjTarget2.Status}" FontSize="20" Foreground="White" HorizontalAlignment="Left"/>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy1.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="更新:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget2.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy1.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="经度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget2.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="纬度:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget2.Latitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="深度(m):" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                                <Label Content="{Binding ObjTarget2.Depth, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="均方误差(m):" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Dxy, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </UniformGrid>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding Buoy1.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy1.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy1.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <ToggleButton x:Name="buoy1" Grid.Column="3" Background="{StaticResource AccentColorBrush2}"
+                                  IsChecked ="false"
+                                  Content="^" FontFamily="Microsoft YaHei"/>
+                            </Grid>
+                        </StackPanel>
+                        <UniformGrid Rows="4" Columns="3" Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=buoy1}">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy1.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -12320,16 +12350,29 @@
                                 <Label Content="{Binding Buoy1.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
-                        <UniformGrid Rows="5" Columns="3" Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                            <Label Content="{Binding Buoy2.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy2.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy2.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding Buoy2.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy2.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy2.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <ToggleButton x:Name="buoy2" Grid.Column="3" Background="{StaticResource AccentColorBrush2}"
+                                  IsChecked ="false"
+                                  Content="^" FontFamily="Microsoft YaHei"/>
+                            </Grid>
+                        </StackPanel>
+                        <UniformGrid Rows="5" Columns="3"  Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=buoy2}" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy2.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -12379,16 +12422,29 @@
                                 <Label Content="{Binding Buoy2.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
-                        <UniformGrid Rows="5" Columns="3" Grid.Row="3">
-                            <Label Content="{Binding Buoy3.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy3.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy3.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding Buoy3.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy3.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy3.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <ToggleButton x:Name="buoy3" Grid.Column="3" Background="{StaticResource AccentColorBrush2}"
+                                  IsChecked ="false"
+                                  Content="^" FontFamily="Microsoft YaHei"/>
+                            </Grid>
+                        </StackPanel>
+                        <UniformGrid Rows="5" Columns="3"  Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=buoy3}">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy3.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -12438,16 +12494,29 @@
                                 <Label Content="{Binding Buoy3.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
-                        <UniformGrid Rows="5" Columns="3" Grid.Row="4" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                            <Label Content="{Binding Buoy4.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy4.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Buoy4.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding Buoy4.Name}" FontSize="18" Foreground="Lavender" HorizontalAlignment="Left"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Label Content="更新:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy4.Time}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Label Content="测距:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Buoy4.Range, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <ToggleButton x:Name="buoy4" Grid.Column="3" Background="{StaticResource AccentColorBrush2}"
+                                  IsChecked ="false"
+                                  Content="^" FontFamily="Microsoft YaHei"/>
+                            </Grid>
+                        </StackPanel>
+                        <UniformGrid Rows="5" Columns="3"  Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=buoy4}" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="经度:" Foreground="Lavender" FontSize="16" VerticalAlignment="Center"/>
                                 <Label Content="{Binding Buoy4.gps.Longitude, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
@@ -12497,7 +12566,7 @@
                                 <Label Content="{Binding Buoy4.teleRange.Message}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
-                    </Grid>
+                    </StackPanel>
                 </ScrollViewer>
             </Grid>
             <!--Brand info at bottom right corner-->
