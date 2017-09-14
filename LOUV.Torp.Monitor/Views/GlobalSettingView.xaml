@@ -20,6 +20,19 @@
         <Converters:VisibilityBoolToggleConverter x:Key="VisibilityBoolToggleConverter"/>
         <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Converters:DoubleMultiConverter x:Key="DoubleMultiConverter"/>
+        <ObjectDataProvider   
+            ObjectInstance="{x:Type Colors}"   
+            MethodName="GetProperties"   
+            x:Key="colorPropertiesOdp" />
+        <ObjectDataProvider MethodName="GetType"   
+                ObjectType="{x:Type sys:Type}" x:Key="colorsTypeOdp">
+            <ObjectDataProvider.MethodParameters>
+                <sys:String>System.Windows.Media.Colors, PresentationCore,  
+            Version=3.0.0.0, Culture=neutral,   
+            PublicKeyToken=31bf3856ad364e35</sys:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    
     </Page.Resources>
     <Controls:MetroContentControl >
         <Grid x:Name="RootGrid">
@@ -116,6 +129,48 @@
                     <ToggleButton x:Name="TargetSet" Background="#99119EDA"
                                   IsChecked ="True"
                                   Content="AUV设置" FontFamily="Microsoft YaHei"/>
+                    <StackPanel Visibility="{Binding IsChecked, ConverterParameter=TrueToVisible, Converter={StaticResource BoolToVisibilityConverter}, ElementName=TargetSet}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <UniformGrid Columns="2">
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="AUV1："/>
+                                <MetroControl:NumericUpDown Margin="15,4,4,4" Width="100" Maximum="255" Minimum="0" Value="{Binding AUVID1}" Background="{x:Null}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="轨迹颜色："/>
+                                <ComboBox Name="comboBox1"   
+                    ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"  
+                     >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Fill="{Binding AUVcolor1}" Width="40" Height="10"/>
+                                                <TextBlock Text="{Binding AUVcolor1}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="AUV1："/>
+                                <MetroControl:NumericUpDown Margin="15,4,4,4" Width="100" Maximum="255" Minimum="0" Value="{Binding AUVID2}" Background="{x:Null}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="4,4,0,4">
+                                <TextBlock FontSize="18" VerticalAlignment="Center" Text="轨迹颜色："/>
+                                <ComboBox Name="comboBox2"   
+                    ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"  
+                     >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Fill="{Binding AUVcolor2}" Width="40" Height="10"/>
+                                                <TextBlock Text="{Binding AUVcolor2}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </UniformGrid>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
             <Controls:PercentageProgressRing  IsOpen="{Binding IsUpdating}" IsSupportPercentage="True" Percentange="{Binding UpdatePercentange}"/>

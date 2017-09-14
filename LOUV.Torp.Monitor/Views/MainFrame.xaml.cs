@@ -78,6 +78,7 @@ namespace LOUV.Torp.Monitor.Views
             var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
             var id = int.Parse(newdialog.Title.Substring(3, 1));
             var CmdTypeBox = newdialog.FindChild<ComboBox>("CmdTypeBox");
+            var AUVIDBox = newdialog.FindChild<NumericUpDown>("AUVIDBox");
             var XmtValue3DBox = newdialog.FindChild<NumericUpDown>("XmtValue3DBox");
             var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValueBox");
             byte[] cmd = new byte[1032];
@@ -89,11 +90,14 @@ namespace LOUV.Torp.Monitor.Views
             if(CmdTypeBox.SelectedIndex==0)
             {
                 tinycmd[0] = 0x09;
-                Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValue3DBox.Value.Value), 0, tinycmd, 1, 2);
+                
+                Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
+                Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValue3DBox.Value.Value), 0, tinycmd, 2, 2);
             }
             if(CmdTypeBox.SelectedIndex==1)
             {
                 tinycmd[0] = 0x11;
+                Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
             }
             Buffer.BlockCopy(tinycmd, 0, cmd, 8, 19);
             //send cmd
@@ -120,5 +124,6 @@ namespace LOUV.Torp.Monitor.Views
                 XmtValuelabel.Content = ((int)XmtValueBox.Value.Value * 100 / 32767) + "%";
             }
         }
+
     }
 }

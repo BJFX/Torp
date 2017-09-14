@@ -35,6 +35,10 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy04IpAddr = conf.IP[3];
             BuoyPort = conf.BroadPort;
             ListenPort = conf.RecvPort;
+            AUVID1 = 1;
+            AUVID2 = 2;
+            AUVcolor1 = "Red";
+            AUVcolor2 = "Red";
             Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
             TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
@@ -101,6 +105,27 @@ namespace LOUV.Torp.Monitor.ViewModel
         {
             get { return GetPropertyValue(() => SonarDepth); }
             set { SetPropertyValue(() => SonarDepth, value); }
+        }
+
+        public byte AUVID1
+        {
+            get { return GetPropertyValue(() => AUVID1); }
+            set { SetPropertyValue(() => AUVID1, value); }
+        }
+        public byte AUVID2
+        {
+            get { return GetPropertyValue(() => AUVID2); }
+            set { SetPropertyValue(() => AUVID2, value); }
+        }
+        public string AUVcolor1
+        {
+            get { return GetPropertyValue(() => AUVcolor1); }
+            set { SetPropertyValue(() => AUVcolor1, value); }
+        }
+        public string AUVcolor2
+        {
+            get { return GetPropertyValue(() => AUVcolor2); }
+            set { SetPropertyValue(() => AUVcolor2, value); }
         }
         public ICommand SaveConfig
         {

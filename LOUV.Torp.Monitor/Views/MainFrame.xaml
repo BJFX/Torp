@@ -41,6 +41,11 @@
             <Grid>
                 <StackPanel HorizontalAlignment="Stretch">
                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <TextBlock Height="30" Text="AUV编号：" Foreground="{DynamicResource AccentColorBrush}" />
+                        <metroControl:NumericUpDown x:Name="AUVIDBox" Width="200" Minimum="0" Maximum="255" Value="1"/>
+                        
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="发射幅度：" Foreground="{DynamicResource AccentColorBrush}" />
                         <metroControl:NumericUpDown x:Name="XmtValueBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValueBox_ValueChanged"/>
                         <Label x:Name="XmlAmpLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
