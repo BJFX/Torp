@@ -39,19 +39,12 @@ namespace LOUV.Torp.Monitor.ViewModel
         PointLatLng center = PointLatLng.Zero;
         PointLatLng center2 = PointLatLng.Zero;
         private int ReplayFileIndex = 0;
-        private void CalTargetLocateCallBack()
+        private void CalTargetLocateCallBack(object sender,EventArgs e)
         {
-            //test case
-            /*
-            UnitCore.Instance.TargetObj.Latitude += 0.001f;
-            UnitCore.Instance.TargetObj.Longitude += 0.001f;
-            RefreshTarget();
-            return;*/
-            //
 
             UnitCore.Instance.BuoyLock.WaitOne();
             var valid1 = UnitCore.Instance.Locate1.Valid(ref center);
-            var valid2 = UnitCore.Instance.Locate1.Valid(ref center2);
+            var valid2 = UnitCore.Instance.Locate2.Valid(ref center2);
             UnitCore.Instance.BuoyLock.ReleaseMutex();
             if(valid1)
                 Locate(0);
@@ -110,8 +103,9 @@ namespace LOUV.Torp.Monitor.ViewModel
                     targetpos.centerLng = center.Lng;
                     if (index == 0)
                     {
-                        UnitCore.Instance.TargetObj1 = new Target()
+                        UnitCore.Instance.TargetObj1 = new Target("AUV1")
                         {
+                            ID = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID1,
                             Status = "已定位",
                             UTCTime = targetpos.Time,
                             Longitude = (float)Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
@@ -119,12 +113,13 @@ namespace LOUV.Torp.Monitor.ViewModel
                             Depth = presure,// (float)(targetpos.Z + UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth),
                         };
                         log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj1.Longitude + "  lat:" + UnitCore.Instance.TargetObj1.Latitude;
-                        RefreshTarget(UnitCore.Instance.TargetObj1.ID);
+                        RefreshTarget1();
                     }
                     if (index == 1)
                     {
-                        UnitCore.Instance.TargetObj2 = new Target()
+                        UnitCore.Instance.TargetObj2 = new Target("AUV2")
                         {
+                            ID = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID2,
                             Status = "已定位",
                             UTCTime = targetpos.Time,
                             Longitude = (float)Util.LongOffset(targetpos.centerLng, targetpos.centerLat, targetpos.X),
@@ -132,7 +127,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                             Depth = presure,// (float)(targetpos.Z + UnitCore.Instance.MonConfigueService.GetSetup().SonarDepth),
                         };
                         log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj2.Longitude + "  lat:" + UnitCore.Instance.TargetObj2.Latitude;
-                        RefreshTarget(UnitCore.Instance.TargetObj2.ID);
+                        RefreshTarget2();
                     }
                     
                 }
@@ -151,8 +146,9 @@ namespace LOUV.Torp.Monitor.ViewModel
                 var result = locate.CalTargetByApproach();
                 if (index == 0)
                 {
-                    UnitCore.Instance.TargetObj1 = new Target()
+                    UnitCore.Instance.TargetObj1 = new Target("AUV1")
                     {
+                        ID = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID1,
                         Status = "已定位",
                         UTCTime = DateTime.UtcNow,
                         Longitude = (float)result[1],
@@ -161,12 +157,13 @@ namespace LOUV.Torp.Monitor.ViewModel
                     };
                     Dxy1 = (float)result[3];
                     log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj1.Longitude + "  lat:" + UnitCore.Instance.TargetObj1.Latitude + " D=" + Dxy1.ToString("F06");
-                    RefreshTarget(UnitCore.Instance.TargetObj1.ID);
+                    RefreshTarget1();
                 }
                 if (index == 1)
                 {
-                    UnitCore.Instance.TargetObj2 = new Target()
+                    UnitCore.Instance.TargetObj2 = new Target("AUV2")
                     {
+                        ID = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID2,
                         Status = "已定位",
                         UTCTime = DateTime.UtcNow,
                         Longitude = (float)result[1],
@@ -175,7 +172,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                     };
                     Dxy2 = (float)result[3];
                     log += "定位结果:" + "long:" + UnitCore.Instance.TargetObj2.Longitude + "  lat:" + UnitCore.Instance.TargetObj2.Latitude + " D=" + Dxy2.ToString("F06");
-                    RefreshTarget(UnitCore.Instance.TargetObj2.ID);
+                    RefreshTarget2();
                 }
             }
             UnitCore.Instance.MonTraceService.Save("Position", log);
@@ -234,8 +231,8 @@ namespace LOUV.Torp.Monitor.ViewModel
         public override void Initialize()
         {
             //ObjTarget = new Target();
-            ObjTarget1 = null;
-            ObjTarget2 = null;
+            ObjTarget1 = UnitCore.Instance.TargetObj1;
+            ObjTarget2 = UnitCore.Instance.TargetObj2;
             StartReplayCMD = RegisterCommand(ExecuteStartReplayCMD, CanExecuteStartReplayCMD, true);
             ResumeReplayCMD = RegisterCommand(ExecuteResumeReplayCMD, CanExecuteResumeReplayCMD, true);
             PauseReplayCMD = RegisterCommand(ExecutePauseReplayCMD, CanExecutePauseReplayCMD, true);
@@ -249,34 +246,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             CamPos = "0,0,4000";
             TrackVisible = false;
             ReplaySpeed = 1;
-            ///test case
-            /*Buoy1 = new Buoy(1);
-            Buoy1.gps.Latitude = 29.55774f;
-            Buoy1.gps.Longitude = 118.974123f;
-            Buoy1.Range = 1500f;
-            Buoy2 = new Buoy(2);
-            Buoy2.gps.Latitude = 29.55774f;
-            Buoy2.gps.Longitude = 118.9431f;
-            Buoy2.Range = 1500f;
-            Buoy3 = new Buoy(3);
-            Buoy3.gps.Latitude = 29.58472f;
-            Buoy3.gps.Longitude = 118.974123f;
-            Buoy3.Range = 3354.1f;
-            Buoy4 = new Buoy(4);
-            Buoy4.gps.Latitude = 29.58472f;
-            Buoy4.gps.Longitude = 118.9431f;
-            Buoy4.Range = 3354.1f;
-            var lpoint1 = new Locate2D(DateTime.UtcNow, Buoy1.gps.Longitude, Buoy1.gps.Latitude, Buoy1.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(1, lpoint1);
-            var lpoint2 = new Locate2D(DateTime.UtcNow, Buoy2.gps.Longitude, Buoy2.gps.Latitude, Buoy2.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(2, lpoint2);
-            var lpoint3 = new Locate2D(DateTime.UtcNow, Buoy3.gps.Longitude, Buoy3.gps.Latitude, Buoy3.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(3, lpoint3);
-            var lpoint4 = new Locate2D(DateTime.UtcNow, Buoy4.gps.Longitude, Buoy4.gps.Latitude, Buoy4.Range);
-            MonProtocol.TriangleLocate.Buoys.Add(4, lpoint4);
-            //UnitCore.Instance.TargetObj.Longitude = 116.39999f;
-            //UnitCore.Instance.TargetObj.Latitude = 39.59355f;*/
-
+            /*
+            UnitCore.Instance.TargetObj1.Longitude = 116.39999f;
+            UnitCore.Instance.TargetObj1.Latitude = 39.59355f;
+            UnitCore.Instance.TargetObj2.Longitude = 116.49999f;
+            UnitCore.Instance.TargetObj2.Latitude = 39.69355f;*/
             ///
             //Refresh3DView();
         }
@@ -309,27 +283,100 @@ namespace LOUV.Torp.Monitor.ViewModel
             latTop3 = Util.LatOffset(center.Lat, 2000);
 
         }
-        private void RefreshTarget(uint id)
+        private void RefreshTarget1()
         {
             ObjectMarker targetMarker = null;
             GMapMarker target = null;
-            GMapMarker route = null;
-            Target ObjTarget = null;
-            List<PointLatLng> routePoint = null;
-            if (id== UnitCore.Instance.TargetObj1.ID)
+            ObjTarget1 = UnitCore.Instance.TargetObj1;
+            //refresh 2D target
+            if (MapMode == 0)
             {
-                ObjTarget1 = UnitCore.Instance.TargetObj1;
-                ObjTarget = ObjTarget1;
-                route = UnitCore.Instance.TargetRoute1;
-                routePoint = UnitCore.Instance.routePoint1;
+                if (UnitCore.Instance.mainMap != null)
+                {
+                    var itor = UnitCore.Instance.mainMap.Markers.GetEnumerator();
+                    while (itor.MoveNext())
+                    {
+                        var marker = itor.Current;
+
+                        if ((int)marker.Tag == 901)//900+1,2,3,4...
+                        {
+                            if (marker.Shape is ObjectMarker obj)
+                            {
+                                targetMarker = obj;
+                                target = marker;
+                            }
+                            break;
+                        }
+                        
+                    }
+                }
+                if (target == null || targetMarker == null)
+                    return;
+
+                App.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    targetMarker.Refresh(UnitCore.Instance.TargetObj1);
+                    var point = new PointLatLng(UnitCore.Instance.TargetObj1.Latitude,
+                        UnitCore.Instance.TargetObj1.Longitude);
+                    point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
+                        UnitCore.Instance.MainMapCfg.MapOffset.Lng);
+                    target.Position = point;
+                    //remove legacy route
+                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute1);
+                    UnitCore.Instance.BuoyLock.WaitOne();
+                    UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute1);
+                    UnitCore.Instance.BuoyLock.ReleaseMutex();
+                    UnitCore.Instance.routePoint1.Remove(PointLatLng.Zero);
+
+                    UnitCore.Instance.routePoint1.Add(point);
+                    //if (UnitCore.Instance.routePoint.Count > 300)
+                    //    UnitCore.Instance.routePoint.RemoveAt(0);
+                    if (UnitCore.Instance.routePoint1.Count == 1)
+                        return;
+                    UnitCore.Instance.TargetRoute1 = new GMapMarker(UnitCore.Instance.routePoint1[0]);
+                    {
+
+                        UnitCore.Instance.TargetRoute1.Tag = 101;
+                        UnitCore.Instance.TargetRoute1.routebrush = Brushes.Red;
+
+                        UnitCore.Instance.TargetRoute1.Route.AddRange(UnitCore.Instance.routePoint1);
+
+                        UnitCore.Instance.TargetRoute1.RegenerateRouteShape(UnitCore.Instance.mainMap);
+                        UnitCore.Instance.TargetRoute1.ZIndex = -1;
+                    }
+                    if (isExist)
+                    {
+                        UnitCore.Instance.BuoyLock.WaitOne();
+                        UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute1);
+                        UnitCore.Instance.BuoyLock.ReleaseMutex();
+                    }
+
+                    if (UnitCore.Instance.AutoTrace)
+                        UnitCore.Instance.mainMap.Position = point;
+                }));
             }
-            else
+            else//3D
             {
-                ObjTarget2 = UnitCore.Instance.TargetObj2;
-                ObjTarget = ObjTarget2;
-                route = UnitCore.Instance.TargetRoute2;
-                routePoint = UnitCore.Instance.routePoint2;
+                Refresh3DView();
+                if (ObjInfoVisible)
+                {
+                    TargetInfo = UnitCore.Instance.TargetObj1.Name + "   " + UnitCore.Instance.TargetObj1.Time + "(UTC)\r" +
+                    "经度:" + UnitCore.Instance.TargetObj1.Longitude.ToString("F06") + "\r|纬度:" +
+                    UnitCore.Instance.TargetObj1.Latitude.ToString("F06") + "\r" +
+                    "测算深度:" + UnitCore.Instance.TargetObj1.Depth.ToString("F02") +
+                    "测距状态:" + UnitCore.Instance.TargetObj1.Status;
+                }
+                else
+                {
+                    TargetInfo = "";
+                }
             }
+        }
+        private void RefreshTarget2()
+        {
+            ObjectMarker targetMarker = null;
+            GMapMarker target = null;
+            ObjTarget2 = UnitCore.Instance.TargetObj2;
             //refresh 2D target
             if (MapMode==0)
             {
@@ -340,16 +387,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                     {
                         var marker = itor.Current;
 
-                        if ((id == UnitCore.Instance.TargetObj1.ID)&&(int)marker.Tag == 901)//900+1,2,3,4...
-                        {
-                            if (marker.Shape is ObjectMarker obj)
-                            {
-                                targetMarker = obj;
-                                target = marker;
-                            }
-                            break;
-                        }
-                        if ((id == UnitCore.Instance.TargetObj2.ID) && (int)marker.Tag == 902)//900+1,2,3,4...
+                        if ((int)marker.Tag == 902)//900+1,2,3,4...
                         {
                             if (marker.Shape is ObjectMarker obj)
                             {
@@ -365,39 +403,39 @@ namespace LOUV.Torp.Monitor.ViewModel
                 
                 App.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    targetMarker.Refresh(ObjTarget);
-                    var point = new PointLatLng(ObjTarget.Latitude,
-                        ObjTarget.Longitude);
+                    targetMarker.Refresh(UnitCore.Instance.TargetObj2);
+                    var point = new PointLatLng(UnitCore.Instance.TargetObj2.Latitude,
+                        UnitCore.Instance.TargetObj2.Longitude);
                     point.Offset(UnitCore.Instance.MainMapCfg.MapOffset.Lat,
                         UnitCore.Instance.MainMapCfg.MapOffset.Lng);
                     target.Position = point;
                     //remove legacy route
-                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(route);
+                    var isExist = UnitCore.Instance.mainMap.Markers.Contains(UnitCore.Instance.TargetRoute2);
                     UnitCore.Instance.BuoyLock.WaitOne();
-                    UnitCore.Instance.mainMap.Markers.Remove(route);
+                    UnitCore.Instance.mainMap.Markers.Remove(UnitCore.Instance.TargetRoute2);
                     UnitCore.Instance.BuoyLock.ReleaseMutex();
-                    routePoint.Remove(PointLatLng.Zero);
+                    UnitCore.Instance.routePoint2.Remove(PointLatLng.Zero);
 
-                    routePoint.Add(point);
+                    UnitCore.Instance.routePoint2.Add(point);
                     //if (UnitCore.Instance.routePoint.Count > 300)
                     //    UnitCore.Instance.routePoint.RemoveAt(0);
-                    if (routePoint.Count == 1)
+                    if (UnitCore.Instance.routePoint2.Count == 1)
                         return;
-                    route = new GMapMarker(routePoint[0]);
+                    UnitCore.Instance.TargetRoute2 = new GMapMarker(UnitCore.Instance.routePoint2[0]);
                     {
-                        if (id == UnitCore.Instance.TargetObj1.ID)
-                            route.Tag = 101;
-                        if (id == UnitCore.Instance.TargetObj1.ID)
-                            route.Tag = 102;
-                        route.Route.AddRange(routePoint);
-                        route.RegenerateRouteShape(UnitCore.Instance.mainMap);
 
-                        route.ZIndex = -1;
+                        UnitCore.Instance.TargetRoute2.Tag = 102;
+                        UnitCore.Instance.TargetRoute2.routebrush = Brushes.Yellow;
+
+                        UnitCore.Instance.TargetRoute2.Route.AddRange(UnitCore.Instance.routePoint2);
+
+                        UnitCore.Instance.TargetRoute2.RegenerateRouteShape(UnitCore.Instance.mainMap);
+                        UnitCore.Instance.TargetRoute2.ZIndex = -1;
                     }
                     if(isExist)
                     {
                         UnitCore.Instance.BuoyLock.WaitOne();
-                        UnitCore.Instance.mainMap.Markers.Add(route);
+                        UnitCore.Instance.mainMap.Markers.Add(UnitCore.Instance.TargetRoute2);
                         UnitCore.Instance.BuoyLock.ReleaseMutex();
                     }
                         
@@ -405,25 +443,17 @@ namespace LOUV.Torp.Monitor.ViewModel
                         UnitCore.Instance.mainMap.Position = point;
                 }));
             }
-            else//3D
-            {
-                Refresh3DView();
-                if(ObjInfoVisible)
-                {
-                    TargetInfo = ObjTarget.Name + "   " + ObjTarget.Time + "(UTC)\r" +
-                    "经度:" + ObjTarget.Longitude.ToString("F06") + "\r|纬度:" +
-                    ObjTarget.Latitude.ToString("F06") + "\r" +
-                    "测算深度:" + ObjTarget.Depth.ToString("F02") +
-                    "测距状态:" + ObjTarget.Status;
-                }
-                else
-                {
-                    TargetInfo = "";
-                }
-            }
+            
         }
         private void RefreshBuoy(int index,Buoy buoy)
         {
+            //update auv info
+            ObjTarget1.Head = buoy.teleRange1.Head;
+            ObjTarget1.Pitch = buoy.teleRange1.Pitch;
+            ObjTarget1.Roll = buoy.teleRange1.Roll;
+            ObjTarget2.Head = buoy.teleRange2.Head;
+            ObjTarget2.Pitch = buoy.teleRange2.Pitch;
+            ObjTarget2.Roll = buoy.teleRange2.Roll;
             switch (index)
             {
                 case 0:
@@ -836,7 +866,7 @@ namespace LOUV.Torp.Monitor.ViewModel
                 RefreshBuoy(message._index, (Buoy)UnitCore.Instance.Buoy[message._index]);
             }
             UnitCore.Instance.BuoyLock.ReleaseMutex();
-            CalTargetLocateCallBack();
+            CalTargetLocateCallBack(null,null);
         }
 
         public void Handle(SwitchMapModeEvent message)

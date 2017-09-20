@@ -68,8 +68,8 @@ namespace LOUV.Torp.Monitor.Core
         public Mutex BuoyLock { get; set; }//全局buoy列表操作锁
         public Hashtable Buoy = new Hashtable();
         //public Hashtable InfoBoard = new Hashtable();
-        public Target TargetObj1 = new Target();
-        public Target TargetObj2 = new Target();
+        public Target TargetObj1 = new Target("AUV1");
+        public Target TargetObj2 = new Target("AUV2");
         public MapCfg MainMapCfg { get; set; }//map配置
         public Setup SetupCfg { get; set; }//计算配置
         public Map mainMap = null;//指向MainMap
@@ -154,6 +154,8 @@ namespace LOUV.Torp.Monitor.Core
                 {
                     throw _monConf.ex;
                 }
+                TargetObj1.ID = (byte)SetupCfg.AUVID1;
+                TargetObj2.ID = (byte)SetupCfg.AUVID2;
                 MonProtocol.MonProtocol.Velocity = SetupCfg.AcouVel;
                 MonProtocol.MonProtocol.FixedOffset = SetupCfg.Offset;
                 _serviceStarted = true;//if failed never get here
@@ -185,6 +187,8 @@ namespace LOUV.Torp.Monitor.Core
                 foreach(var buoy in Buoy.Values)
                 {
                     var b = (Buoy)buoy;
+                    b.Range1 = 0;
+                    b.Range2 = 0;
                     b.liteRange1 = new LiteRange();
                     b.teleRange1 = new TeleRange();
                     b.liteRange2 = new LiteRange();

@@ -44,6 +44,8 @@ namespace LOUV.Torp.BaseType
         public int ValidInterval { get; set; }
         public double SonarDepth { get; set; }
         public int PreAdjust { get; set; }
+        public int AUVID1 { get; set; }
+        public int AUVID2 { get; set; }
     }
     
 
@@ -130,6 +132,10 @@ namespace LOUV.Torp.BaseType
         {
             Id = id;
             gps = new GpsInfo();
+            liteRange1 = new LiteRange();
+            liteRange2 = new LiteRange();
+            teleRange1 = new TeleRange();
+            teleRange2 = new TeleRange();
         }
  
     }
@@ -252,7 +258,7 @@ namespace LOUV.Torp.BaseType
                 if (ba == null)
                     return "";
 
-                var presure = (Util.GetIntValueFromBit(ba, 20, 12)- pressureadjust)* 0.133935287;
+                var presure = ((float)Util.GetIntValueFromBit(ba, 20, 12))/10;
                 
                 return presure.ToString();
             }
@@ -266,6 +272,43 @@ namespace LOUV.Torp.BaseType
                 var buf = new byte[MsgLength - 4];
                 Buffer.BlockCopy(Msg, 4, buf, 0, MsgLength - 4);
                 return Util.ConvertCharToHex(buf);
+            }
+        }
+        public int Head
+        {
+            get
+            {
+                if (ba == null)
+                    return 0;
+                return Util.GetIntValueFromBit(ba, 50, 9);
+            }
+        }
+        public int Pitch
+        {
+            get
+            {
+                if (ba == null)
+                    return 0;
+                var a = 1;
+                if (Util.GetIntValueFromBit(ba, 49, 1) == 1)
+                {
+                    a = -1;
+                }
+                return a * Util.GetIntValueFromBit(ba, 41, 8);
+            }
+        }
+        public int Roll
+        {
+            get
+            {
+                if (ba == null)
+                    return 0;
+                var a = 1;
+                if(Util.GetIntValueFromBit(ba, 40, 1)==1)
+                {
+                    a = -1;
+                }
+                return a*Util.GetIntValueFromBit(ba, 32, 8);
             }
         }
     }
@@ -283,7 +326,10 @@ namespace LOUV.Torp.BaseType
         public float Longitude { get; set; }
         public float Latitude { get; set; }
         public float Depth { get; set; }
-        public Target(string name="目标")
+        public int Head { get; set; }
+        public int Pitch { get; set; }
+        public int Roll { get; set; }
+        public Target(string name)
         {
             Name = name;
             Status = "无定位";

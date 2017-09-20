@@ -35,10 +35,10 @@ namespace LOUV.Torp.Monitor.ViewModel
             Buoy04IpAddr = conf.IP[3];
             BuoyPort = conf.BroadPort;
             ListenPort = conf.RecvPort;
-            AUVID1 = 1;
-            AUVID2 = 2;
-            AUVcolor1 = "Red";
-            AUVcolor2 = "Red";
+
+            AUVID1 = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID1;
+            AUVID2 = (byte)UnitCore.Instance.MonConfigueService.GetSetup().AUVID2;
+     
             Velocity = UnitCore.Instance.MonConfigueService.GetSetup().AcouVel;
             FixedOffset = UnitCore.Instance.MonConfigueService.GetSetup().Offset;
             TimeOut = UnitCore.Instance.MonConfigueService.GetSetup().TimeOut;
@@ -117,16 +117,7 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => AUVID2); }
             set { SetPropertyValue(() => AUVID2, value); }
         }
-        public string AUVcolor1
-        {
-            get { return GetPropertyValue(() => AUVcolor1); }
-            set { SetPropertyValue(() => AUVcolor1, value); }
-        }
-        public string AUVcolor2
-        {
-            get { return GetPropertyValue(() => AUVcolor2); }
-            set { SetPropertyValue(() => AUVcolor2, value); }
-        }
+       
         public ICommand SaveConfig
         {
             get { return GetPropertyValue(() => SaveConfig); }
@@ -230,6 +221,16 @@ namespace LOUV.Torp.Monitor.ViewModel
             if (!UnitCore.Instance.MonConfigueService.SetPreAdjust(PreAdjust))
             {
                 EventAggregator.PublishMessage(new LogEvent("保存压力校准值出错", LogType.Both));
+                return false;
+            }
+            if (!UnitCore.Instance.MonConfigueService.SetAUVID1(AUVID1))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存AUV 01 ID出错", LogType.Both));
+                return false;
+            }
+            if (!UnitCore.Instance.MonConfigueService.SetAUVID2(AUVID2))
+            {
+                EventAggregator.PublishMessage(new LogEvent("保存AUV 02 ID出错", LogType.Both));
                 return false;
             }
             BaseType.TeleRange.pressureadjust = PreAdjust;

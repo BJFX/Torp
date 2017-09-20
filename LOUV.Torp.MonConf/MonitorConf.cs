@@ -134,6 +134,8 @@ namespace LOUV.Torp.MonitorConf
                 setup.ValidInterval = GetValidInterval();
                 setup.SonarDepth = GetSonarDepth();
                 setup.PreAdjust = GetPreAdjust();
+                setup.AUVID1 = GetAUVID1();
+                setup.AUVID2 = GetAUVID2();
                 return setup;
             }
             catch (Exception e)
@@ -143,6 +145,26 @@ namespace LOUV.Torp.MonitorConf
             }
         }
 
+        private int GetAUVID1()
+        {
+            string[] str = { "AUV", "ID1" };
+            return int.Parse(GetValue(str));
+        }
+        private int GetAUVID2()
+        {
+            string[] str = { "AUV", "ID2" };
+            return int.Parse(GetValue(str));
+        }
+        public bool SetAUVID1(int id)
+        {
+            string[] str = { "AUV", "ID1" };
+            return SetValue(str, id.ToString());
+        }
+        public bool SetAUVID2(int id)
+        {
+            string[] str = { "AUV", "ID2" };
+            return SetValue(str, id.ToString());
+        }
         private int GetPreAdjust()
         {
             string[] str = { "Setup", "PreAdjust" };

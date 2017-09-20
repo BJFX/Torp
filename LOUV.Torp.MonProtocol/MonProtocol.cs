@@ -54,13 +54,14 @@ namespace LOUV.Torp.MonProtocol
                 ModemStyle = (byte)BitConverter.ToChar(buffer, 8),
                 Crc = BitConverter.ToInt16(buffer, 9),
                 Dopple = BitConverter.ToSingle(buffer, 11),
-                ID = (byte)BitConverter.ToChar(buffer, 240),
+                //,
                 MsgLength = msglength,
                 Msg = new byte[msglength]
             };
+            range.ID = (byte)BitConverter.ToChar(buffer, 240);
             Buffer.BlockCopy(buffer,17,range.Msg,0,msglength);
-            byte[] msghead = new byte[4];
-            Buffer.BlockCopy(range.Msg, 0, msghead, 0, 4);
+            byte[] msghead = new byte[8];
+            Buffer.BlockCopy(range.Msg, 0, msghead, 0, 8);
             range.ba = new BitArray(msghead);
             return range;
         }

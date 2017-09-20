@@ -129,7 +129,7 @@ namespace LOUV.Torp.Monitor.Views
         {
             var itor = MainMap.Markers.Where(p => p != null &&
             (int)p.Tag < 100 && p.Shape is BuoyMarker buoy &&
-            buoy.IsMouseCaptured);
+            buoy!=null && buoy.IsMouseCaptured);
             if(itor.Count()>0)
             {
                 currentMarker = itor.First();
@@ -290,7 +290,7 @@ namespace LOUV.Torp.Monitor.Views
             {
                 var marker = itor.Current;
 
-                if ((int)marker.Tag > 900)
+                if (marker.Tag!=null&&(int)marker.Tag > 900)
                 {
                     if (marker.Shape is ObjectMarker obj)
                     {
