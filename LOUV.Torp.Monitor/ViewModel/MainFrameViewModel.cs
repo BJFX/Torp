@@ -63,7 +63,11 @@ namespace LOUV.Torp.Monitor.ViewModel
             get { return GetPropertyValue(() => SelectCmdIndex); }
             set { SetPropertyValue(() => SelectCmdIndex, value); }
         }
-
+        public int FixCmdIndex//
+        {
+            get { return GetPropertyValue(() => FixCmdIndex); }
+            set { SetPropertyValue(() => FixCmdIndex, value); }
+        }
         #endregion
 
     }

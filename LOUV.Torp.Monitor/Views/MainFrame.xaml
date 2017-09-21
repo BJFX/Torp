@@ -19,6 +19,7 @@
        
         ShowInTaskbar ="True" ShowTitleBar ="False"  ShowCloseButton="False" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None"  EnableDWMDropShadow="True" IsWindowDraggable="False">
     <metroControl:MetroWindow.Resources>
+        <Converters:IndexToVisibilityConverter x:Key="IndexToVisibilityConverter"/>
         <Converters:ZeroToVisibleConverter x:Key="ZeroToVisibleConverter"/>
         <Converters:WorkAreaWidthConverter x:Key="waw"/>
         <Converters:WorkAreaHeightConverter x:Key="wah"/>
@@ -43,7 +44,7 @@
                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="AUV编号：" Foreground="{DynamicResource AccentColorBrush}" />
                         <metroControl:NumericUpDown x:Name="AUVIDBox" Width="200" Minimum="0" Maximum="255" Value="1"/>
-                        
+
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="发射幅度：" Foreground="{DynamicResource AccentColorBrush}" />
@@ -55,12 +56,21 @@
                         <ComboBox x:Name="CmdTypeBox" Width="200" SelectedIndex="{Binding SelectCmdIndex}" Foreground="{DynamicResource AccentColorBrush}">
                             <ComboBoxItem Content="3D段启动"/>
                             <ComboBoxItem Content="3D段关闭"/>
+                            <ComboBoxItem Content="停机"/>
+                            <ComboBoxItem Content="定距定时"/>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex, Converter={StaticResource ZeroToVisibleConverter}}">
+                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=3D段启动, Converter={StaticResource IndexToVisibilityConverter}}">
                         <TextBlock Height="30" Text="3D幅度：" Foreground="{DynamicResource AccentColorBrush}" />
                         <metroControl:NumericUpDown x:Name="XmtValue3DBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValue3DBox_ValueChanged"/>
                         <Label x:Name="XmlAmp3DLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                    </StackPanel>
+                    <StackPanel x:Name="FixCMDPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}">
+                        <ComboBox x:Name="ModeTypeBox" Width="200" SelectedIndex="{Binding FixCmdIndex}" Foreground="{DynamicResource AccentColorBrush}">
+                            <ComboBoxItem Content="定时"/>
+                            <ComboBoxItem Content="定距"/>
+                        </ComboBox>
+                        <StackPanel/>
                     </StackPanel>
                     <UniformGrid Columns="1" HorizontalAlignment="Stretch">
                         <Button x:Name="SendCMD" Style="{DynamicResource SquareButtonStyle}" Content="确定" Click="SendCMD_Click"/>
