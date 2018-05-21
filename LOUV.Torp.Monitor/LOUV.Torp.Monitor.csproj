@@ -138,6 +138,7 @@
     <Compile Include="Controls\MapCustom\ObjTip.xaml.cs">
       <DependentUpon>ObjTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\IndexSingleToVisibilityConverter.cs" />
     <Compile Include="Converters\IndexToVisibilityConverter.cs" />
     <Compile Include="Converters\ReplayStateToVisibilityConverter.cs" />
     <Compile Include="Core\SettleSoundFile.cs" />

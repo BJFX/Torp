@@ -61,7 +61,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 版本号 1.0.
+        ///   Looks up a localized string similar to 版本号 1.1.
         /// </summary>
         public static string About_Version {
             get {
@@ -88,7 +88,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1001.
+        ///   Looks up a localized string similar to 1010.
         /// </summary>
         public static string Build_Number {
             get {
@@ -277,7 +277,7 @@ namespace LOUV.Torp.Monitor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  © 2017 中国科学院声学研究所 .
+        ///   Looks up a localized string similar to  © 2018 中国科学院声学研究所 .
         /// </summary>
         public static string SPLASH_COPY_RIGHT {
             get {

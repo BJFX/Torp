@@ -49,23 +49,6 @@ namespace LOUV.Torp.Monitor.Views
             }
         }
 
-        private void XmtValueBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        { 
-            var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
-            if (newdialog == null)
-                return;
-            var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValueBox");
-            var XmtValuelabel = newdialog.FindChild<Label>("XmlAmpLabel");
-            if (XmtValueBox.Value == 0)
-            {
-                XmtValuelabel.Content = "0%";
-            }
-            else if(XmtValueBox.Value.HasValue)
-            {
-                XmtValuelabel.Content = ((int)XmtValueBox.Value.Value * 100 / 32767)+"%";
-            }
-        }
-
         private async void CloseCMD_Click(object sender, RoutedEventArgs e)
         {
             var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
@@ -81,23 +64,89 @@ namespace LOUV.Torp.Monitor.Views
             var AUVIDBox = newdialog.FindChild<NumericUpDown>("AUVIDBox");
             var XmtValue3DBox = newdialog.FindChild<NumericUpDown>("XmtValue3DBox");
             var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValueBox");
+            var FixTypeBox = newdialog.FindChild<ComboBox>("ModeTypeBox");
+            var FixtimeBox = newdialog.FindChild<TextBox>("timevalue");
+            var FixdistBox = newdialog.FindChild<TextBox>("distvalue");
+            var FixdepBox = newdialog.FindChild<TextBox>("depthvalue");
+            var FixdirBox = newdialog.FindChild<TextBox>("dirvalue");
+            var FixspeedBox = newdialog.FindChild<NumericUpDown>("speedvalue");
             byte[] cmd = new byte[1032];
             Array.Clear(cmd, 0,1032);
             cmd[0] = 0x2B;
             cmd[1] = 0x00;
-            Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValueBox.Value.Value), 0, cmd, 2,2);
+            Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValueBox.Value.Value*32767/100), 0, cmd, 2,2);
             byte[] tinycmd = new byte[19];
             if(CmdTypeBox.SelectedIndex==0)
             {
                 tinycmd[0] = 0x09;
                 
                 Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
-                Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValue3DBox.Value.Value), 0, tinycmd, 2, 2);
+                Buffer.BlockCopy(BitConverter.GetBytes((Int16)XmtValue3DBox.Value.Value*32767/100), 0, tinycmd, 2, 2);
             }
             if(CmdTypeBox.SelectedIndex==1)
             {
                 tinycmd[0] = 0x11;
                 Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
+            }
+            if (CmdTypeBox.SelectedIndex == 2)
+            {
+                tinycmd[0] = 0x19;
+                Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
+                tinycmd[2] = 0x05;
+                tinycmd[3] = 0x81;
+                if(AUVIDBox.Value.Value==0)
+                {
+                    tinycmd[4] = 0x04;
+                }
+                if(AUVIDBox.Value.Value==1)
+                {
+                    tinycmd[4] = 0x16;
+                }
+                tinycmd[5] = 0x0;
+                tinycmd[6] = 0x46;
+                tinycmd[7] = 0x0;
+                Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
+            }
+            if (CmdTypeBox.SelectedIndex == 3)
+            {
+                tinycmd[0] = 0x19;
+                Buffer.BlockCopy(BitConverter.GetBytes((byte)AUVIDBox.Value.Value), 0, tinycmd, 1, 1);
+                tinycmd[2] = 0x0D;
+                tinycmd[3] = 0x81;
+                if (AUVIDBox.Value.Value == 0)
+                {
+                    tinycmd[4] = 0x04;
+                }
+                if (AUVIDBox.Value.Value == 1)
+                {
+                    tinycmd[4] = 0x16;
+                }
+                tinycmd[5] = 0x0;
+                tinycmd[6] = 0x43;
+                tinycmd[7] = 0x08;
+                if (FixTypeBox.SelectedIndex == 0)
+                {
+                    tinycmd[8] = 2;
+                    var timebytes = BitConverter.GetBytes((UInt16)(float.Parse(FixtimeBox.Text)*10));
+                    tinycmd[13] = timebytes[1];
+                    tinycmd[14] = timebytes[0];
+                }
+
+                if (FixTypeBox.SelectedIndex == 1)
+                {
+                    tinycmd[8] = 1;
+                    var distbytes = BitConverter.GetBytes((UInt16)(float.Parse(FixdistBox.Text) * 10));
+                    tinycmd[13] = distbytes[1];
+                    tinycmd[14] = distbytes[0];
+                }
+                var deptbytes = BitConverter.GetBytes((UInt16)(float.Parse(FixdepBox.Text) * 10));
+                tinycmd[9] = deptbytes[1];
+                tinycmd[10] = deptbytes[0];
+                var dirbytes = BitConverter.GetBytes((UInt16)(float.Parse(FixdirBox.Text) * 10));
+                tinycmd[11] = deptbytes[1];
+                tinycmd[12] = deptbytes[0];
+                tinycmd[15] = BitConverter.GetBytes(FixspeedBox.Value.Value)[0];
+
             }
             Buffer.BlockCopy(tinycmd, 0, cmd, 8, 19);
             //send cmd
@@ -106,23 +155,6 @@ namespace LOUV.Torp.Monitor.Views
             await TaskEx.Delay(500);
             await MainFrameViewModel.pMainFrame.DialogCoordinator.HideMetroDialogAsync(MainFrameViewModel.pMainFrame,
                         newdialog);
-        }
-
-        private void XmtValue3DBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-            var newdialog = (BaseMetroDialog)Application.Current.MainWindow.Resources["BuoyCMDDialog"];
-            if (newdialog == null)
-                return;
-            var XmtValueBox = newdialog.FindChild<NumericUpDown>("XmtValue3DBox");
-            var XmtValuelabel = newdialog.FindChild<Label>("XmlAmp3DLabel");
-            if (XmtValueBox.Value == 0)
-            {
-                XmtValuelabel.Content = "0%";
-            }
-            else if (XmtValueBox.Value.HasValue)
-            {
-                XmtValuelabel.Content = ((int)XmtValueBox.Value.Value * 100 / 32767) + "%";
-            }
         }
 
     }

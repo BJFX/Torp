@@ -19,6 +19,7 @@
        
         ShowInTaskbar ="True" ShowTitleBar ="False"  ShowCloseButton="False" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None"  EnableDWMDropShadow="True" IsWindowDraggable="False">
     <metroControl:MetroWindow.Resources>
+        <Converters:IndexSingleToVisibilityConverter x:Key="IndexSingleToVisibilityConverter"/>
         <Converters:IndexToVisibilityConverter x:Key="IndexToVisibilityConverter"/>
         <Converters:ZeroToVisibleConverter x:Key="ZeroToVisibleConverter"/>
         <Converters:WorkAreaWidthConverter x:Key="waw"/>
@@ -48,8 +49,7 @@
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="发射幅度：" Foreground="{DynamicResource AccentColorBrush}" />
-                        <metroControl:NumericUpDown x:Name="XmtValueBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValueBox_ValueChanged"/>
-                        <Label x:Name="XmlAmpLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                        <metroControl:NumericUpDown x:Name="XmtValueBox" Width="200" Minimum="0" Maximum="100" Value="50"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                         <TextBlock Height="30" Text="命令类型：" Foreground="{DynamicResource AccentColorBrush}" />
@@ -60,17 +60,35 @@
                             <ComboBoxItem Content="定距定时"/>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=3D段启动, Converter={StaticResource IndexToVisibilityConverter}}">
-                        <TextBlock Height="30" Text="3D幅度：" Foreground="{DynamicResource AccentColorBrush}" />
-                        <metroControl:NumericUpDown x:Name="XmtValue3DBox" Width="200" Minimum="0" Maximum="32767" Value="16384" ValueChanged="XmtValue3DBox_ValueChanged"/>
-                        <Label x:Name="XmlAmp3DLabel" Margin="15,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="50%"/>
+                    <StackPanel x:Name="Start3DPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex, ConverterParameter=3D段启动, Converter={StaticResource IndexToVisibilityConverter}}">
+                        <TextBlock Height="30" Text="3D幅度： " Foreground="{DynamicResource AccentColorBrush}" />
+                        <metroControl:NumericUpDown x:Name="XmtValue3DBox" Width="200" Minimum="0" Maximum="100" Value="50"/>
                     </StackPanel>
-                    <StackPanel x:Name="FixCMDPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}">
+                    <StackPanel x:Name="FixCMDPanel" HorizontalAlignment="Center" Orientation="Vertical" Visibility="{Binding SelectCmdIndex, ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}">
                         <ComboBox x:Name="ModeTypeBox" Width="200" SelectedIndex="{Binding FixCmdIndex}" Foreground="{DynamicResource AccentColorBrush}">
                             <ComboBoxItem Content="定时"/>
                             <ComboBoxItem Content="定距"/>
                         </ComboBox>
-                        <StackPanel/>
+                        <StackPanel x:Name="FixTimePanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=0, Converter={StaticResource IndexSingleToVisibilityConverter}}" >
+                            <TextBlock Height="30" Text="定时：" Foreground="{DynamicResource AccentColorBrush}" />
+                            <TextBox  x:Name="timevalue" Width="300"/>
+                        </StackPanel>
+                        <StackPanel x:Name="FixDistPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding FixCmdIndex, ConverterParameter=1, Converter={StaticResource IndexSingleToVisibilityConverter}}">
+                            <TextBlock Height="30" Text="定距：" Foreground="{DynamicResource AccentColorBrush}" />
+                            <TextBox  x:Name="distvalue" Width="300"/>
+                        </StackPanel>
+                        <StackPanel x:Name="FixdepthPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex,ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}">
+                            <TextBlock Height="30" Text="定深：" Foreground="{DynamicResource AccentColorBrush}" />
+                            <TextBox  x:Name="depthvalue" Width="300"/>
+                        </StackPanel>
+                        <StackPanel x:Name="FixDirePanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex,ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}" >
+                            <TextBlock Height="30" Text="定向：" Foreground="{DynamicResource AccentColorBrush}" />
+                            <TextBox  x:Name="dirvalue" Width="300"/>
+                        </StackPanel>
+                        <StackPanel x:Name="FixSpeedPanel" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding SelectCmdIndex,ConverterParameter=定距定时, Converter={StaticResource IndexToVisibilityConverter}}" >
+                            <TextBlock Height="30" Text="定速：" Foreground="{DynamicResource AccentColorBrush}" />
+                            <metroControl:NumericUpDown x:Name="speedvalue" Width="200" Minimum="0" Maximum="100" Value="50"/>
+                        </StackPanel>
                     </StackPanel>
                     <UniformGrid Columns="1" HorizontalAlignment="Stretch">
                         <Button x:Name="SendCMD" Style="{DynamicResource SquareButtonStyle}" Content="确定" Click="SendCMD_Click"/>

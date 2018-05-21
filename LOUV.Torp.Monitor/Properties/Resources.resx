@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About_Version" xml:space="preserve">
-    <value>版本号 1.0</value>
+    <value>版本号 1.1</value>
   </data>
   <data name="AppBarButton_Save" xml:space="preserve">
     <value>保存</value>
@@ -127,7 +127,7 @@
     <value>保存结果</value>
   </data>
   <data name="Build_Number" xml:space="preserve">
-    <value>1001</value>
+    <value>1010</value>
   </data>
   <data name="Comm_Failed" xml:space="preserve">
     <value>串口打开失败</value>
@@ -190,7 +190,7 @@
     <value>水下航行器信息技术重点实验室</value>
   </data>
   <data name="SPLASH_COPY_RIGHT" xml:space="preserve">
-    <value> © 2017 中国科学院声学研究所 </value>
+    <value> © 2018 中国科学院声学研究所 </value>
   </data>
   <data name="SPLASH_PRODUCT_NAME" xml:space="preserve">
     <value>水下航行器遥测遥控显控平台</value>
