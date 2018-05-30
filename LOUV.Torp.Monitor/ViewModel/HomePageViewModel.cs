@@ -454,6 +454,12 @@ namespace LOUV.Torp.Monitor.ViewModel
             ObjTarget2.Head = buoy.teleRange2.Head;
             ObjTarget2.Pitch = buoy.teleRange2.Pitch;
             ObjTarget2.Roll = buoy.teleRange2.Roll;
+            Head1 = ObjTarget1.Head;
+            Pitch1 = ObjTarget1.Pitch;
+            Roll1 = ObjTarget1.Roll;
+            Head2 = ObjTarget2.Head;
+            Pitch2 = ObjTarget2.Pitch;
+            Roll2 = ObjTarget2.Roll;
             switch (index)
             {
                 case 0:
@@ -602,6 +608,36 @@ namespace LOUV.Torp.Monitor.ViewModel
         }
         #endregion
 
+        public int Head1
+        {
+            get { return GetPropertyValue(() => Head1); }
+            set { SetPropertyValue(() => Head1, value); }
+        }
+        public int Pitch1
+        {
+            get { return GetPropertyValue(() => Pitch1); }
+            set { SetPropertyValue(() => Pitch1, value); }
+        }
+        public int Roll1
+        {
+            get { return GetPropertyValue(() => Roll1); }
+            set { SetPropertyValue(() => Roll1, value); }
+        }
+        public int Head2
+        {
+            get { return GetPropertyValue(() => Head2); }
+            set { SetPropertyValue(() => Head2, value); }
+        }
+        public int Pitch2
+        {
+            get { return GetPropertyValue(() => Pitch2); }
+            set { SetPropertyValue(() => Pitch2, value); }
+        }
+        public int Roll2
+        {
+            get { return GetPropertyValue(() => Roll2); }
+            set { SetPropertyValue(() => Roll2, value); }
+        }
         public float Dxy1
         {
             get { return GetPropertyValue(() => Dxy1); }

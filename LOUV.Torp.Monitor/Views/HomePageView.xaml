@@ -12255,15 +12255,15 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Head:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget1.Head, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Head1}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Pitch:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget1.Pitch, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Pitch1}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Roll:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget1.Roll, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Roll1}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>                                    
                         </UniformGrid>
                         <UniformGrid Rows="5" Columns="2" Grid.Row="0">
@@ -12291,15 +12291,15 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Head:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget2.Head, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Head2}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Pitch:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget2.Pitch, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Pitch2}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Roll:" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
-                                <Label Content="{Binding ObjTarget2.Roll, StringFormat=\{0:F6\}}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Roll2}" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
                         <StackPanel>
